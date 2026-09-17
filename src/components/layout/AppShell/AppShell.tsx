@@ -60,7 +60,7 @@ export function AppShell({ children }: AppShellProps) {
 
   // Extracted hooks
   const { appName, logoLetter, hasCustomLogo, logoUrl } = useBranding();
-  const { referralEnabled, wheelEnabled, hasContests, hasPolls, giftEnabled } = useFeatureFlags();
+  const { referralEnabled, wheelEnabled, hasContests, raffleEnabled, hasPolls, giftEnabled } = useFeatureFlags();
   useScrollRestoration();
   // Анимированный фон рендерит BackgroundHost в App (не перемонтируется при
   // смене роута) — здесь только регистрируем, что на этом роуте он нужен.
@@ -268,6 +268,7 @@ export function AppShell({ children }: AppShellProps) {
         wheelEnabled={wheelEnabled}
         referralEnabled={referralEnabled}
         hasContests={hasContests}
+        raffleEnabled={raffleEnabled}
         hasPolls={hasPolls}
         giftEnabled={giftEnabled}
       />

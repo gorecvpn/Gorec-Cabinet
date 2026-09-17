@@ -37,6 +37,7 @@ import {
   CogIcon,
   WheelIcon,
   GiftIcon,
+  TrophyIcon,
   MenuIcon,
   CloseIcon,
   SunIcon,
@@ -62,6 +63,7 @@ interface AppHeaderProps {
   wheelEnabled?: boolean;
   referralEnabled?: boolean;
   hasContests?: boolean;
+  raffleEnabled?: boolean;
   hasPolls?: boolean;
   giftEnabled?: boolean;
 }
@@ -78,6 +80,7 @@ export function AppHeader({
   wheelEnabled,
   referralEnabled,
   hasContests,
+  raffleEnabled,
   hasPolls,
   giftEnabled,
 }: AppHeaderProps) {
@@ -155,6 +158,7 @@ export function AppHeader({
     ...(referralEnabled ? [{ path: '/referral', label: t('nav.referral'), icon: UsersIcon }] : []),
     { path: '/support', label: t('nav.support'), icon: ChatIcon },
     ...(hasContests ? [{ path: '/contests', label: t('nav.contests'), icon: GamepadIcon }] : []),
+    ...(raffleEnabled ? [{ path: '/raffle', label: t('nav.raffle'), icon: TrophyIcon }] : []),
     ...(hasPolls ? [{ path: '/polls', label: t('nav.polls'), icon: ClipboardIcon }] : []),
     ...(wheelEnabled ? [{ path: '/wheel', label: t('nav.wheel'), icon: WheelIcon }] : []),
     ...(giftEnabled ? [{ path: '/gift', label: t('nav.gift'), icon: GiftIcon }] : []),

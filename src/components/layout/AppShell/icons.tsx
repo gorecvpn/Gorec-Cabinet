@@ -12,6 +12,7 @@ export {
   MenuIcon,
   CloseIcon,
   GamepadIcon,
+  TrophyIcon,
   ClipboardIcon,
   InfoIcon,
   CogIcon,

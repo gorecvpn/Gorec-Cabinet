@@ -5,6 +5,7 @@ import { brandingApi } from '@/api/branding';
 import { referralApi } from '@/api/referral';
 import { wheelApi } from '@/api/wheel';
 import { contestsApi } from '@/api/contests';
+import { raffleApi } from '@/api/raffle';
 import { pollsApi } from '@/api/polls';
 
 // Последние известные значения флагов. Пока запросы в полёте, флаги были
@@ -17,6 +18,7 @@ type CachedFlags = {
   referralEnabled?: boolean;
   wheelEnabled?: boolean;
   hasContests?: boolean;
+  raffleEnabled?: boolean;
   hasPolls?: boolean;
   giftEnabled?: boolean;
 };
@@ -57,6 +59,14 @@ export function useFeatureFlags() {
     retry: false,
   });
 
+  const { data: raffleSummary } = useQuery({
+    queryKey: ['raffle-summary'],
+    queryFn: raffleApi.getSummary,
+    enabled: isAuthenticated,
+    staleTime: 60000,
+    retry: false,
+  });
+
   const { data: pollsCount } = useQuery({
     queryKey: ['polls-count'],
     queryFn: pollsApi.getCount,
@@ -77,12 +87,13 @@ export function useFeatureFlags() {
     referralEnabled: referralTerms ? referralTerms.is_enabled : cached.referralEnabled,
     wheelEnabled: wheelConfig ? wheelConfig.is_enabled : cached.wheelEnabled,
     hasContests: contestsCount ? contestsCount.count > 0 : cached.hasContests,
+    raffleEnabled: raffleSummary ? raffleSummary.enabled : cached.raffleEnabled,
     hasPolls: pollsCount ? pollsCount.count > 0 : cached.hasPolls,
     giftEnabled: giftConfig ? giftConfig.enabled : cached.giftEnabled,
   };
 
   useEffect(() => {
-    if (!referralTerms && !wheelConfig && !contestsCount && !pollsCount && !giftConfig) return;
+    if (!referralTerms && !wheelConfig && !contestsCount && !raffleSummary && !pollsCount && !giftConfig) return;
     try {
       localStorage.setItem(FLAGS_CACHE_KEY, JSON.stringify(flags));
     } catch {
@@ -93,6 +104,7 @@ export function useFeatureFlags() {
     flags.referralEnabled,
     flags.wheelEnabled,
     flags.hasContests,
+    flags.raffleEnabled,
     flags.hasPolls,
     flags.giftEnabled,
   ]);

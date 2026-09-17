@@ -66,6 +66,7 @@ const Referral = lazyWithRetry(() => import('./pages/Referral'));
 const Support = lazyWithRetry(() => import('./pages/Support'));
 const Profile = lazyWithRetry(() => import('./pages/Profile'));
 const Contests = lazyWithRetry(() => import('./pages/Contests'));
+const Raffle = lazyWithRetry(() => import('./pages/Raffle'));
 const Polls = lazyWithRetry(() => import('./pages/Polls'));
 const Info = lazyWithRetry(() => import('./pages/Info'));
 const Wheel = lazyWithRetry(() => import('./pages/Wheel'));
@@ -551,6 +552,16 @@ function App() {
             <ProtectedRoute>
               <LazyPage>
                 <Contests />
+              </LazyPage>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/raffle"
+          element={
+            <ProtectedRoute>
+              <LazyPage>
+                <Raffle />
               </LazyPage>
             </ProtectedRoute>
           }
