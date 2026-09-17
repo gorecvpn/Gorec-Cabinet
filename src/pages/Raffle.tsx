@@ -1,11 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import {
-  raffleApi,
-  type RaffleCampaignSummary,
-  type RafflePrizeSlot,
-} from '../api/raffle';
+import { raffleApi, type RaffleCampaignSummary, type RafflePrizeSlot } from '../api/raffle';
 import { TrophyIcon } from '@/components/icons';
 import { PageSkeleton, Skeleton } from '@/components/ui/skeleton';
 
@@ -38,7 +34,10 @@ function formatPrizeValue(
   return t('raffle.prizeCustom');
 }
 
-function formatPrize(campaign: RaffleCampaignSummary, t: (key: string, opts?: Record<string, unknown>) => string) {
+function formatPrize(
+  campaign: RaffleCampaignSummary,
+  t: (key: string, opts?: Record<string, unknown>) => string,
+) {
   return formatPrizeValue(campaign.prize_type, campaign.prize_value, campaign.prize_text, t);
 }
 
@@ -123,11 +122,7 @@ export default function Raffle() {
   const { t, i18n } = useTranslation();
   const locale = i18n.language || 'en';
 
-  const {
-    data,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['raffle-summary'],
     queryFn: raffleApi.getSummary,
     refetchInterval: 60_000,
@@ -180,7 +175,9 @@ export default function Raffle() {
           <div className="card space-y-5 overflow-hidden">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
-                <h2 className="break-words text-xl font-semibold tracking-tight">{campaign.name}</h2>
+                <h2 className="break-words text-xl font-semibold tracking-tight">
+                  {campaign.name}
+                </h2>
                 {campaign.description && (
                   <p className="mt-1.5 text-sm leading-relaxed text-dark-400 [overflow-wrap:anywhere]">
                     {campaign.description}

@@ -2,11 +2,7 @@ import { useMemo, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import {
-  adminRaffleApi,
-  type RafflePrizeSlot,
-  type RafflePrizeType,
-} from '../api/adminRaffle';
+import { adminRaffleApi, type RafflePrizeSlot, type RafflePrizeType } from '../api/adminRaffle';
 import { tariffsApi } from '../api/tariffs';
 import { AdminBackButton } from '../components/admin';
 import { useNotify } from '@/platform';
@@ -56,7 +52,10 @@ export default function AdminRaffleCreate() {
     queryFn: () => tariffsApi.getTariffs(true),
   });
   const tariffs = useMemo(
-    () => (tariffsData?.tariffs ?? []).filter((tariff) => !tariff.is_trial_available || tariff.is_active),
+    () =>
+      (tariffsData?.tariffs ?? []).filter(
+        (tariff) => !tariff.is_trial_available || tariff.is_active,
+      ),
     [tariffsData],
   );
 
@@ -260,7 +259,10 @@ export default function AdminRaffleCreate() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-dark-300" htmlFor="raffle-starts">
+            <label
+              className="mb-1.5 block text-sm font-medium text-dark-300"
+              htmlFor="raffle-starts"
+            >
               {t('admin.raffle.form.startsAt')}
             </label>
             <input
@@ -324,7 +326,9 @@ export default function AdminRaffleCreate() {
                 required
               />
               <p className="mt-2 text-xs text-dark-400">{t('admin.raffle.form.maxWinnersHint')}</p>
-              <p className="mt-1 text-xs text-dark-500">{t('admin.raffle.form.maxWinnersPrizeHint')}</p>
+              <p className="mt-1 text-xs text-dark-500">
+                {t('admin.raffle.form.maxWinnersPrizeHint')}
+              </p>
 
               <div className="mt-4">
                 <span className="mb-2 block text-sm font-medium text-dark-300">
@@ -349,7 +353,10 @@ export default function AdminRaffleCreate() {
               </div>
               {prizeType === 'custom' ? (
                 <div className="mt-3">
-                  <label className="mb-1.5 block text-sm font-medium text-dark-300" htmlFor="raffle-prize-text">
+                  <label
+                    className="mb-1.5 block text-sm font-medium text-dark-300"
+                    htmlFor="raffle-prize-text"
+                  >
                     {t('admin.raffle.form.prizeText')}
                   </label>
                   <input
@@ -361,7 +368,10 @@ export default function AdminRaffleCreate() {
                 </div>
               ) : (
                 <div className="mt-3">
-                  <label className="mb-1.5 block text-sm font-medium text-dark-300" htmlFor="raffle-prize-value">
+                  <label
+                    className="mb-1.5 block text-sm font-medium text-dark-300"
+                    htmlFor="raffle-prize-value"
+                  >
                     {prizeType === 'days'
                       ? t('admin.raffle.form.prizeValueDays')
                       : t('admin.raffle.form.prizeValueBalance')}
@@ -378,7 +388,10 @@ export default function AdminRaffleCreate() {
                 </div>
               )}
               <div className="mt-3">
-                <label className="mb-1.5 block text-sm font-medium text-dark-300" htmlFor="raffle-prize-image">
+                <label
+                  className="mb-1.5 block text-sm font-medium text-dark-300"
+                  htmlFor="raffle-prize-image"
+                >
                   {t('admin.raffle.form.imageUrl')}
                 </label>
                 <input
@@ -469,9 +482,7 @@ export default function AdminRaffleCreate() {
                     value={slot.image_url}
                     onChange={(e) =>
                       setSlots((prev) =>
-                        prev.map((s, i) =>
-                          i === index ? { ...s, image_url: e.target.value } : s,
-                        ),
+                        prev.map((s, i) => (i === index ? { ...s, image_url: e.target.value } : s)),
                       )
                     }
                     placeholder={t('admin.raffle.form.imageUrlPlaceholder')}
