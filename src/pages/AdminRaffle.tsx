@@ -126,6 +126,8 @@ export default function AdminRaffle() {
     tickets?: number;
     uniqueUsers?: number;
     drawnAt?: string | null;
+    drawSeed?: string | null;
+    drawAlgorithm?: string | null;
     loading?: boolean;
   } | null>(null);
   const winnersDialogRef = useFocusTrap<HTMLDivElement>(winnersModal !== null, {
@@ -172,6 +174,8 @@ export default function AdminRaffle() {
         tickets: campaign?.tickets,
         uniqueUsers: campaign?.unique_users,
         drawnAt: result.drawn_at,
+        drawSeed: result.draw_seed,
+        drawAlgorithm: result.draw_algorithm,
       });
     },
     onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.actionError'))),
@@ -198,6 +202,8 @@ export default function AdminRaffle() {
         tickets: result.campaign.tickets,
         uniqueUsers: result.campaign.unique_users,
         drawnAt: result.campaign.drawn_at,
+        drawSeed: result.campaign.draw_seed,
+        drawAlgorithm: result.campaign.draw_algorithm,
         loading: false,
       });
     },
@@ -205,6 +211,24 @@ export default function AdminRaffle() {
       setWinnersModal(null);
       notify.error(getErrorMessage(err, t('admin.raffle.toast.historyError')));
     },
+  });
+
+
+  const awardMutation = useMutation({
+    mutationFn: ({ campaignId, winnerId }: { campaignId: number; winnerId: number }) =>
+      adminRaffleApi.awardWinner(campaignId, winnerId),
+    onSuccess: (winner) => {
+      notify.success(t('admin.raffle.toast.awarded'));
+      setWinnersModal((prev) =>
+        prev
+          ? {
+              ...prev,
+              winners: prev.winners.map((w) => (w.id === winner.id ? { ...w, ...winner } : w)),
+            }
+          : prev,
+      );
+    },
+    onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.awardError'))),
   });
 
   const campaigns = data?.campaigns ?? [];
@@ -216,7 +240,8 @@ export default function AdminRaffle() {
     activateMutation.isPending ||
     closeMutation.isPending ||
     drawMutation.isPending ||
-    historyMutation.isPending;
+    historyMutation.isPending ||
+    awardMutation.isPending;
 
   const handleActivate = async (campaign: AdminRaffleCampaign) => {
     const ok = await confirmAction(
@@ -365,6 +390,11 @@ export default function AdminRaffle() {
                     <span>
                       {t('admin.raffle.maxWinners')}: {campaign.max_winners}
                     </span>
+                    {campaign.tickets_per_purchase != null && (
+                      <span>
+                        {t('admin.raffle.ticketsPerPurchase')}: {campaign.tickets_per_purchase}
+                      </span>
+                    )}
                     <span>
                       {t('admin.raffle.starts')}: {formatDate(campaign.starts_at)}
                     </span>
@@ -455,6 +485,12 @@ export default function AdminRaffle() {
                     {t('admin.raffle.drawnAt')}: {formatDate(winnersModal.drawnAt)}
                   </p>
                 )}
+                {(winnersModal.drawSeed || winnersModal.drawAlgorithm) && (
+                  <p className="mt-1 break-all text-xs text-dark-500">
+                    {t('admin.raffle.fairness')}: {winnersModal.drawAlgorithm || 'weighted_unique_v1'}
+                    {winnersModal.drawSeed ? ` · seed ${winnersModal.drawSeed}` : ''}
+                  </p>
+                )}
               </div>
               <button
                 onClick={() => setWinnersModal(null)}
@@ -507,17 +543,34 @@ export default function AdminRaffle() {
                         </td>
                         <td className="px-3 py-2 text-dark-300">{formatWinnerPrize(winner, t)}</td>
                         <td className="px-3 py-2">
-                          <span
-                            className={`rounded px-2 py-0.5 text-xs ${
-                              winner.awarded
-                                ? 'bg-success-500/20 text-success-400'
-                                : 'bg-dark-600 text-dark-300'
-                            }`}
-                          >
-                            {winner.awarded
-                              ? t('admin.raffle.awarded')
-                              : t('admin.raffle.notAwarded')}
-                          </span>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span
+                              className={`rounded px-2 py-0.5 text-xs ${
+                                winner.awarded
+                                  ? 'bg-success-500/20 text-success-400'
+                                  : 'bg-dark-600 text-dark-300'
+                              }`}
+                            >
+                              {winner.awarded
+                                ? t('admin.raffle.awarded')
+                                : t('admin.raffle.notAwarded')}
+                            </span>
+                            {canEdit && !winner.awarded && (
+                              <button
+                                type="button"
+                                disabled={busy}
+                                onClick={() =>
+                                  awardMutation.mutate({
+                                    campaignId: winnersModal.campaignId,
+                                    winnerId: winner.id,
+                                  })
+                                }
+                                className="rounded bg-accent-500/20 px-2 py-0.5 text-xs text-accent-300 hover:bg-accent-500/30 disabled:opacity-50"
+                              >
+                                {t('admin.raffle.actions.retryAward')}
+                              </button>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}

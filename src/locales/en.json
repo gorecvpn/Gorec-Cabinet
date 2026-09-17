@@ -6124,7 +6124,8 @@
         "activate": "Activate",
         "close": "Close",
         "draw": "Draw",
-        "history": "History"
+        "history": "History",
+        "retryAward": "Award prize"
       },
       "confirm": {
         "activateTitle": "Activate campaign?",
@@ -6141,7 +6142,9 @@
         "created": "Campaign created",
         "actionError": "Action failed",
         "createError": "Failed to create campaign",
-        "historyError": "Failed to load history"
+        "historyError": "Failed to load history",
+        "awarded": "Prize awarded",
+        "awardError": "Failed to award prize"
       },
       "winnersTitle": "Winners",
       "winnersSubtitle": "Campaign #{{id}}",
@@ -6169,7 +6172,23 @@
         "prizeTextRequired": "Custom prize requires text",
         "submit": "Create",
         "maxWinnersHint": "That many unique users will be selected in the draw (weighted by tickets).",
-        "maxWinnersPrizeHint": "The prize below is awarded to every winner (places 1–N)."
+        "maxWinnersPrizeHint": "The prize below is awarded to every winner (places 1–N).",
+        "winnersSection": "Winners and prizes",
+        "winnersSectionHint": "Different prizes per place, or one winner count with a shared prize.",
+        "usePrizeSlots": "Different prizes by place",
+        "place": "Place {{place}}",
+        "addPlace": "Add place",
+        "slotsRequired": "Add at least one place",
+        "ticketsSection": "Ticket issuance rules",
+        "ticketsSectionHint": "How many tickets a purchase grants. Optional per-tariff overrides.",
+        "ticketsPerPurchase": "Tickets per purchase (default)",
+        "ticketsPerPurchaseInvalid": "Tickets per purchase must be 1–50",
+        "ticketsByTariff": "Tickets by tariff",
+        "ticketsByTariffHint": "Leave empty to use the default above. Example: Premium → 2.",
+        "ticketsByTariffInvalid": "Per-tariff tickets must be 1–50",
+        "noTariffs": "No tariffs found",
+        "skipTrial": "Skip trial purchases",
+        "skipTrialHint": "Do not issue tickets for zero/trial subscription payments."
       },
       "historyTitle": "Draw history",
       "historySubtitleNamed": "“{{name}}” · #{{id}}",
@@ -6181,7 +6200,9 @@
         "ticket": "Ticket",
         "prize": "Prize",
         "awarded": "Awarded"
-      }
+      },
+      "fairness": "Fairness",
+      "ticketsPerPurchase": "Tickets/purchase"
     }
   },
   "adminUpdates": {
@@ -6740,7 +6761,7 @@
     "prize": "Prize",
     "ends": "Ends",
     "noEndDate": "No end date",
-    "howToEarn": "You get one ticket for each paid subscription purchase during this campaign.",
+    "howToEarn": "A paid subscription purchase grants {{count}} ticket(s). Count may vary by tariff.",
     "myTickets": "My tickets",
     "ticketCount_one": "{{count}} ticket",
     "ticketCount_other": "{{count}} tickets",
@@ -6750,7 +6771,15 @@
     "prizeDays_other": "{{count}} days of subscription",
     "prizeDays": "{{count}} days of subscription",
     "prizeBalance": "{{amount}} ₽ balance",
-    "prizeCustom": "Special prize"
+    "prizeCustom": "Special prize",
+    "pool": "Pool",
+    "poolStats": "{{tickets}} tickets · {{users}} users",
+    "countdown": "Time left",
+    "countdownValue": "{{days}}d {{hours}}:{{minutes}}:{{seconds}}",
+    "ended": "Ended",
+    "places": "Prizes by place",
+    "place": "Place {{place}}",
+    "tariffTicketsHint": "Some tariffs grant a different ticket count — see tariff terms at purchase."
   },
   "polls": {
     "title": "Polls",

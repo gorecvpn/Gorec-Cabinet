@@ -1,5 +1,12 @@
 import apiClient from './client';
 
+export interface RafflePrizeSlot {
+  place: number;
+  prize_type: string;
+  prize_value?: number | null;
+  prize_text?: string | null;
+}
+
 export interface RaffleCampaignSummary {
   id: number;
   name: string;
@@ -7,10 +14,15 @@ export interface RaffleCampaignSummary {
   prize_type: string;
   prize_value: number | null;
   prize_text: string | null;
+  prize_slots?: RafflePrizeSlot[] | null;
   starts_at: string;
   ends_at: string | null;
   status: string;
   max_winners: number;
+  tickets_per_purchase?: number;
+  tickets_by_tariff?: Record<string, number> | null;
+  pool_tickets?: number;
+  pool_users?: number;
 }
 
 export interface RaffleTicketItem {

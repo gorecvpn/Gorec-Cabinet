@@ -3,6 +3,13 @@ import apiClient from './client';
 export type RafflePrizeType = 'days' | 'balance' | 'custom';
 export type RaffleCampaignStatus = 'draft' | 'active' | 'closed' | 'drawn';
 
+export interface RafflePrizeSlot {
+  place: number;
+  prize_type: RafflePrizeType | string;
+  prize_value?: number | null;
+  prize_text?: string | null;
+}
+
 export interface AdminRaffleCampaign {
   id: number;
   name: string;
@@ -14,12 +21,18 @@ export interface AdminRaffleCampaign {
   prize_type: RafflePrizeType | string;
   prize_value: number | null;
   prize_text: string | null;
+  prize_slots?: RafflePrizeSlot[] | null;
+  tickets_per_purchase?: number;
+  tickets_by_tariff?: Record<string, number> | null;
+  skip_trial_purchases?: boolean;
   tickets: number;
   unique_users: number;
   winners: number;
+  draw_seed?: string | null;
+  draw_algorithm?: string | null;
+  drawn_at?: string | null;
   created_at: string | null;
   updated_at?: string | null;
-  drawn_at?: string | null;
 }
 
 export interface AdminRaffleCampaignListResponse {
@@ -34,6 +47,10 @@ export interface CreateRaffleCampaignRequest {
   prize_type?: RafflePrizeType | string;
   prize_value?: number | null;
   prize_text?: string | null;
+  prize_slots?: RafflePrizeSlot[] | null;
+  tickets_per_purchase?: number;
+  tickets_by_tariff?: Record<string, number> | null;
+  skip_trial_purchases?: boolean;
   starts_at?: string | null;
   ends_at?: string | null;
 }
@@ -61,6 +78,8 @@ export interface AdminRaffleDrawResponse {
   campaign_id: number;
   status: string;
   drawn_at?: string | null;
+  draw_seed?: string | null;
+  draw_algorithm?: string | null;
   winners: AdminRaffleWinner[];
 }
 
@@ -111,6 +130,13 @@ export const adminRaffleApi = {
   drawCampaign: async (campaignId: number): Promise<AdminRaffleDrawResponse> => {
     const response = await apiClient.post<AdminRaffleDrawResponse>(
       `/cabinet/admin/raffle/campaigns/${campaignId}/draw`,
+    );
+    return response.data;
+  },
+
+  awardWinner: async (campaignId: number, winnerId: number): Promise<AdminRaffleWinner> => {
+    const response = await apiClient.post<AdminRaffleWinner>(
+      `/cabinet/admin/raffle/campaigns/${campaignId}/winners/${winnerId}/award`,
     );
     return response.data;
   },
