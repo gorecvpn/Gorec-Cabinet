@@ -21,7 +21,7 @@ import { resolve } from 'node:path';
 
 const HANDOFF = resolve(
   process.env.HOME ?? '',
-  'PycharmProjects/remnawave-bedolaga-telegram-bot/.claude/handoffs/geo',
+  'PycharmProjects/GorecVPN-/.claude/handoffs/geo',
 );
 const [geojsonPath, coordsPath, nodesPath] = [
   process.argv[2] ?? resolve(HANDOFF, 'ru-regions-lite.geojson'),

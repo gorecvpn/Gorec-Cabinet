@@ -1,5 +1,5 @@
 ---
-name: Feat Bedolage
+name: Feat Gorec
 about: Создать запрос на фичу «Бедолаге»
 title: '[FEAT] Заголовок'
 labels: ''

@@ -1,5 +1,5 @@
 ---
-name: Bug Bedolage
+name: Bug Gorec
 about: Создать баг-репорт «Бедолаге»
 title: '[BUG] Заголовок'
 labels: ''
