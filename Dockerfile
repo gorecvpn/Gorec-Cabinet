@@ -27,6 +27,8 @@ ENV VITE_APP_LOGO=$VITE_APP_LOGO
 # Build the application. Type-check намеренно пропущен: tsc --noEmit уже
 # гоняется CI на каждый PR (lint.yml), образ собирается из проверенного
 # коммита - повторная проверка стоила бы ~10s на каждую сборку.
+# Vite production build of this app exceeds Node's default ~1.5GB heap.
+ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN npm run build:docker
 
 # Stage 2: Serve with Nginx
