@@ -27,8 +27,11 @@ ENV VITE_APP_LOGO=$VITE_APP_LOGO
 # Build the application. Type-check намеренно пропущен: tsc --noEmit уже
 # гоняется CI на каждый PR (lint.yml), образ собирается из проверенного
 # коммита - повторная проверка стоила бы ~10s на каждую сборку.
-# Vite production build of this app exceeds Node's default ~1.5GB heap.
-ENV NODE_OPTIONS=--max-old-space-size=4096
+# Vite production build exceeds Node's default ~1.5GB heap.
+# Default 2048 suits ~2GB VPS with swap; override at build time if needed:
+#   --build-arg NODE_MAX_OLD_SPACE_SIZE=3072
+ARG NODE_MAX_OLD_SPACE_SIZE=2048
+ENV NODE_OPTIONS=--max-old-space-size=${NODE_MAX_OLD_SPACE_SIZE}
 RUN npm run build:docker
 
 # Stage 2: Serve with Nginx
