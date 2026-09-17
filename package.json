@@ -1,7 +1,7 @@
 {
   "name": "cabinet-frontend",
   "private": true,
-  "version": "1.78.1",
+  "version": "1.79.0",
   "description": "Gorec Cabinet",
   "license": "AGPL-3.0",
   "type": "module",
