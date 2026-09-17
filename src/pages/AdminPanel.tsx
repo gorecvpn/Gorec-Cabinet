@@ -249,6 +249,7 @@ const sections: AdminSection[] = [
         permission: 'pinned_messages:read',
       },
       { name: 'admin.nav.wheel', icon: 'circle-dot', to: '/admin/wheel', permission: 'wheel:read' },
+      { name: 'admin.nav.raffle', icon: 'ticket', to: '/admin/raffle', permission: 'raffle:read' },
       {
         name: 'admin.nav.partners',
         icon: 'handshake',

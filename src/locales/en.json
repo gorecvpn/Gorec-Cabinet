@@ -1471,7 +1471,8 @@
       "bulkActions": "Bulk Actions",
       "infoPages": "Info Pages",
       "legalPages": "System pages",
-      "systemErrors": "System errors"
+      "systemErrors": "System errors",
+      "raffle": "Raffle"
     },
     "panel": {
       "title": "Admin Panel",
@@ -6083,6 +6084,88 @@
         "retry": "Retry delivery",
         "retrySent": "Error sent to the admin chat",
         "retryFailed": "Could not send to the admin chat"
+      }
+    },
+    "raffle": {
+      "title": "Raffle",
+      "subtitle": "Ticket campaigns for subscription purchases",
+      "createButton": "Create campaign",
+      "createTitle": "New raffle campaign",
+      "createSubtitle": "Draft can be activated later",
+      "disabledHint": "RAFFLE_ENABLED=false — campaigns cannot be activated until raffle is enabled on the bot.",
+      "loadError": "Failed to load campaigns",
+      "noCampaigns": "No campaigns yet",
+      "tickets": "Tickets",
+      "users": "users",
+      "maxWinners": "Winners",
+      "starts": "Starts",
+      "ends": "Ends",
+      "winnersCount_one": "{{count}} winner",
+      "winnersCount_other": "{{count}} winners",
+      "winnersCount": "{{count}} winners",
+      "prizeDays_one": "{{count}} subscription day",
+      "prizeDays_other": "{{count}} subscription days",
+      "prizeDays": "{{count}} subscription days",
+      "prizeBalance": "{{amount}} ₽",
+      "prizeCustom": "Custom prize",
+      "stats": {
+        "campaigns": "Campaigns",
+        "active": "Active",
+        "tickets": "Tickets",
+        "winners": "Winners"
+      },
+      "status": {
+        "draft": "Draft",
+        "active": "Active",
+        "closed": "Closed",
+        "drawn": "Drawn"
+      },
+      "actions": {
+        "activate": "Activate",
+        "close": "Close",
+        "draw": "Draw"
+      },
+      "confirm": {
+        "activateTitle": "Activate campaign?",
+        "activate": "“{{name}}” will become active and start issuing tickets for purchases.",
+        "closeTitle": "Close campaign?",
+        "close": "“{{name}}” will stop issuing tickets.",
+        "drawTitle": "Run the draw?",
+        "draw": "Draw “{{name}}” among {{count}} tickets? This cannot be undone."
+      },
+      "toast": {
+        "activated": "Campaign activated",
+        "closed": "Campaign closed",
+        "drawn": "Draw completed",
+        "created": "Campaign created",
+        "actionError": "Action failed",
+        "createError": "Failed to create campaign"
+      },
+      "winnersTitle": "Winners",
+      "winnersSubtitle": "Campaign #{{id}}",
+      "drawSuccessNoWinners": "Draw finished, but the API response had no winners list.",
+      "ticketStats": "Tickets: {{tickets}}, users: {{users}}",
+      "awarded": "Awarded",
+      "notAwarded": "Not awarded",
+      "form": {
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "description": "Description",
+        "startsAt": "Starts at",
+        "startsAtHint": "If empty, the bot uses the current time",
+        "endsAt": "Ends at",
+        "maxWinners": "Number of winners",
+        "maxWinnersInvalid": "Winners must be between 1 and 1000",
+        "prizeType": "Prize type",
+        "prizeTypeDays": "Subscription days",
+        "prizeTypeBalance": "Balance",
+        "prizeTypeCustom": "Custom text",
+        "prizeValueDays": "Days",
+        "prizeValueBalance": "Amount, ₽",
+        "prizeValueRequired": "Prize value must be greater than 0",
+        "prizeText": "Prize description",
+        "prizeTextRequired": "Custom prize requires text",
+        "submit": "Create"
       }
     }
   },

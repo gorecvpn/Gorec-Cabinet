@@ -1325,7 +1325,8 @@
       "news": "新闻",
       "infoPages": "信息页面",
       "legalPages": "系统页面",
-      "systemErrors": "系统错误"
+      "systemErrors": "系统错误",
+      "raffle": "抽奖"
     },
     "panel": {
       "title": "管理面板",

@@ -1492,7 +1492,8 @@
       "bulkActions": "Массовые действия",
       "infoPages": "Инфо-страницы",
       "legalPages": "Системные страницы",
-      "systemErrors": "Ошибки системы"
+      "systemErrors": "Ошибки системы",
+      "raffle": "Розыгрыш"
     },
     "panel": {
       "title": "Панель администратора",
@@ -6678,6 +6679,90 @@
         "retry": "Отправить повторно",
         "retrySent": "Ошибка отправлена в админ-чат",
         "retryFailed": "Не удалось отправить в админ-чат"
+      }
+    },
+    "raffle": {
+      "title": "Розыгрыш",
+      "subtitle": "Кампании билетов за покупку подписки",
+      "createButton": "Создать кампанию",
+      "createTitle": "Новая кампания розыгрыша",
+      "createSubtitle": "Черновик можно активировать позже",
+      "disabledHint": "RAFFLE_ENABLED=false — активировать кампании нельзя, пока розыгрыш выключен на боте.",
+      "loadError": "Не удалось загрузить кампании",
+      "noCampaigns": "Кампаний пока нет",
+      "tickets": "Билеты",
+      "users": "участников",
+      "maxWinners": "Победителей",
+      "starts": "Старт",
+      "ends": "Конец",
+      "winnersCount_one": "{{count}} победитель",
+      "winnersCount_few": "{{count}} победителя",
+      "winnersCount_many": "{{count}} победителей",
+      "winnersCount": "{{count}} победителей",
+      "prizeDays_one": "{{count}} день подписки",
+      "prizeDays_few": "{{count}} дня подписки",
+      "prizeDays_many": "{{count}} дней подписки",
+      "prizeDays": "{{count}} дней подписки",
+      "prizeBalance": "{{amount}} ₽",
+      "prizeCustom": "Особый приз",
+      "stats": {
+        "campaigns": "Кампании",
+        "active": "Активные",
+        "tickets": "Билеты",
+        "winners": "Победители"
+      },
+      "status": {
+        "draft": "Черновик",
+        "active": "Активна",
+        "closed": "Закрыта",
+        "drawn": "Разыграна"
+      },
+      "actions": {
+        "activate": "Активировать",
+        "close": "Закрыть",
+        "draw": "Разыграть"
+      },
+      "confirm": {
+        "activateTitle": "Активировать кампанию?",
+        "activate": "«{{name}}» станет активной и начнёт выдавать билеты за покупки.",
+        "closeTitle": "Закрыть кампанию?",
+        "close": "«{{name}}» перестанет выдавать билеты.",
+        "drawTitle": "Провести розыгрыш?",
+        "draw": "Разыграть «{{name}}» среди {{count}} билетов? Это действие необратимо."
+      },
+      "toast": {
+        "activated": "Кампания активирована",
+        "closed": "Кампания закрыта",
+        "drawn": "Розыгрыш проведён",
+        "created": "Кампания создана",
+        "actionError": "Не удалось выполнить действие",
+        "createError": "Не удалось создать кампанию"
+      },
+      "winnersTitle": "Победители",
+      "winnersSubtitle": "Кампания #{{id}}",
+      "drawSuccessNoWinners": "Розыгрыш завершён, но победители не вернулись в ответе API.",
+      "ticketStats": "Билетов: {{tickets}}, участников: {{users}}",
+      "awarded": "Выдано",
+      "notAwarded": "Не выдано",
+      "form": {
+        "name": "Название",
+        "nameRequired": "Укажите название",
+        "description": "Описание",
+        "startsAt": "Начало",
+        "startsAtHint": "Если пусто — бот поставит текущее время",
+        "endsAt": "Окончание",
+        "maxWinners": "Число победителей",
+        "maxWinnersInvalid": "Число победителей: от 1 до 1000",
+        "prizeType": "Тип приза",
+        "prizeTypeDays": "Дни подписки",
+        "prizeTypeBalance": "Баланс",
+        "prizeTypeCustom": "Свой текст",
+        "prizeValueDays": "Дней",
+        "prizeValueBalance": "Сумма, ₽",
+        "prizeValueRequired": "Укажите значение приза больше 0",
+        "prizeText": "Описание приза",
+        "prizeTextRequired": "Для custom-приза нужен текст",
+        "submit": "Создать"
       }
     }
   },

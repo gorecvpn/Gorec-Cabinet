@@ -1331,7 +1331,8 @@
       "news": "اخبار",
       "infoPages": "صفحات اطلاعات",
       "legalPages": "صفحات سیستمی",
-      "systemErrors": "خطاهای سیستم"
+      "systemErrors": "خطاهای سیستم",
+      "raffle": "قرعه‌کشی"
     },
     "panel": {
       "title": "پنل مدیریت",
