@@ -72,6 +72,7 @@
     "profile": "Profile",
     "logout": "Logout",
     "contests": "Contests",
+    "raffle": "Raffle",
     "polls": "Polls",
     "info": "Info",
     "wheel": "Fortune Wheel",
@@ -4952,7 +4953,8 @@
             "logins": "Logins"
           },
           "fromBalance": "from balance",
-          "loadError": "Could not load activity"
+          "loadError": "Could not load activity",
+          "raffle": "Raffle"
         },
         "header": {
           "copy": "Copy",
@@ -6629,6 +6631,28 @@
     "enterAnswer": "Enter your answer",
     "submit": "Submit",
     "imHere": "I'm here!"
+  },
+  "raffle": {
+    "title": "Raffle",
+    "error": "Failed to load raffle",
+    "disabled": "Raffle is currently disabled",
+    "noCampaign": "No active raffle campaign",
+    "hint": "Buy a subscription while a campaign is active to get raffle tickets.",
+    "active": "Active",
+    "prize": "Prize",
+    "ends": "Ends",
+    "noEndDate": "No end date",
+    "howToEarn": "You get one ticket for each paid subscription purchase during this campaign.",
+    "myTickets": "My tickets",
+    "ticketCount_one": "{{count}} ticket",
+    "ticketCount_other": "{{count}} tickets",
+    "ticketCount": "{{count}} tickets",
+    "noTickets": "You have no tickets yet",
+    "prizeDays_one": "{{count}} day of subscription",
+    "prizeDays_other": "{{count}} days of subscription",
+    "prizeDays": "{{count}} days of subscription",
+    "prizeBalance": "{{amount}} ₽ balance",
+    "prizeCustom": "Special prize"
   },
   "polls": {
     "title": "Polls",

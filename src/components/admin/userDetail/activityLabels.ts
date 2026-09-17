@@ -28,6 +28,7 @@ const SCREEN_EXACT: Record<string, string> = {
   '/connection': 'connection',
   '/connection/qr': 'connection',
   '/contests': 'contests',
+  '/raffle': 'raffle',
   '/gift': 'gift',
   '/gift/result': 'gift',
   '/info': 'info',
