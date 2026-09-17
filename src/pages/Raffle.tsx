@@ -9,6 +9,18 @@ import {
 import { TrophyIcon } from '@/components/icons';
 import { PageSkeleton, Skeleton } from '@/components/ui/skeleton';
 
+function resolvePrizeImageUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith('https://')) return trimmed;
+  if (trimmed.startsWith('/')) {
+    const base = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+    return `${base}${trimmed}`;
+  }
+  return null;
+}
+
 function formatPrizeValue(
   prize_type: string,
   prize_value: number | null | undefined,
@@ -67,6 +79,46 @@ function useCountdown(endsAt: string | null | undefined) {
   }, [endsAt, now]);
 }
 
+function PrizeSlotCard({
+  slot,
+  t,
+}: {
+  slot: RafflePrizeSlot;
+  t: (key: string, opts?: Record<string, unknown>) => string;
+}) {
+  const imageUrl = resolvePrizeImageUrl(slot.image_url);
+  const title = formatPrizeValue(
+    slot.prize_type,
+    slot.prize_value ?? null,
+    slot.prize_text ?? null,
+    t,
+  );
+
+  return (
+    <li className="overflow-hidden rounded-2xl border border-dark-700/80 bg-dark-900/40 shadow-sm">
+      {imageUrl ? (
+        <div className="aspect-[16/10] w-full bg-dark-800">
+          <img
+            src={imageUrl}
+            alt={title}
+            className="h-full w-full object-cover"
+            loading="lazy"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+      ) : null}
+      <div className="flex items-center justify-between gap-3 px-3.5 py-3">
+        <span className="rounded-full bg-accent-500/15 px-2.5 py-0.5 text-xs font-medium text-accent-300">
+          {t('raffle.place', { place: slot.place })}
+        </span>
+        <span className="text-right text-sm font-semibold text-dark-100 [overflow-wrap:anywhere]">
+          {title}
+        </span>
+      </div>
+    </li>
+  );
+}
+
 export default function Raffle() {
   const { t, i18n } = useTranslation();
   const locale = i18n.language || 'en';
@@ -105,10 +157,15 @@ export default function Raffle() {
   const slots: RafflePrizeSlot[] = campaign?.prize_slots ?? [];
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex items-center gap-3">
-        <TrophyIcon className="h-6 w-6 text-accent-400" />
-        <h1 className="text-2xl font-bold text-dark-50 sm:text-3xl">{t('raffle.title')}</h1>
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-500/15">
+          <TrophyIcon className="h-6 w-6 text-accent-400" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold text-dark-50 sm:text-3xl">{t('raffle.title')}</h1>
+          <p className="text-sm text-dark-400">{t('raffle.hint')}</p>
+        </div>
       </div>
 
       {!enabled || !campaign ? (
@@ -117,16 +174,15 @@ export default function Raffle() {
           <p className="mt-4 text-dark-400">
             {!enabled ? t('raffle.disabled') : t('raffle.noCampaign')}
           </p>
-          <p className="mt-2 text-sm text-dark-500">{t('raffle.hint')}</p>
         </div>
       ) : (
         <>
-          <div className="card space-y-4">
+          <div className="card space-y-5 overflow-hidden">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
-                <h2 className="break-words text-xl font-semibold">{campaign.name}</h2>
+                <h2 className="break-words text-xl font-semibold tracking-tight">{campaign.name}</h2>
                 {campaign.description && (
-                  <p className="mt-1 text-sm text-dark-400 [overflow-wrap:anywhere]">
+                  <p className="mt-1.5 text-sm leading-relaxed text-dark-400 [overflow-wrap:anywhere]">
                     {campaign.description}
                   </p>
                 )}
@@ -136,29 +192,28 @@ export default function Raffle() {
               </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-lg bg-dark-800/60 p-3">
-                <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.prize')}</p>
-                <p className="mt-1 font-medium text-dark-100">{formatPrize(campaign, t)}</p>
-              </div>
-              <div className="rounded-lg bg-dark-800/60 p-3">
-                <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.pool')}</p>
-                <p className="mt-1 font-medium text-dark-100">
-                  {t('raffle.poolStats', {
-                    tickets: campaign.pool_tickets ?? 0,
-                    users: campaign.pool_users ?? 0,
-                  })}
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-dark-700/60 bg-dark-800/50 p-3.5">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-dark-500">
+                  {t('raffle.prize')}
+                </p>
+                <p className="mt-1.5 font-semibold text-dark-100 [overflow-wrap:anywhere]">
+                  {formatPrize(campaign, t)}
                 </p>
               </div>
-              <div className="rounded-lg bg-dark-800/60 p-3">
-                <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.ends')}</p>
-                <p className="mt-1 font-medium text-dark-100">
+              <div className="rounded-2xl border border-dark-700/60 bg-dark-800/50 p-3.5">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-dark-500">
+                  {t('raffle.ends')}
+                </p>
+                <p className="mt-1.5 font-semibold text-dark-100">
                   {formatDate(campaign.ends_at, locale) || t('raffle.noEndDate')}
                 </p>
               </div>
-              <div className="rounded-lg bg-dark-800/60 p-3">
-                <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.countdown')}</p>
-                <p className="mt-1 font-medium text-accent-300">
+              <div className="rounded-2xl border border-dark-700/60 bg-dark-800/50 p-3.5">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-dark-500">
+                  {t('raffle.countdown')}
+                </p>
+                <p className="mt-1.5 font-semibold tabular-nums text-accent-300">
                   {!campaign.ends_at
                     ? t('raffle.noEndDate')
                     : countdown?.finished
@@ -175,50 +230,37 @@ export default function Raffle() {
 
             {slots.length > 0 && (
               <div>
-                <p className="mb-2 text-sm font-medium text-dark-200">{t('raffle.places')}</p>
-                <ul className="space-y-1.5">
+                <p className="mb-3 text-sm font-medium text-dark-200">{t('raffle.places')}</p>
+                <ul className="grid gap-3 sm:grid-cols-2">
                   {slots.map((slot) => (
-                    <li
-                      key={slot.place}
-                      className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-dark-700 bg-dark-900/50 px-3 py-2 text-sm"
-                    >
-                      <span className="text-dark-300">
-                        {t('raffle.place', { place: slot.place })}
-                      </span>
-                      <span className="font-medium text-dark-100">
-                        {formatPrizeValue(
-                          slot.prize_type,
-                          slot.prize_value ?? null,
-                          slot.prize_text ?? null,
-                          t,
-                        )}
-                      </span>
-                    </li>
+                    <PrizeSlotCard key={slot.place} slot={slot} t={t} />
                   ))}
                 </ul>
               </div>
             )}
 
-            <p className="text-sm text-dark-400">
-              {t('raffle.howToEarn', {
-                count: campaign.tickets_per_purchase ?? 1,
-              })}
-            </p>
-            {campaign.tickets_by_tariff && Object.keys(campaign.tickets_by_tariff).length > 0 && (
-              <p className="text-xs text-dark-500">{t('raffle.tariffTicketsHint')}</p>
-            )}
+            <div className="rounded-2xl border border-dashed border-dark-700 bg-dark-900/30 px-3.5 py-3">
+              <p className="text-sm text-dark-300">
+                {t('raffle.howToEarn', {
+                  count: campaign.tickets_per_purchase ?? 1,
+                })}
+              </p>
+              {campaign.tickets_by_tariff && Object.keys(campaign.tickets_by_tariff).length > 0 && (
+                <p className="mt-1 text-xs text-dark-500">{t('raffle.tariffTicketsHint')}</p>
+              )}
+            </div>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">{t('raffle.myTickets')}</h3>
-              <span className="text-sm text-dark-400">
+              <span className="rounded-full bg-dark-800 px-2.5 py-1 text-sm text-dark-300">
                 {t('raffle.ticketCount', { count: tickets.length })}
               </span>
             </div>
 
             {tickets.length === 0 ? (
-              <div className="card py-8 text-center">
+              <div className="card py-10 text-center">
                 <p className="text-dark-400">{t('raffle.noTickets')}</p>
               </div>
             ) : (
@@ -228,7 +270,7 @@ export default function Raffle() {
                     key={ticket.id}
                     className="card flex flex-wrap items-center justify-between gap-3 py-3"
                   >
-                    <code className="rounded bg-dark-800 px-2 py-1 font-mono text-sm text-accent-300">
+                    <code className="rounded-lg bg-dark-800 px-2.5 py-1.5 font-mono text-sm text-accent-300">
                       {ticket.ticket_code}
                     </code>
                     <span className="text-sm text-dark-400">

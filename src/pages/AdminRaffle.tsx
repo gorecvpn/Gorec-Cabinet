@@ -231,6 +231,16 @@ export default function AdminRaffle() {
     onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.awardError'))),
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: ({ id, force }: { id: number; force?: boolean }) =>
+      adminRaffleApi.deleteCampaign(id, force),
+    onSuccess: () => {
+      notify.success(t('admin.raffle.toast.deleted'));
+      invalidate();
+    },
+    onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.deleteError'))),
+  });
+
   const campaigns = data?.campaigns ?? [];
   const enabled = data?.enabled ?? false;
   const activeCount = campaigns.filter((c) => c.status === 'active').length;
@@ -241,7 +251,8 @@ export default function AdminRaffle() {
     closeMutation.isPending ||
     drawMutation.isPending ||
     historyMutation.isPending ||
-    awardMutation.isPending;
+    awardMutation.isPending ||
+    deleteMutation.isPending;
 
   const handleActivate = async (campaign: AdminRaffleCampaign) => {
     const ok = await confirmAction(
@@ -276,6 +287,22 @@ export default function AdminRaffle() {
 
   const handleHistory = (campaign: AdminRaffleCampaign) => {
     historyMutation.mutate(campaign.id);
+  };
+
+  const handleEdit = (campaign: AdminRaffleCampaign) => {
+    navigate(`/admin/raffle/${campaign.id}/edit`);
+  };
+
+  const handleDelete = async (campaign: AdminRaffleCampaign) => {
+    const isActive = campaign.status === 'active';
+    const ok = await confirmAction(
+      isActive
+        ? t('admin.raffle.confirm.deleteActive', { name: campaign.name })
+        : t('admin.raffle.confirm.delete', { name: campaign.name }),
+      t('admin.raffle.actions.delete'),
+      t('admin.raffle.confirm.deleteTitle'),
+    );
+    if (ok) deleteMutation.mutate({ id: campaign.id, force: isActive });
   };
 
   return (
@@ -422,6 +449,17 @@ export default function AdminRaffle() {
                     )}
                   {canEdit && (
                     <>
+                      {(campaign.status === 'draft' ||
+                        campaign.status === 'active' ||
+                        campaign.status === 'closed') && (
+                        <button
+                          disabled={busy}
+                          onClick={() => handleEdit(campaign)}
+                          className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
+                        >
+                          {t('admin.raffle.actions.edit')}
+                        </button>
+                      )}
                       {(campaign.status === 'draft' || campaign.status === 'closed') && (
                         <button
                           disabled={busy || !enabled}
@@ -447,6 +485,17 @@ export default function AdminRaffle() {
                           className="rounded-lg bg-accent-500/20 px-3 py-1.5 text-sm text-accent-300 transition-colors hover:bg-accent-500/30 disabled:opacity-50"
                         >
                           {t('admin.raffle.actions.draw')}
+                        </button>
+                      )}
+                      {(campaign.status === 'draft' ||
+                        campaign.status === 'closed' ||
+                        campaign.status === 'drawn') && (
+                        <button
+                          disabled={busy}
+                          onClick={() => void handleDelete(campaign)}
+                          className="rounded-lg bg-error-500/15 px-3 py-1.5 text-sm text-error-300 transition-colors hover:bg-error-500/25 disabled:opacity-50"
+                        >
+                          {t('admin.raffle.actions.delete')}
                         </button>
                       )}
                     </>
