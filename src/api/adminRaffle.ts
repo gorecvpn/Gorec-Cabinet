@@ -3,6 +3,13 @@ import apiClient from './client';
 export type RafflePrizeType = 'days' | 'balance' | 'custom';
 export type RaffleCampaignStatus = 'draft' | 'active' | 'closed' | 'drawn';
 
+export interface RafflePrizeSlot {
+  place: number;
+  prize_type: RafflePrizeType | string;
+  prize_value?: number | null;
+  prize_text?: string | null;
+}
+
 export interface AdminRaffleCampaign {
   id: number;
   name: string;
@@ -14,10 +21,18 @@ export interface AdminRaffleCampaign {
   prize_type: RafflePrizeType | string;
   prize_value: number | null;
   prize_text: string | null;
+  prize_slots?: RafflePrizeSlot[] | null;
+  tickets_per_purchase?: number;
+  tickets_by_tariff?: Record<string, number> | null;
+  skip_trial_purchases?: boolean;
   tickets: number;
   unique_users: number;
   winners: number;
+  draw_seed?: string | null;
+  draw_algorithm?: string | null;
+  drawn_at?: string | null;
   created_at: string | null;
+  updated_at?: string | null;
 }
 
 export interface AdminRaffleCampaignListResponse {
@@ -32,24 +47,45 @@ export interface CreateRaffleCampaignRequest {
   prize_type?: RafflePrizeType | string;
   prize_value?: number | null;
   prize_text?: string | null;
+  prize_slots?: RafflePrizeSlot[] | null;
+  tickets_per_purchase?: number;
+  tickets_by_tariff?: Record<string, number> | null;
+  skip_trial_purchases?: boolean;
   starts_at?: string | null;
   ends_at?: string | null;
 }
 
 export interface AdminRaffleWinner {
   id: number;
+  campaign_id: number;
   user_id: number;
+  telegram_id?: number | null;
+  username?: string | null;
+  first_name?: string | null;
+  display_name?: string | null;
+  ticket_id?: number | null;
   ticket_code: string | null;
   place: number;
   prize_type: string | null;
   prize_value: number | null;
   prize_text: string | null;
   awarded: boolean;
+  awarded_at?: string | null;
+  created_at?: string | null;
 }
 
 export interface AdminRaffleDrawResponse {
   campaign_id: number;
   status: string;
+  drawn_at?: string | null;
+  draw_seed?: string | null;
+  draw_algorithm?: string | null;
+  winners: AdminRaffleWinner[];
+}
+
+export interface AdminRaffleCampaignDetailResponse {
+  enabled: boolean;
+  campaign: AdminRaffleCampaign;
   winners: AdminRaffleWinner[];
 }
 
@@ -58,6 +94,13 @@ export const adminRaffleApi = {
     const response = await apiClient.get<AdminRaffleCampaignListResponse>(
       '/cabinet/admin/raffle/campaigns',
       { params: { limit, offset } },
+    );
+    return response.data;
+  },
+
+  getCampaign: async (campaignId: number): Promise<AdminRaffleCampaignDetailResponse> => {
+    const response = await apiClient.get<AdminRaffleCampaignDetailResponse>(
+      `/cabinet/admin/raffle/campaigns/${campaignId}`,
     );
     return response.data;
   },
@@ -87,6 +130,13 @@ export const adminRaffleApi = {
   drawCampaign: async (campaignId: number): Promise<AdminRaffleDrawResponse> => {
     const response = await apiClient.post<AdminRaffleDrawResponse>(
       `/cabinet/admin/raffle/campaigns/${campaignId}/draw`,
+    );
+    return response.data;
+  },
+
+  awardWinner: async (campaignId: number, winnerId: number): Promise<AdminRaffleWinner> => {
+    const response = await apiClient.post<AdminRaffleWinner>(
+      `/cabinet/admin/raffle/campaigns/${campaignId}/winners/${winnerId}/award`,
     );
     return response.data;
   },

@@ -1,21 +1,33 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { raffleApi, type RaffleCampaignSummary } from '../api/raffle';
+import {
+  raffleApi,
+  type RaffleCampaignSummary,
+  type RafflePrizeSlot,
+} from '../api/raffle';
 import { TrophyIcon } from '@/components/icons';
 import { PageSkeleton, Skeleton } from '@/components/ui/skeleton';
 
-function formatPrize(campaign: RaffleCampaignSummary, t: (key: string, opts?: Record<string, unknown>) => string) {
-  if (campaign.prize_type === 'days' && campaign.prize_value != null) {
-    return t('raffle.prizeDays', { count: campaign.prize_value });
+function formatPrizeValue(
+  prize_type: string,
+  prize_value: number | null | undefined,
+  prize_text: string | null | undefined,
+  t: (key: string, opts?: Record<string, unknown>) => string,
+) {
+  if (prize_type === 'days' && prize_value != null) {
+    return t('raffle.prizeDays', { count: prize_value });
   }
-  if (campaign.prize_type === 'balance' && campaign.prize_value != null) {
-    const rubles = (campaign.prize_value / 100).toFixed(0);
+  if (prize_type === 'balance' && prize_value != null) {
+    const rubles = (prize_value / 100).toFixed(0);
     return t('raffle.prizeBalance', { amount: rubles });
   }
-  if (campaign.prize_text) {
-    return campaign.prize_text;
-  }
+  if (prize_text) return prize_text;
   return t('raffle.prizeCustom');
+}
+
+function formatPrize(campaign: RaffleCampaignSummary, t: (key: string, opts?: Record<string, unknown>) => string) {
+  return formatPrizeValue(campaign.prize_type, campaign.prize_value, campaign.prize_text, t);
 }
 
 function formatDate(value: string | null, locale: string) {
@@ -33,6 +45,28 @@ function formatDate(value: string | null, locale: string) {
   }
 }
 
+function useCountdown(endsAt: string | null | undefined) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!endsAt) return undefined;
+    const id = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(id);
+  }, [endsAt]);
+
+  return useMemo(() => {
+    if (!endsAt) return null;
+    const end = new Date(endsAt).getTime();
+    if (Number.isNaN(end)) return null;
+    const diff = Math.max(0, end - now);
+    const totalSec = Math.floor(diff / 1000);
+    const days = Math.floor(totalSec / 86400);
+    const hours = Math.floor((totalSec % 86400) / 3600);
+    const minutes = Math.floor((totalSec % 3600) / 60);
+    const seconds = totalSec % 60;
+    return { days, hours, minutes, seconds, finished: diff <= 0 };
+  }, [endsAt, now]);
+}
+
 export default function Raffle() {
   const { t, i18n } = useTranslation();
   const locale = i18n.language || 'en';
@@ -44,7 +78,11 @@ export default function Raffle() {
   } = useQuery({
     queryKey: ['raffle-summary'],
     queryFn: raffleApi.getSummary,
+    refetchInterval: 60_000,
   });
+
+  const campaign = data?.campaign ?? null;
+  const countdown = useCountdown(campaign?.ends_at);
 
   if (isLoading) {
     return (
@@ -63,8 +101,8 @@ export default function Raffle() {
   }
 
   const enabled = data?.enabled ?? false;
-  const campaign = data?.campaign ?? null;
   const tickets = data?.tickets ?? [];
+  const slots: RafflePrizeSlot[] = campaign?.prize_slots ?? [];
 
   return (
     <div className="space-y-6">
@@ -83,7 +121,7 @@ export default function Raffle() {
         </div>
       ) : (
         <>
-          <div className="card space-y-3">
+          <div className="card space-y-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
                 <h2 className="break-words text-xl font-semibold">{campaign.name}</h2>
@@ -98,10 +136,19 @@ export default function Raffle() {
               </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <div className="rounded-lg bg-dark-800/60 p-3">
                 <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.prize')}</p>
                 <p className="mt-1 font-medium text-dark-100">{formatPrize(campaign, t)}</p>
+              </div>
+              <div className="rounded-lg bg-dark-800/60 p-3">
+                <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.pool')}</p>
+                <p className="mt-1 font-medium text-dark-100">
+                  {t('raffle.poolStats', {
+                    tickets: campaign.pool_tickets ?? 0,
+                    users: campaign.pool_users ?? 0,
+                  })}
+                </p>
               </div>
               <div className="rounded-lg bg-dark-800/60 p-3">
                 <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.ends')}</p>
@@ -109,11 +156,57 @@ export default function Raffle() {
                   {formatDate(campaign.ends_at, locale) || t('raffle.noEndDate')}
                 </p>
               </div>
+              <div className="rounded-lg bg-dark-800/60 p-3">
+                <p className="text-xs uppercase tracking-wide text-dark-500">{t('raffle.countdown')}</p>
+                <p className="mt-1 font-medium text-accent-300">
+                  {!campaign.ends_at
+                    ? t('raffle.noEndDate')
+                    : countdown?.finished
+                      ? t('raffle.ended')
+                      : t('raffle.countdownValue', {
+                          days: countdown?.days ?? 0,
+                          hours: String(countdown?.hours ?? 0).padStart(2, '0'),
+                          minutes: String(countdown?.minutes ?? 0).padStart(2, '0'),
+                          seconds: String(countdown?.seconds ?? 0).padStart(2, '0'),
+                        })}
+                </p>
+              </div>
             </div>
 
+            {slots.length > 0 && (
+              <div>
+                <p className="mb-2 text-sm font-medium text-dark-200">{t('raffle.places')}</p>
+                <ul className="space-y-1.5">
+                  {slots.map((slot) => (
+                    <li
+                      key={slot.place}
+                      className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-dark-700 bg-dark-900/50 px-3 py-2 text-sm"
+                    >
+                      <span className="text-dark-300">
+                        {t('raffle.place', { place: slot.place })}
+                      </span>
+                      <span className="font-medium text-dark-100">
+                        {formatPrizeValue(
+                          slot.prize_type,
+                          slot.prize_value ?? null,
+                          slot.prize_text ?? null,
+                          t,
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <p className="text-sm text-dark-400">
-              {t('raffle.howToEarn')}
+              {t('raffle.howToEarn', {
+                count: campaign.tickets_per_purchase ?? 1,
+              })}
             </p>
+            {campaign.tickets_by_tariff && Object.keys(campaign.tickets_by_tariff).length > 0 && (
+              <p className="text-xs text-dark-500">{t('raffle.tariffTicketsHint')}</p>
+            )}
           </div>
 
           <div className="space-y-3">

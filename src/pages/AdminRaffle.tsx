@@ -59,6 +59,30 @@ function formatPrize(
   return t('admin.raffle.prizeCustom');
 }
 
+function formatWinnerPrize(
+  winner: AdminRaffleWinner,
+  t: (key: string, opts?: Record<string, unknown>) => string,
+) {
+  if (winner.prize_text) return winner.prize_text;
+  if (winner.prize_type === 'days' && winner.prize_value != null) {
+    return t('admin.raffle.prizeDays', { count: winner.prize_value });
+  }
+  if (winner.prize_type === 'balance' && winner.prize_value != null) {
+    return t('admin.raffle.prizeBalance', {
+      amount: (winner.prize_value / 100).toFixed(0),
+    });
+  }
+  return winner.prize_type || '';
+}
+
+function winnerLabel(winner: AdminRaffleWinner): string {
+  if (winner.display_name) return winner.display_name;
+  if (winner.username) return `@${winner.username}`;
+  if (winner.first_name) return winner.first_name;
+  if (winner.telegram_id) return `tg:${winner.telegram_id}`;
+  return `user#${winner.user_id}`;
+}
+
 function statusTone(status: string): string {
   switch (status) {
     case 'active':
@@ -93,12 +117,18 @@ export default function AdminRaffle() {
   const confirmAction = useDestructiveConfirm();
   const hasPermission = usePermissionStore((s) => s.hasPermission);
   const canEdit = hasPermission('raffle:edit');
+  const canRead = hasPermission('raffle:read');
 
   const [winnersModal, setWinnersModal] = useState<{
     campaignId: number;
+    campaignName?: string;
     winners: AdminRaffleWinner[];
     tickets?: number;
     uniqueUsers?: number;
+    drawnAt?: string | null;
+    drawSeed?: string | null;
+    drawAlgorithm?: string | null;
+    loading?: boolean;
   } | null>(null);
   const winnersDialogRef = useFocusTrap<HTMLDivElement>(winnersModal !== null, {
     onEscape: () => setWinnersModal(null),
@@ -139,12 +169,66 @@ export default function AdminRaffle() {
       invalidate();
       setWinnersModal({
         campaignId: result.campaign_id,
+        campaignName: campaign?.name,
         winners: result.winners,
         tickets: campaign?.tickets,
         uniqueUsers: campaign?.unique_users,
+        drawnAt: result.drawn_at,
+        drawSeed: result.draw_seed,
+        drawAlgorithm: result.draw_algorithm,
       });
     },
     onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.actionError'))),
+  });
+
+  const historyMutation = useMutation({
+    mutationFn: adminRaffleApi.getCampaign,
+    onMutate: (campaignId) => {
+      const campaign = data?.campaigns.find((c) => c.id === campaignId);
+      setWinnersModal({
+        campaignId,
+        campaignName: campaign?.name,
+        winners: [],
+        tickets: campaign?.tickets,
+        uniqueUsers: campaign?.unique_users,
+        loading: true,
+      });
+    },
+    onSuccess: (result) => {
+      setWinnersModal({
+        campaignId: result.campaign.id,
+        campaignName: result.campaign.name,
+        winners: result.winners,
+        tickets: result.campaign.tickets,
+        uniqueUsers: result.campaign.unique_users,
+        drawnAt: result.campaign.drawn_at,
+        drawSeed: result.campaign.draw_seed,
+        drawAlgorithm: result.campaign.draw_algorithm,
+        loading: false,
+      });
+    },
+    onError: (err) => {
+      setWinnersModal(null);
+      notify.error(getErrorMessage(err, t('admin.raffle.toast.historyError')));
+    },
+  });
+
+
+  const awardMutation = useMutation({
+    mutationFn: ({ campaignId, winnerId }: { campaignId: number; winnerId: number }) =>
+      adminRaffleApi.awardWinner(campaignId, winnerId),
+    onSuccess: (winner) => {
+      notify.success(t('admin.raffle.toast.awarded'));
+      setWinnersModal((prev) =>
+        prev
+          ? {
+              ...prev,
+              winners: prev.winners.map((w) => (w.id === winner.id ? { ...w, ...winner } : w)),
+            }
+          : prev,
+      );
+    },
+    onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.awardError'))),
   });
 
   const campaigns = data?.campaigns ?? [];
@@ -153,7 +237,11 @@ export default function AdminRaffle() {
   const totalTickets = campaigns.reduce((sum, c) => sum + (c.tickets || 0), 0);
   const totalWinners = campaigns.reduce((sum, c) => sum + (c.winners || 0), 0);
   const busy =
-    activateMutation.isPending || closeMutation.isPending || drawMutation.isPending;
+    activateMutation.isPending ||
+    closeMutation.isPending ||
+    drawMutation.isPending ||
+    historyMutation.isPending ||
+    awardMutation.isPending;
 
   const handleActivate = async (campaign: AdminRaffleCampaign) => {
     const ok = await confirmAction(
@@ -175,11 +263,19 @@ export default function AdminRaffle() {
 
   const handleDraw = async (campaign: AdminRaffleCampaign) => {
     const ok = await confirmAction(
-      t('admin.raffle.confirm.draw', { name: campaign.name, count: campaign.tickets }),
+      t('admin.raffle.confirm.draw', {
+        name: campaign.name,
+        count: campaign.tickets,
+        winners: campaign.max_winners,
+      }),
       t('admin.raffle.actions.draw'),
       t('admin.raffle.confirm.drawTitle'),
     );
     if (ok) drawMutation.mutate(campaign.id);
+  };
+
+  const handleHistory = (campaign: AdminRaffleCampaign) => {
+    historyMutation.mutate(campaign.id);
   };
 
   return (
@@ -294,6 +390,11 @@ export default function AdminRaffle() {
                     <span>
                       {t('admin.raffle.maxWinners')}: {campaign.max_winners}
                     </span>
+                    {campaign.tickets_per_purchase != null && (
+                      <span>
+                        {t('admin.raffle.ticketsPerPurchase')}: {campaign.tickets_per_purchase}
+                      </span>
+                    )}
                     <span>
                       {t('admin.raffle.starts')}: {formatDate(campaign.starts_at)}
                     </span>
@@ -308,37 +409,49 @@ export default function AdminRaffle() {
                   </div>
                 </div>
 
-                {canEdit && (
-                  <div className="flex flex-wrap items-center gap-2 border-t border-dark-700 pt-3 sm:border-0 sm:pt-0">
-                    {(campaign.status === 'draft' || campaign.status === 'closed') && (
-                      <button
-                        disabled={busy || !enabled}
-                        onClick={() => void handleActivate(campaign)}
-                        className="rounded-lg bg-success-500/20 px-3 py-1.5 text-sm text-success-300 transition-colors hover:bg-success-500/30 disabled:opacity-50"
-                      >
-                        {t('admin.raffle.actions.activate')}
-                      </button>
-                    )}
-                    {campaign.status === 'active' && (
+                <div className="flex flex-wrap items-center gap-2 border-t border-dark-700 pt-3 sm:border-0 sm:pt-0">
+                  {canRead &&
+                    (campaign.status === 'drawn' || campaign.winners > 0) && (
                       <button
                         disabled={busy}
-                        onClick={() => void handleClose(campaign)}
-                        className="rounded-lg bg-warning-500/20 px-3 py-1.5 text-sm text-warning-300 transition-colors hover:bg-warning-500/30 disabled:opacity-50"
+                        onClick={() => handleHistory(campaign)}
+                        className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
                       >
-                        {t('admin.raffle.actions.close')}
+                        {t('admin.raffle.actions.history')}
                       </button>
                     )}
-                    {(campaign.status === 'active' || campaign.status === 'closed') && (
-                      <button
-                        disabled={busy}
-                        onClick={() => void handleDraw(campaign)}
-                        className="rounded-lg bg-accent-500/20 px-3 py-1.5 text-sm text-accent-300 transition-colors hover:bg-accent-500/30 disabled:opacity-50"
-                      >
-                        {t('admin.raffle.actions.draw')}
-                      </button>
-                    )}
-                  </div>
-                )}
+                  {canEdit && (
+                    <>
+                      {(campaign.status === 'draft' || campaign.status === 'closed') && (
+                        <button
+                          disabled={busy || !enabled}
+                          onClick={() => void handleActivate(campaign)}
+                          className="rounded-lg bg-success-500/20 px-3 py-1.5 text-sm text-success-300 transition-colors hover:bg-success-500/30 disabled:opacity-50"
+                        >
+                          {t('admin.raffle.actions.activate')}
+                        </button>
+                      )}
+                      {campaign.status === 'active' && (
+                        <button
+                          disabled={busy}
+                          onClick={() => void handleClose(campaign)}
+                          className="rounded-lg bg-warning-500/20 px-3 py-1.5 text-sm text-warning-300 transition-colors hover:bg-warning-500/30 disabled:opacity-50"
+                        >
+                          {t('admin.raffle.actions.close')}
+                        </button>
+                      )}
+                      {(campaign.status === 'active' || campaign.status === 'closed') && (
+                        <button
+                          disabled={busy}
+                          onClick={() => void handleDraw(campaign)}
+                          className="rounded-lg bg-accent-500/20 px-3 py-1.5 text-sm text-accent-300 transition-colors hover:bg-accent-500/30 disabled:opacity-50"
+                        >
+                          {t('admin.raffle.actions.draw')}
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -352,16 +465,32 @@ export default function AdminRaffle() {
             role="dialog"
             aria-modal="true"
             tabIndex={-1}
-            className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-dark-700 bg-dark-900 p-5 shadow-xl"
+            className="max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-dark-700 bg-dark-900 p-5 shadow-xl"
           >
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
                 <h3 className="text-lg font-semibold text-dark-100">
-                  {t('admin.raffle.winnersTitle')}
+                  {t('admin.raffle.historyTitle')}
                 </h3>
                 <p className="text-sm text-dark-400">
-                  {t('admin.raffle.winnersSubtitle', { id: winnersModal.campaignId })}
+                  {winnersModal.campaignName
+                    ? t('admin.raffle.historySubtitleNamed', {
+                        name: winnersModal.campaignName,
+                        id: winnersModal.campaignId,
+                      })
+                    : t('admin.raffle.winnersSubtitle', { id: winnersModal.campaignId })}
                 </p>
+                {winnersModal.drawnAt && (
+                  <p className="mt-1 text-xs text-dark-500">
+                    {t('admin.raffle.drawnAt')}: {formatDate(winnersModal.drawnAt)}
+                  </p>
+                )}
+                {(winnersModal.drawSeed || winnersModal.drawAlgorithm) && (
+                  <p className="mt-1 break-all text-xs text-dark-500">
+                    {t('admin.raffle.fairness')}: {winnersModal.drawAlgorithm || 'weighted_unique_v1'}
+                    {winnersModal.drawSeed ? ` · seed ${winnersModal.drawSeed}` : ''}
+                  </p>
+                )}
               </div>
               <button
                 onClick={() => setWinnersModal(null)}
@@ -372,9 +501,13 @@ export default function AdminRaffle() {
               </button>
             </div>
 
-            {winnersModal.winners.length === 0 ? (
+            {winnersModal.loading ? (
               <div className="rounded-xl border border-dark-700 bg-dark-800 p-4 text-sm text-dark-300">
-                <p>{t('admin.raffle.drawSuccessNoWinners')}</p>
+                {t('common.loading')}
+              </div>
+            ) : winnersModal.winners.length === 0 ? (
+              <div className="rounded-xl border border-dark-700 bg-dark-800 p-4 text-sm text-dark-300">
+                <p>{t('admin.raffle.historyEmpty')}</p>
                 <p className="mt-2 text-dark-400">
                   {t('admin.raffle.ticketStats', {
                     tickets: winnersModal.tickets ?? 0,
@@ -383,44 +516,67 @@ export default function AdminRaffle() {
                 </p>
               </div>
             ) : (
-              <ul className="space-y-2">
-                {winnersModal.winners.map((winner) => (
-                  <li
-                    key={winner.id}
-                    className="rounded-xl border border-dark-700 bg-dark-800 px-3 py-2 text-sm"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-medium text-dark-100">
-                        #{winner.place} · user {winner.user_id}
-                      </span>
-                      <span
-                        className={`rounded px-2 py-0.5 text-xs ${
-                          winner.awarded
-                            ? 'bg-success-500/20 text-success-400'
-                            : 'bg-dark-600 text-dark-300'
-                        }`}
-                      >
-                        {winner.awarded
-                          ? t('admin.raffle.awarded')
-                          : t('admin.raffle.notAwarded')}
-                      </span>
-                    </div>
-                    <div className="mt-1 text-dark-400">
-                      {winner.ticket_code && (
-                        <span className="mr-3 font-mono text-accent-300">{winner.ticket_code}</span>
-                      )}
-                      {winner.prize_text ||
-                        (winner.prize_type === 'days' && winner.prize_value != null
-                          ? t('admin.raffle.prizeDays', { count: winner.prize_value })
-                          : winner.prize_type === 'balance' && winner.prize_value != null
-                            ? t('admin.raffle.prizeBalance', {
-                                amount: (winner.prize_value / 100).toFixed(0),
-                              })
-                            : winner.prize_type || '')}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <div className="overflow-x-auto rounded-xl border border-dark-700">
+                <table className="min-w-full text-left text-sm">
+                  <thead className="bg-dark-800 text-xs uppercase tracking-wide text-dark-400">
+                    <tr>
+                      <th className="px-3 py-2 font-medium">{t('admin.raffle.history.place')}</th>
+                      <th className="px-3 py-2 font-medium">{t('admin.raffle.history.user')}</th>
+                      <th className="px-3 py-2 font-medium">{t('admin.raffle.history.ticket')}</th>
+                      <th className="px-3 py-2 font-medium">{t('admin.raffle.history.prize')}</th>
+                      <th className="px-3 py-2 font-medium">{t('admin.raffle.history.awarded')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {winnersModal.winners.map((winner) => (
+                      <tr key={winner.id} className="border-t border-dark-700/80 bg-dark-900/60">
+                        <td className="px-3 py-2 text-dark-200">#{winner.place}</td>
+                        <td className="px-3 py-2">
+                          <div className="font-medium text-dark-100">{winnerLabel(winner)}</div>
+                          <div className="text-xs text-dark-500">
+                            id {winner.user_id}
+                            {winner.telegram_id != null ? ` · tg ${winner.telegram_id}` : ''}
+                          </div>
+                        </td>
+                        <td className="px-3 py-2 font-mono text-accent-300">
+                          {winner.ticket_code || '—'}
+                        </td>
+                        <td className="px-3 py-2 text-dark-300">{formatWinnerPrize(winner, t)}</td>
+                        <td className="px-3 py-2">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span
+                              className={`rounded px-2 py-0.5 text-xs ${
+                                winner.awarded
+                                  ? 'bg-success-500/20 text-success-400'
+                                  : 'bg-dark-600 text-dark-300'
+                              }`}
+                            >
+                              {winner.awarded
+                                ? t('admin.raffle.awarded')
+                                : t('admin.raffle.notAwarded')}
+                            </span>
+                            {canEdit && !winner.awarded && (
+                              <button
+                                type="button"
+                                disabled={busy}
+                                onClick={() =>
+                                  awardMutation.mutate({
+                                    campaignId: winnersModal.campaignId,
+                                    winnerId: winner.id,
+                                  })
+                                }
+                                className="rounded bg-accent-500/20 px-2 py-0.5 text-xs text-accent-300 hover:bg-accent-500/30 disabled:opacity-50"
+                              >
+                                {t('admin.raffle.actions.retryAward')}
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
 
             <button
