@@ -2,11 +2,7 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import {
-  adminRaffleApi,
-  type RafflePrizeSlot,
-  type RafflePrizeType,
-} from '../api/adminRaffle';
+import { adminRaffleApi, type RafflePrizeSlot, type RafflePrizeType } from '../api/adminRaffle';
 import { tariffsApi } from '../api/tariffs';
 import { AdminBackButton } from '../components/admin';
 import { useNotify } from '@/platform';
@@ -97,7 +93,10 @@ export default function AdminRaffleEdit() {
     enabled: isDraft,
   });
   const tariffs = useMemo(
-    () => (tariffsData?.tariffs ?? []).filter((tariff) => !tariff.is_trial_available || tariff.is_active),
+    () =>
+      (tariffsData?.tariffs ?? []).filter(
+        (tariff) => !tariff.is_trial_available || tariff.is_active,
+      ),
     [tariffsData],
   );
 
@@ -174,7 +173,10 @@ export default function AdminRaffleEdit() {
       }
     | string => {
     const image = imageUrl.trim();
-    if (image && !(image.startsWith('https://') || (image.startsWith('/') && !image.startsWith('//')))) {
+    if (
+      image &&
+      !(image.startsWith('https://') || (image.startsWith('/') && !image.startsWith('//')))
+    ) {
       return t('admin.raffle.form.imageUrlInvalid');
     }
     const image_url = image || null;
@@ -341,11 +343,7 @@ export default function AdminRaffleEdit() {
     );
   }
 
-  const renderImageField = (
-    value: string,
-    onChange: (v: string) => void,
-    id: string,
-  ) => (
+  const renderImageField = (value: string, onChange: (v: string) => void, id: string) => (
     <div className="mt-2">
       <label className="mb-1 block text-xs font-medium text-dark-400" htmlFor={id}>
         {t('admin.raffle.form.imageUrl')}
@@ -384,7 +382,10 @@ export default function AdminRaffleEdit() {
         className="mx-auto max-w-2xl space-y-5 rounded-2xl border border-dark-700 bg-dark-800 p-5"
       >
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-dark-300" htmlFor="raffle-edit-name">
+          <label
+            className="mb-1.5 block text-sm font-medium text-dark-300"
+            htmlFor="raffle-edit-name"
+          >
             {t('admin.raffle.form.name')}
           </label>
           <input
@@ -415,7 +416,10 @@ export default function AdminRaffleEdit() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-dark-300" htmlFor="raffle-edit-starts">
+            <label
+              className="mb-1.5 block text-sm font-medium text-dark-300"
+              htmlFor="raffle-edit-starts"
+            >
               {t('admin.raffle.form.startsAt')}
             </label>
             <input
@@ -428,7 +432,10 @@ export default function AdminRaffleEdit() {
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-dark-300" htmlFor="raffle-edit-ends">
+            <label
+              className="mb-1.5 block text-sm font-medium text-dark-300"
+              htmlFor="raffle-edit-ends"
+            >
               {t('admin.raffle.form.endsAt')}
             </label>
             <input

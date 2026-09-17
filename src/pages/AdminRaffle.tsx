@@ -100,8 +100,7 @@ function statusTone(status: string): string {
 
 function getErrorMessage(error: unknown, fallback: string): string {
   if (error && typeof error === 'object' && 'response' in error) {
-    const detail = (error as { response?: { data?: { detail?: unknown } } }).response?.data
-      ?.detail;
+    const detail = (error as { response?: { data?: { detail?: unknown } } }).response?.data?.detail;
     if (typeof detail === 'string' && detail.trim()) return detail;
   }
   if (error instanceof Error && error.message) return error.message;
@@ -212,7 +211,6 @@ export default function AdminRaffle() {
       notify.error(getErrorMessage(err, t('admin.raffle.toast.historyError')));
     },
   });
-
 
   const awardMutation = useMutation({
     mutationFn: ({ campaignId, winnerId }: { campaignId: number; winnerId: number }) =>
@@ -437,16 +435,15 @@ export default function AdminRaffle() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 border-t border-dark-700 pt-3 sm:border-0 sm:pt-0">
-                  {canRead &&
-                    (campaign.status === 'drawn' || campaign.winners > 0) && (
-                      <button
-                        disabled={busy}
-                        onClick={() => handleHistory(campaign)}
-                        className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
-                      >
-                        {t('admin.raffle.actions.history')}
-                      </button>
-                    )}
+                  {canRead && (campaign.status === 'drawn' || campaign.winners > 0) && (
+                    <button
+                      disabled={busy}
+                      onClick={() => handleHistory(campaign)}
+                      className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
+                    >
+                      {t('admin.raffle.actions.history')}
+                    </button>
+                  )}
                   {canEdit && (
                     <>
                       {(campaign.status === 'draft' ||
@@ -536,7 +533,8 @@ export default function AdminRaffle() {
                 )}
                 {(winnersModal.drawSeed || winnersModal.drawAlgorithm) && (
                   <p className="mt-1 break-all text-xs text-dark-500">
-                    {t('admin.raffle.fairness')}: {winnersModal.drawAlgorithm || 'weighted_unique_v1'}
+                    {t('admin.raffle.fairness')}:{' '}
+                    {winnersModal.drawAlgorithm || 'weighted_unique_v1'}
                     {winnersModal.drawSeed ? ` · seed ${winnersModal.drawSeed}` : ''}
                   </p>
                 )}
