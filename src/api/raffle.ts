@@ -5,6 +5,7 @@ export interface RafflePrizeSlot {
   prize_type: string;
   prize_value?: number | null;
   prize_text?: string | null;
+  image_url?: string | null;
 }
 
 export interface RaffleCampaignSummary {
@@ -21,8 +22,6 @@ export interface RaffleCampaignSummary {
   max_winners: number;
   tickets_per_purchase?: number;
   tickets_by_tariff?: Record<string, number> | null;
-  pool_tickets?: number;
-  pool_users?: number;
 }
 
 export interface RaffleTicketItem {

@@ -8,6 +8,7 @@ export interface RafflePrizeSlot {
   prize_type: RafflePrizeType | string;
   prize_value?: number | null;
   prize_text?: string | null;
+  image_url?: string | null;
 }
 
 export interface AdminRaffleCampaign {
@@ -53,6 +54,21 @@ export interface CreateRaffleCampaignRequest {
   skip_trial_purchases?: boolean;
   starts_at?: string | null;
   ends_at?: string | null;
+}
+
+export interface UpdateRaffleCampaignRequest {
+  name?: string | null;
+  description?: string | null;
+  ends_at?: string | null;
+  clear_ends_at?: boolean;
+  prize_type?: RafflePrizeType | string | null;
+  prize_value?: number | null;
+  prize_text?: string | null;
+  prize_slots?: RafflePrizeSlot[] | null;
+  tickets_per_purchase?: number | null;
+  tickets_by_tariff?: Record<string, number> | null;
+  skip_trial_purchases?: boolean | null;
+  starts_at?: string | null;
 }
 
 export interface AdminRaffleWinner {
@@ -139,5 +155,22 @@ export const adminRaffleApi = {
       `/cabinet/admin/raffle/campaigns/${campaignId}/winners/${winnerId}/award`,
     );
     return response.data;
+  },
+
+  updateCampaign: async (
+    campaignId: number,
+    data: UpdateRaffleCampaignRequest,
+  ): Promise<AdminRaffleCampaign> => {
+    const response = await apiClient.patch<AdminRaffleCampaign>(
+      `/cabinet/admin/raffle/campaigns/${campaignId}`,
+      data,
+    );
+    return response.data;
+  },
+
+  deleteCampaign: async (campaignId: number, force = false): Promise<void> => {
+    await apiClient.delete(`/cabinet/admin/raffle/campaigns/${campaignId}`, {
+      params: force ? { force: true } : undefined,
+    });
   },
 };

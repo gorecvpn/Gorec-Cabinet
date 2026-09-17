@@ -96,6 +96,7 @@ const AdminApps = lazyWithRetry(() => import('./pages/AdminApps'));
 const AdminWheel = lazyWithRetry(() => import('./pages/AdminWheel'));
 const AdminRaffle = lazyWithRetry(() => import('./pages/AdminRaffle'));
 const AdminRaffleCreate = lazyWithRetry(() => import('./pages/AdminRaffleCreate'));
+const AdminRaffleEdit = lazyWithRetry(() => import('./pages/AdminRaffleEdit'));
 const AdminTariffs = lazyWithRetry(() => import('./pages/AdminTariffs'));
 const AdminTariffCreate = lazyWithRetry(() => import('./pages/AdminTariffCreate'));
 const AdminServers = lazyWithRetry(() => import('./pages/AdminServers'));
@@ -759,6 +760,16 @@ function App() {
             <PermissionRoute permission="raffle:create">
               <LazyPage>
                 <AdminRaffleCreate />
+              </LazyPage>
+            </PermissionRoute>
+          }
+        />
+        <Route
+          path="/admin/raffle/:id/edit"
+          element={
+            <PermissionRoute permission="raffle:edit">
+              <LazyPage>
+                <AdminRaffleEdit />
               </LazyPage>
             </PermissionRoute>
           }

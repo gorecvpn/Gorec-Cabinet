@@ -6125,7 +6125,9 @@
         "close": "Close",
         "draw": "Draw",
         "history": "History",
-        "retryAward": "Award prize"
+        "retryAward": "Award prize",
+        "edit": "Edit",
+        "delete": "Delete"
       },
       "confirm": {
         "activateTitle": "Activate campaign?",
@@ -6133,7 +6135,10 @@
         "closeTitle": "Close campaign?",
         "close": "“{{name}}” will stop issuing tickets.",
         "drawTitle": "Run the draw?",
-        "draw": "Draw “{{name}}” among {{count}} tickets? Up to {{winners}} unique winners will be selected. This cannot be undone."
+        "draw": "Draw “{{name}}” among {{count}} tickets? Up to {{winners}} unique winners will be selected. This cannot be undone.",
+        "deleteTitle": "Delete campaign?",
+        "delete": "Delete “{{name}}” with all tickets and winners? This cannot be undone.",
+        "deleteActive": "Campaign “{{name}}” is active. Force-delete will remove all tickets. Continue?"
       },
       "toast": {
         "activated": "Campaign activated",
@@ -6144,7 +6149,11 @@
         "createError": "Failed to create campaign",
         "historyError": "Failed to load history",
         "awarded": "Prize awarded",
-        "awardError": "Failed to award prize"
+        "awardError": "Failed to award prize",
+        "updated": "Campaign updated",
+        "updateError": "Failed to update campaign",
+        "deleted": "Campaign deleted",
+        "deleteError": "Failed to delete campaign"
       },
       "winnersTitle": "Winners",
       "winnersSubtitle": "Campaign #{{id}}",
@@ -6188,7 +6197,16 @@
         "ticketsByTariffInvalid": "Per-tariff tickets must be 1–50",
         "noTariffs": "No tariffs found",
         "skipTrial": "Skip trial purchases",
-        "skipTrialHint": "Do not issue tickets for zero/trial subscription payments."
+        "skipTrialHint": "Do not issue tickets for zero/trial subscription payments.",
+        "imageUrl": "Prize image URL",
+        "imageUrlPlaceholder": "https://… or /path/to/image.jpg",
+        "imageUrlHint": "HTTPS URL or server path. File upload is not wired yet.",
+        "imageUrlInvalid": "Use an https:// URL or a path starting with /",
+        "save": "Save",
+        "editForbidden": "Editing is not available for this status",
+        "editForbiddenDrawn": "A drawn campaign cannot be edited. You can delete it from the list.",
+        "editActiveHint": "You can extend the end date and edit prize places on an active campaign. Ticket issuance rules stay locked.",
+        "endsAtExtendHint": "You can extend or change the end date of an active campaign."
       },
       "historyTitle": "Draw history",
       "historySubtitleNamed": "“{{name}}” · #{{id}}",
@@ -6202,7 +6220,9 @@
         "awarded": "Awarded"
       },
       "fairness": "Fairness",
-      "ticketsPerPurchase": "Tickets/purchase"
+      "ticketsPerPurchase": "Tickets/purchase",
+      "editTitle": "Edit raffle",
+      "editSubtitle": "“{{name}}” · status: {{status}}"
     }
   },
   "adminUpdates": {
