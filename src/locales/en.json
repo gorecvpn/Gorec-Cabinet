@@ -6123,7 +6123,8 @@
       "actions": {
         "activate": "Activate",
         "close": "Close",
-        "draw": "Draw"
+        "draw": "Draw",
+        "history": "History"
       },
       "confirm": {
         "activateTitle": "Activate campaign?",
@@ -6131,7 +6132,7 @@
         "closeTitle": "Close campaign?",
         "close": "“{{name}}” will stop issuing tickets.",
         "drawTitle": "Run the draw?",
-        "draw": "Draw “{{name}}” among {{count}} tickets? This cannot be undone."
+        "draw": "Draw “{{name}}” among {{count}} tickets? Up to {{winners}} unique winners will be selected. This cannot be undone."
       },
       "toast": {
         "activated": "Campaign activated",
@@ -6139,7 +6140,8 @@
         "drawn": "Draw completed",
         "created": "Campaign created",
         "actionError": "Action failed",
-        "createError": "Failed to create campaign"
+        "createError": "Failed to create campaign",
+        "historyError": "Failed to load history"
       },
       "winnersTitle": "Winners",
       "winnersSubtitle": "Campaign #{{id}}",
@@ -6154,7 +6156,7 @@
         "startsAt": "Starts at",
         "startsAtHint": "If empty, the bot uses the current time",
         "endsAt": "Ends at",
-        "maxWinners": "Number of winners",
+        "maxWinners": "How many prizes / winners",
         "maxWinnersInvalid": "Winners must be between 1 and 1000",
         "prizeType": "Prize type",
         "prizeTypeDays": "Subscription days",
@@ -6165,7 +6167,20 @@
         "prizeValueRequired": "Prize value must be greater than 0",
         "prizeText": "Prize description",
         "prizeTextRequired": "Custom prize requires text",
-        "submit": "Create"
+        "submit": "Create",
+        "maxWinnersHint": "That many unique users will be selected in the draw (weighted by tickets).",
+        "maxWinnersPrizeHint": "The prize below is awarded to every winner (places 1–N)."
+      },
+      "historyTitle": "Draw history",
+      "historySubtitleNamed": "“{{name}}” · #{{id}}",
+      "historyEmpty": "No winners yet (no tickets or the draw stored no rows).",
+      "drawnAt": "Drawn at",
+      "history": {
+        "place": "Place",
+        "user": "User",
+        "ticket": "Ticket",
+        "prize": "Prize",
+        "awarded": "Awarded"
       }
     }
   },

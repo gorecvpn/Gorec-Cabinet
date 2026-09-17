@@ -18,6 +18,8 @@ export interface AdminRaffleCampaign {
   unique_users: number;
   winners: number;
   created_at: string | null;
+  updated_at?: string | null;
+  drawn_at?: string | null;
 }
 
 export interface AdminRaffleCampaignListResponse {
@@ -38,18 +40,33 @@ export interface CreateRaffleCampaignRequest {
 
 export interface AdminRaffleWinner {
   id: number;
+  campaign_id: number;
   user_id: number;
+  telegram_id?: number | null;
+  username?: string | null;
+  first_name?: string | null;
+  display_name?: string | null;
+  ticket_id?: number | null;
   ticket_code: string | null;
   place: number;
   prize_type: string | null;
   prize_value: number | null;
   prize_text: string | null;
   awarded: boolean;
+  awarded_at?: string | null;
+  created_at?: string | null;
 }
 
 export interface AdminRaffleDrawResponse {
   campaign_id: number;
   status: string;
+  drawn_at?: string | null;
+  winners: AdminRaffleWinner[];
+}
+
+export interface AdminRaffleCampaignDetailResponse {
+  enabled: boolean;
+  campaign: AdminRaffleCampaign;
   winners: AdminRaffleWinner[];
 }
 
@@ -58,6 +75,13 @@ export const adminRaffleApi = {
     const response = await apiClient.get<AdminRaffleCampaignListResponse>(
       '/cabinet/admin/raffle/campaigns',
       { params: { limit, offset } },
+    );
+    return response.data;
+  },
+
+  getCampaign: async (campaignId: number): Promise<AdminRaffleCampaignDetailResponse> => {
+    const response = await apiClient.get<AdminRaffleCampaignDetailResponse>(
+      `/cabinet/admin/raffle/campaigns/${campaignId}`,
     );
     return response.data;
   },

@@ -175,9 +175,9 @@ export default function AdminRaffleCreate() {
           </div>
         </div>
 
-        <div>
+        <div className="rounded-2xl border border-accent-500/30 bg-accent-500/5 p-4">
           <label
-            className="mb-1.5 block text-sm font-medium text-dark-300"
+            className="mb-1.5 block text-sm font-semibold text-accent-200"
             htmlFor="raffle-max-winners"
           >
             {t('admin.raffle.form.maxWinners')}
@@ -189,9 +189,11 @@ export default function AdminRaffleCreate() {
             max={1000}
             value={maxWinners}
             onChange={createNumberInputHandler(setMaxWinners, 1, 1000)}
-            className="w-full rounded-xl border border-dark-600 bg-dark-900 px-3 py-2 text-dark-100 outline-none focus:border-accent-500"
+            className="w-full rounded-xl border border-accent-500/40 bg-dark-900 px-3 py-2 text-lg font-semibold text-dark-100 outline-none focus:border-accent-500"
             required
           />
+          <p className="mt-2 text-xs text-dark-400">{t('admin.raffle.form.maxWinnersHint')}</p>
+          <p className="mt-1 text-xs text-dark-500">{t('admin.raffle.form.maxWinnersPrizeHint')}</p>
         </div>
 
         <div>
