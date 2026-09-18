@@ -7,6 +7,7 @@ import { tariffsApi } from '../api/tariffs';
 import { AdminBackButton } from '../components/admin';
 import { useNotify } from '@/platform';
 import { createNumberInputHandler } from '../utils/inputHelpers';
+import { PrizeImageField } from '@/components/raffle/PrizeImageField';
 import { Skeleton, SkeletonGroup } from '@/components/ui/skeleton';
 
 function toIsoOrNull(localValue: string): string | null {
@@ -351,19 +352,7 @@ export default function AdminRaffleEdit() {
   }
 
   const renderImageField = (value: string, onChange: (v: string) => void, id: string) => (
-    <div className="mt-2">
-      <label className="mb-1 block text-xs font-medium text-dark-400" htmlFor={id}>
-        {t('admin.raffle.form.imageUrl')}
-      </label>
-      <input
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={t('admin.raffle.form.imageUrlPlaceholder')}
-        className="w-full rounded-lg border border-dark-600 bg-dark-950 px-3 py-2 text-sm text-dark-100 outline-none focus:border-accent-500"
-      />
-      <p className="mt-1 text-[11px] text-dark-500">{t('admin.raffle.form.imageUrlHint')}</p>
-    </div>
+    <PrizeImageField id={id} value={value} onChange={onChange} compact />
   );
 
   return (

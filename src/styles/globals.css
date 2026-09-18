@@ -1883,3 +1883,12 @@ input[type="checkbox"]:hover:not(:checked) {
     animation: none;
   }
 }
+
+/* Raffle prize images — reduce long-press save/copy in Telegram Mini App + mobile browsers */
+.prize-image-protected {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: auto;
+  touch-action: pan-y;
+}
