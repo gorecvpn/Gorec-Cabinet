@@ -7399,8 +7399,6 @@
     "prizeDays": "{{count}} дней подписки",
     "prizeBalance": "{{amount}} ₽ на баланс",
     "prizeCustom": "Специальный приз",
-    "pool": "Пул",
-    "poolStats": "{{tickets}} билетов · {{users}} участников",
     "countdown": "До конца",
     "countdownValue": "{{days}}д {{hours}}:{{minutes}}:{{seconds}}",
     "ended": "Завершён",

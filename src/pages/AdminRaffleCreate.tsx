@@ -192,8 +192,13 @@ export default function AdminRaffleCreate() {
       prize_type = normalized.prize_type;
       prize_value = normalized.prize_value;
       prize_text = normalized.prize_text;
+      // Bot sets max_winners from prize_slots length when slots are present.
+      // Expand to N identical slots so image_url does not collapse max_winners to 1.
       if (normalized.image_url) {
-        prize_slots = [{ place: 1, ...normalized }];
+        prize_slots = Array.from({ length: max_winners }, (_, i) => ({
+          place: i + 1,
+          ...normalized,
+        }));
       }
     }
 

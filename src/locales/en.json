@@ -6792,8 +6792,6 @@
     "prizeDays": "{{count}} days of subscription",
     "prizeBalance": "{{amount}} ₽ balance",
     "prizeCustom": "Special prize",
-    "pool": "Pool",
-    "poolStats": "{{tickets}} tickets · {{users}} users",
     "countdown": "Time left",
     "countdownValue": "{{days}}d {{hours}}:{{minutes}}:{{seconds}}",
     "ended": "Ended",

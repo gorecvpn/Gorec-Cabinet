@@ -1,6 +1,6 @@
 ---
 name: Feat Gorec
-about: Создать запрос на фичу «Бедолаге»
+about: Создать запрос на фичу Gorec Cabinet
 title: '[FEAT] Заголовок'
 labels: ''
 assignees: ''
