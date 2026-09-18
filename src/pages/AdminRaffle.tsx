@@ -402,9 +402,9 @@ export default function AdminRaffle() {
                     </span>
                   </div>
                   {campaign.description && (
-                    <p className="mb-2 text-sm text-dark-400 [overflow-wrap:anywhere]">
+                    <div className="whitespace-pre-wrap mb-2 text-sm text-dark-400 [overflow-wrap:anywhere]">
                       {campaign.description}
-                    </p>
+                    </div>
                   )}
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-dark-400">
                     <span className="text-accent-300">{formatPrize(campaign, t)}</span>

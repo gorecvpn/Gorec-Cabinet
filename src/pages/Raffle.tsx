@@ -174,9 +174,9 @@ export default function Raffle() {
                   {campaign.name}
                 </h2>
                 {campaign.description && (
-                  <p className="mt-1.5 text-sm leading-relaxed text-dark-400 [overflow-wrap:anywhere]">
+                  <div className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-dark-400 [overflow-wrap:anywhere]">
                     {campaign.description}
-                  </p>
+                  </div>
                 )}
               </div>
               <div className="shrink-0 rounded-full bg-accent-500/15 px-3 py-1 text-sm font-medium text-accent-400">
