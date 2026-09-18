@@ -12,6 +12,7 @@ export interface ButtonStylesConfig {
   subscription: ButtonSectionConfig;
   balance: ButtonSectionConfig;
   referral: ButtonSectionConfig;
+  raffle: ButtonSectionConfig;
   support: ButtonSectionConfig;
   info: ButtonSectionConfig;
   admin: ButtonSectionConfig;
@@ -26,6 +27,7 @@ export const BUTTON_SECTIONS = [
   'subscription',
   'balance',
   'referral',
+  'raffle',
   'support',
   'info',
   'admin',
@@ -50,6 +52,11 @@ export const DEFAULT_BUTTON_STYLES: ButtonStylesConfig = {
   subscription: { ...DEFAULT_SECTION, style: 'success' },
   balance: { ...DEFAULT_SECTION, style: 'primary' },
   referral: { ...DEFAULT_SECTION, style: 'success' },
+  raffle: {
+    ...DEFAULT_SECTION,
+    style: 'primary',
+    labels: { ru: '🎫 Розыгрыш', en: '🎫 Raffle' },
+  },
   support: { ...DEFAULT_SECTION, style: 'primary' },
   info: { ...DEFAULT_SECTION, style: 'primary' },
   admin: { ...DEFAULT_SECTION, style: 'danger' },
@@ -57,11 +64,18 @@ export const DEFAULT_BUTTON_STYLES: ButtonStylesConfig = {
 
 function normalizeConfig(data: ButtonStylesConfig): ButtonStylesConfig {
   const result = {} as ButtonStylesConfig;
+  const incoming = data && typeof data === 'object' ? data : ({} as ButtonStylesConfig);
   for (const section of BUTTON_SECTIONS) {
+    const defaults = DEFAULT_BUTTON_STYLES[section];
+    const saved = incoming[section];
     result[section] = {
       ...DEFAULT_SECTION,
-      ...data[section],
-      labels: { ...(data[section]?.labels || {}) },
+      ...defaults,
+      ...saved,
+      labels: {
+        ...(defaults.labels || {}),
+        ...(saved?.labels || {}),
+      },
     };
   }
   return result;

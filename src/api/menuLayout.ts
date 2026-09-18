@@ -31,6 +31,7 @@ export const BUILTIN_SECTIONS = [
   'subscription',
   'balance',
   'referral',
+  'raffle',
   'support',
   'info',
   'admin',
