@@ -66,7 +66,8 @@
     }
   },
   "navShort": {
-    "wheel": "Колесо"
+    "wheel": "Колесо",
+    "raffle": "Розыгрыш"
   },
   "nav": {
     "dashboard": "Главная",

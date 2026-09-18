@@ -9,7 +9,8 @@ export type MobileNavKey =
   | 'balance'
   | 'wheel'
   | 'referral'
-  | 'support';
+  | 'support'
+  | 'raffle';
 
 export interface MobileNavItem {
   /** Ключ пункта: хвост ключа перевода `nav.*` и ключ иконки в панели. */
@@ -20,6 +21,8 @@ export interface MobileNavItem {
 export interface MobileNavFlags {
   readonly wheelEnabled?: boolean;
   readonly referralEnabled?: boolean;
+  /** Когда включён розыгрыш — последняя кнопка панели = розыгрыш, иначе поддержка. */
+  readonly raffleEnabled?: boolean;
 }
 
 const HEAD: readonly MobileNavItem[] = [
@@ -28,13 +31,13 @@ const HEAD: readonly MobileNavItem[] = [
   { key: 'balance', path: '/balance' },
 ];
 const SUPPORT: MobileNavItem = { key: 'support', path: '/support' };
+const RAFFLE: MobileNavItem = { key: 'raffle', path: '/raffle' };
 const WHEEL: MobileNavItem = { key: 'wheel', path: '/wheel' };
 const REFERRAL: MobileNavItem = { key: 'referral', path: '/referral' };
 
 /**
- * Поддержка есть всегда: платящему клиенту с проблемой помощь нужна в основной
- * навигации, а не в меню шапки. Под колесо и рефералку остаётся один слот:
- * колесо (оператор включил его как бренд-момент) важнее, рефералка уходит в шапку.
+ * Последний слот: розыгрыш (если RAFFLE_ENABLED) или поддержка. Под колесо и
+ * рефералку остаётся один слот перед ним: колесо важнее рефералки.
  */
 function slotItems({ wheelEnabled, referralEnabled }: MobileNavFlags): readonly MobileNavItem[] {
   if (wheelEnabled) return [WHEEL];
@@ -42,8 +45,12 @@ function slotItems({ wheelEnabled, referralEnabled }: MobileNavFlags): readonly 
   return [];
 }
 
+function trailingItem({ raffleEnabled }: MobileNavFlags): MobileNavItem {
+  return raffleEnabled ? RAFFLE : SUPPORT;
+}
+
 export function mobileNavItems(flags: MobileNavFlags): readonly MobileNavItem[] {
-  return [...HEAD, ...slotItems(flags), SUPPORT];
+  return [...HEAD, ...slotItems(flags), trailingItem(flags)];
 }
 
 function withoutTrailingSlash(pathname: string): string {

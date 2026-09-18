@@ -89,7 +89,7 @@ export function AppShell({ children }: AppShellProps) {
 
   // Нижняя панель живёт только на экранах своих кнопок; на остальных её нет и
   // место под неё не резервируется (data-mobile-nav="off" → --mobile-nav-clearance).
-  const navItems = mobileNavItems({ wheelEnabled, referralEnabled });
+  const navItems = mobileNavItems({ wheelEnabled, referralEnabled, raffleEnabled });
   const showMobileNav = isMobileNavScreen(location.pathname, navItems);
 
   // Desktop navigation — labels always visible (no hover-reveal gimmick)
