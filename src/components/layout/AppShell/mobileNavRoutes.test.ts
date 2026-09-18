@@ -41,13 +41,9 @@ describe('mobileNavItems', () => {
   });
 
   it('ключ пункта совпадает с ключом перевода nav.*', () => {
-    expect(mobileNavItems({ wheelEnabled: true, raffleEnabled: true }).map((item) => item.key)).toEqual([
-      'dashboard',
-      'subscription',
-      'balance',
-      'wheel',
-      'raffle',
-    ]);
+    expect(
+      mobileNavItems({ wheelEnabled: true, raffleEnabled: true }).map((item) => item.key),
+    ).toEqual(['dashboard', 'subscription', 'balance', 'wheel', 'raffle']);
   });
 });
 

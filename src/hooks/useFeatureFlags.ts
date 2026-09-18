@@ -93,7 +93,15 @@ export function useFeatureFlags() {
   };
 
   useEffect(() => {
-    if (!referralTerms && !wheelConfig && !contestsCount && !raffleSummary && !pollsCount && !giftConfig) return;
+    if (
+      !referralTerms &&
+      !wheelConfig &&
+      !contestsCount &&
+      !raffleSummary &&
+      !pollsCount &&
+      !giftConfig
+    )
+      return;
     try {
       localStorage.setItem(FLAGS_CACHE_KEY, JSON.stringify(flags));
     } catch {

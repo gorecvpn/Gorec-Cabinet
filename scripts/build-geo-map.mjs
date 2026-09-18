@@ -19,10 +19,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const HANDOFF = resolve(
-  process.env.HOME ?? '',
-  'PycharmProjects/GorecVPN-/.claude/handoffs/geo',
-);
+const HANDOFF = resolve(process.env.HOME ?? '', 'PycharmProjects/GorecVPN-/.claude/handoffs/geo');
 const [geojsonPath, coordsPath, nodesPath] = [
   process.argv[2] ?? resolve(HANDOFF, 'ru-regions-lite.geojson'),
   process.argv[3] ?? resolve(HANDOFF, 'citycoords.json'),

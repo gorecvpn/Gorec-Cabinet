@@ -26,8 +26,7 @@ function resolvePrizeImageUrl(url: string | null | undefined): string | null {
   if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) {
     try {
       const parsed = new URL(trimmed);
-      const sameOrigin =
-        typeof window !== 'undefined' && parsed.host === window.location.host;
+      const sameOrigin = typeof window !== 'undefined' && parsed.host === window.location.host;
       if (sameOrigin && parsed.pathname.startsWith('/uploads/')) {
         return `${apiBase}${parsed.pathname}${parsed.search}`;
       }

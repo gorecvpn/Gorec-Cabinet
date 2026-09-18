@@ -105,7 +105,6 @@ export interface AdminRaffleCampaignDetailResponse {
   winners: AdminRaffleWinner[];
 }
 
-
 export interface RaffleImageUploadResponse {
   url: string;
   thumbnail_url: string | null;
@@ -178,7 +177,6 @@ export const adminRaffleApi = {
     );
     return response.data;
   },
-
 
   uploadPrizeImage: async (file: File): Promise<RaffleImageUploadResponse> => {
     const formData = new FormData();

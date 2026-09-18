@@ -6,7 +6,15 @@ import { cn } from '@/lib/utils';
 import { usePlatform } from '@/platform';
 import { HIDDEN_UNDER_KEYBOARD, useVirtualKeyboard } from '@/hooks/useVirtualKeyboard';
 
-import { HomeIcon, SubscriptionIcon, WalletIcon, UsersIcon, ChatIcon, WheelIcon, TrophyIcon } from './icons';
+import {
+  HomeIcon,
+  SubscriptionIcon,
+  WalletIcon,
+  UsersIcon,
+  ChatIcon,
+  WheelIcon,
+  TrophyIcon,
+} from './icons';
 import type { MobileNavItem, MobileNavKey } from './mobileNavRoutes';
 
 type NavIcon = React.ComponentType<{ className?: string }>;
