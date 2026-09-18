@@ -6109,7 +6109,7 @@
       "prizeDays_one": "{{count}} subscription day",
       "prizeDays_other": "{{count}} subscription days",
       "prizeDays": "{{count}} subscription days",
-      "prizeBalance": "{{amount}} ₽",
+      "prizeBalance": "{{amount}} ₽",
       "prizeCustom": "Custom prize",
       "stats": {
         "campaigns": "Campaigns",
@@ -6798,7 +6798,7 @@
     "prizeDays_one": "{{count}} day of subscription",
     "prizeDays_other": "{{count}} days of subscription",
     "prizeDays": "{{count}} days of subscription",
-    "prizeBalance": "{{amount}} ₽ balance",
+    "prizeBalance": "{{amount}} ₽ balance",
     "prizeCustom": "Special prize",
     "countdown": "Time left",
     "countdownValue": "{{days}}d {{hours}}:{{minutes}}:{{seconds}}",

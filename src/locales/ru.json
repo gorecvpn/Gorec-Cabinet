@@ -6706,7 +6706,7 @@
       "prizeDays_few": "{{count}} дня подписки",
       "prizeDays_many": "{{count}} дней подписки",
       "prizeDays": "{{count}} дней подписки",
-      "prizeBalance": "{{amount}} ₽",
+      "prizeBalance": "{{amount}} ₽",
       "prizeCustom": "Особый приз",
       "stats": {
         "campaigns": "Кампании",
@@ -7405,7 +7405,7 @@
     "prizeDays_few": "{{count}} дня подписки",
     "prizeDays_many": "{{count}} дней подписки",
     "prizeDays": "{{count}} дней подписки",
-    "prizeBalance": "{{amount}} ₽ на баланс",
+    "prizeBalance": "{{amount}} ₽ на баланс",
     "prizeCustom": "Специальный приз",
     "countdown": "До конца",
     "countdownValue": "{{days}}д {{hours}}:{{minutes}}:{{seconds}}",
