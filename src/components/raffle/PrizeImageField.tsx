@@ -20,11 +20,26 @@ function isPreviewable(url: string): boolean {
 }
 
 function resolvePreviewUrl(url: string): string {
-  if (url.startsWith('/')) {
-    const base = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
-    return `${base}${url}`;
+  const trimmed = url.trim();
+  const apiBase = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+  if (trimmed.startsWith('/') && !trimmed.startsWith('//')) {
+    return `${apiBase}${trimmed}`;
   }
-  return url;
+  if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) {
+    try {
+      const parsed = new URL(trimmed);
+      if (
+        parsed.pathname.startsWith('/uploads/') &&
+        typeof window !== 'undefined' &&
+        parsed.host === window.location.host
+      ) {
+        return `${apiBase}${parsed.pathname}${parsed.search}`;
+      }
+    } catch {
+      /* keep original */
+    }
+  }
+  return trimmed;
 }
 
 export function PrizeImageField({ id, value, onChange, compact = false }: PrizeImageFieldProps) {

@@ -10,11 +10,35 @@ function resolvePrizeImageUrl(url: string | null | undefined): string | null {
   if (!url) return null;
   const trimmed = url.trim();
   if (!trimmed) return null;
-  if (trimmed.startsWith('https://')) return trimmed;
-  if (trimmed.startsWith('/')) {
-    const base = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
-    return `${base}${trimmed}`;
+
+  const apiBase = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
+  // Site-relative /uploads/... → serve via API proxy (/api/uploads/...)
+  if (trimmed.startsWith('/') && !trimmed.startsWith('//')) {
+    return `${apiBase}${trimmed}`;
   }
+
+  // Absolute URL whose path is /uploads/... on this cabinet host:
+  // historically upload API built https://cabinet/.../uploads/... but Caddy
+  // only proxied /api/* → bot, so bare /uploads hit the SPA (blank card).
+  // Rewrite same-origin /uploads to the API proxy so already-saved URLs work
+  // before/without a Caddy /uploads route.
+  if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) {
+    try {
+      const parsed = new URL(trimmed);
+      const sameOrigin =
+        typeof window !== 'undefined' && parsed.host === window.location.host;
+      if (sameOrigin && parsed.pathname.startsWith('/uploads/')) {
+        return `${apiBase}${parsed.pathname}${parsed.search}`;
+      }
+    } catch {
+      return null;
+    }
+    // External https prize photos (CDN / Telegram CDN) still work as-is.
+    if (trimmed.startsWith('https://')) return trimmed;
+    return null;
+  }
+
   return null;
 }
 
