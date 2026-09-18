@@ -337,15 +337,3 @@ Gorec-Cabinet/
 ## Связанные проекты
 
 - [GorecBot](https://github.com/gorecvpn/GorecVPN-) — Backend бота
-- [Gorec Chat](https://t.me/+wTdMtSWq8YdmZmVi) — Чат поддержки
-
-## Контакты
-
-- Telegram: [@fringg](https://t.me/fringg)
-- Telegram: [@pedzeo](https://t.me/pedzeo)
-- Чат: [Gorec Chat](https://t.me/+wTdMtSWq8YdmZmVi)
-
-
----
-
-> Working copy for **gorecvpn/Gorec-Cabinet**, based on [BEDOLAGA-DEV/bedolaga-cabinet](https://github.com/BEDOLAGA-DEV/bedolaga-cabinet).
