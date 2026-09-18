@@ -1,6 +1,6 @@
 ---
 name: Bug Gorec
-about: Создать баг-репорт «Бедолаге»
+about: Создать баг-репорт Gorec Cabinet
 title: '[BUG] Заголовок'
 labels: ''
 assignees: ''

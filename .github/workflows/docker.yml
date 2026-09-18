@@ -73,7 +73,7 @@ jobs:
             VITE_APP_LOGO=V
 
       # OCI-референсы требуют lowercase, а github.repository сохраняет регистр
-      # (BEDOLAGA-DEV/…) — Trivy падал бы на 'repository name must be lowercase'.
+      # (e.g. MixedCase/Org) — Trivy падал бы на 'repository name must be lowercase'.
       - name: Lowercase image name for Trivy
         if: github.event_name != 'pull_request'
         id: image

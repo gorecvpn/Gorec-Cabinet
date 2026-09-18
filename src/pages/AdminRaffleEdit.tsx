@@ -236,6 +236,8 @@ export default function AdminRaffleEdit() {
       }
       prize_slots = built;
     } else if (isDraft) {
+      // Bot derives max_winners from prize_slots length when slots are sent.
+      // Expand the single prize to N identical slots so max_winners + image_url stay in sync.
       const winners = typeof maxWinners === 'number' ? maxWinners : Number(maxWinners);
       if (!Number.isFinite(winners) || winners < 1 || winners > 1000) {
         setFormError(t('admin.raffle.form.maxWinnersInvalid'));
@@ -249,17 +251,22 @@ export default function AdminRaffleEdit() {
       prize_type = normalized.prize_type;
       prize_value = normalized.prize_value;
       prize_text = normalized.prize_text;
-      // Represent single prize as one slot so image_url can be stored
-      prize_slots = [{ place: 1, ...normalized }];
+      prize_slots = Array.from({ length: winners }, (_, i) => ({
+        place: i + 1,
+        ...normalized,
+      }));
     } else {
-      // Active/closed without slots mode: keep editing via slots UI preferred;
-      // still allow converting single prize fields into one slot.
+      // Active/closed: useSlots toggle is locked; this branch is a safety net only.
+      const winners = Math.max(1, campaign?.max_winners || 1);
       const normalized = normalizePrize(prizeType, prizeValue, prizeText, prizeImageUrl);
       if (typeof normalized === 'string') {
         setFormError(normalized);
         return;
       }
-      prize_slots = [{ place: 1, ...normalized }];
+      prize_slots = Array.from({ length: winners }, (_, i) => ({
+        place: i + 1,
+        ...normalized,
+      }));
     }
 
     const payload: Parameters<typeof adminRaffleApi.updateCampaign>[1] = {
@@ -462,7 +469,8 @@ export default function AdminRaffleEdit() {
                 type="checkbox"
                 checked={useSlots}
                 onChange={(e) => setUseSlots(e.target.checked)}
-                className="rounded border-dark-600"
+                disabled={!isDraft}
+                className="rounded border-dark-600 disabled:opacity-60"
               />
               {t('admin.raffle.form.usePrizeSlots')}
             </label>

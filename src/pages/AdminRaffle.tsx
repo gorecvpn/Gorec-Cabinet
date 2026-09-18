@@ -485,6 +485,7 @@ export default function AdminRaffle() {
                         </button>
                       )}
                       {(campaign.status === 'draft' ||
+                        campaign.status === 'active' ||
                         campaign.status === 'closed' ||
                         campaign.status === 'drawn') && (
                         <button
