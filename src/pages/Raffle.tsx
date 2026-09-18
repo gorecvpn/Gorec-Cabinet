@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { raffleApi, type RaffleCampaignSummary, type RafflePrizeSlot } from '../api/raffle';
 import { TrophyIcon } from '@/components/icons';
 import { PageSkeleton, Skeleton } from '@/components/ui/skeleton';
+import { ProtectedPrizeImage } from '@/components/raffle/ProtectedPrizeImage';
 
 function resolvePrizeImageUrl(url: string | null | undefined): string | null {
   if (!url) return null;
@@ -97,13 +98,7 @@ function PrizeSlotCard({
     <li className="overflow-hidden rounded-2xl border border-dark-700/80 bg-dark-900/40 shadow-sm">
       {imageUrl ? (
         <div className="aspect-[16/10] w-full bg-dark-800">
-          <img
-            src={imageUrl}
-            alt={title}
-            className="h-full w-full object-cover"
-            loading="lazy"
-            referrerPolicy="no-referrer"
-          />
+          <ProtectedPrizeImage src={imageUrl} alt={title} />
         </div>
       ) : null}
       <div className="flex items-center justify-between gap-3 px-3.5 py-3">

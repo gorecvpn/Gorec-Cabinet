@@ -105,6 +105,17 @@ export interface AdminRaffleCampaignDetailResponse {
   winners: AdminRaffleWinner[];
 }
 
+
+export interface RaffleImageUploadResponse {
+  url: string;
+  thumbnail_url: string | null;
+  media_type: 'image';
+  filename: string;
+  size_bytes: number;
+  width: number | null;
+  height: number | null;
+}
+
 export const adminRaffleApi = {
   listCampaigns: async (limit = 50, offset = 0): Promise<AdminRaffleCampaignListResponse> => {
     const response = await apiClient.get<AdminRaffleCampaignListResponse>(
@@ -168,6 +179,16 @@ export const adminRaffleApi = {
     return response.data;
   },
 
+
+  uploadPrizeImage: async (file: File): Promise<RaffleImageUploadResponse> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await apiClient.post<RaffleImageUploadResponse>(
+      '/cabinet/admin/raffle/upload',
+      formData,
+    );
+    return response.data;
+  },
   deleteCampaign: async (campaignId: number, force = false): Promise<void> => {
     await apiClient.delete(`/cabinet/admin/raffle/campaigns/${campaignId}`, {
       params: force ? { force: true } : undefined,

@@ -7,6 +7,7 @@ import { tariffsApi } from '../api/tariffs';
 import { AdminBackButton } from '../components/admin';
 import { useNotify } from '@/platform';
 import { createNumberInputHandler } from '../utils/inputHelpers';
+import { PrizeImageField } from '@/components/raffle/PrizeImageField';
 
 function toIsoOrNull(localValue: string): string | null {
   if (!localValue.trim()) return null;
@@ -392,22 +393,11 @@ export default function AdminRaffleCreate() {
                   />
                 </div>
               )}
-              <div className="mt-3">
-                <label
-                  className="mb-1.5 block text-sm font-medium text-dark-300"
-                  htmlFor="raffle-prize-image"
-                >
-                  {t('admin.raffle.form.imageUrl')}
-                </label>
-                <input
-                  id="raffle-prize-image"
-                  value={prizeImageUrl}
-                  onChange={(e) => setPrizeImageUrl(e.target.value)}
-                  placeholder={t('admin.raffle.form.imageUrlPlaceholder')}
-                  className="w-full rounded-xl border border-dark-600 bg-dark-900 px-3 py-2 text-dark-100 outline-none focus:border-accent-500"
-                />
-                <p className="mt-1 text-xs text-dark-500">{t('admin.raffle.form.imageUrlHint')}</p>
-              </div>
+              <PrizeImageField
+                id="raffle-prize-image"
+                value={prizeImageUrl}
+                onChange={setPrizeImageUrl}
+              />
             </>
           ) : (
             <div className="space-y-3">
@@ -483,15 +473,15 @@ export default function AdminRaffleCreate() {
                       className="mt-2 w-full rounded-lg border border-dark-600 bg-dark-950 px-3 py-2 text-sm text-dark-100 outline-none focus:border-accent-500"
                     />
                   )}
-                  <input
+                  <PrizeImageField
+                    id={`raffle-slot-image-${index}`}
                     value={slot.image_url}
-                    onChange={(e) =>
+                    onChange={(url) =>
                       setSlots((prev) =>
-                        prev.map((s, i) => (i === index ? { ...s, image_url: e.target.value } : s)),
+                        prev.map((s, i) => (i === index ? { ...s, image_url: url } : s)),
                       )
                     }
-                    placeholder={t('admin.raffle.form.imageUrlPlaceholder')}
-                    className="mt-2 w-full rounded-lg border border-dark-600 bg-dark-950 px-3 py-2 text-sm text-dark-100 outline-none focus:border-accent-500"
+                    compact
                   />
                 </div>
               ))}
