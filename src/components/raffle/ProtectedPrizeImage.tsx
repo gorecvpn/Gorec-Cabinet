@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react';
-
 type ProtectedPrizeImageProps = {
   src: string;
   alt: string;
@@ -7,19 +5,21 @@ type ProtectedPrizeImageProps = {
 };
 
 /**
- * Prize photo that resists Telegram/browser long-press Open/Download/Copy link.
- * Uses CSS background-image (harder to save than <img>) + context-menu/drag guards.
- * Keeps accessibility via role="img" and aria-label; does not block tap/scroll.
+ * Prize photo with light anti-save guards for Telegram Mini App / mobile.
+ * Prefer <img> over CSS background-image — WebViews often fail to paint
+ * background-image when the URL 404s or returns HTML, and <img> is more
+ * reliable for same-origin /api/uploads proxies.
  */
 export function ProtectedPrizeImage({ src, alt, className = '' }: ProtectedPrizeImageProps) {
-  const style = { backgroundImage: `url("${src.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}")` } as CSSProperties;
-
   return (
-    <div
-      role="img"
-      aria-label={alt}
-      className={`prize-image-protected h-full w-full bg-cover bg-center ${className}`.trim()}
-      style={style}
+    <img
+      src={src}
+      alt={alt}
+      draggable={false}
+      loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
+      className={`prize-image-protected h-full w-full object-cover ${className}`.trim()}
       onContextMenu={(e) => e.preventDefault()}
       onDragStart={(e) => e.preventDefault()}
     />
