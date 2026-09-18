@@ -1,6 +1,6 @@
 # Gorec Cabinet - Web Interface
 
-Веб-интерфейс личного кабинета для VPN бота на базе [GorecBot v3.33.0+](https://github.com/gorecvpn/GorecVPN-).
+Веб-интерфейс личного кабинета для VPN бота на базе [GorecBot v3.33.0+](https://github.com/gorecvpn/Gorec).
 
 React + Vite + TypeScript | Авторизация через Telegram | Мультиязычность (EN/RU) | Адаптивный дизайн
 
@@ -336,4 +336,4 @@ Gorec-Cabinet/
 
 ## Связанные проекты
 
-- [GorecBot](https://github.com/gorecvpn/GorecVPN-) — Backend бота
+- [GorecBot](https://github.com/gorecvpn/Gorec) — Backend бота
