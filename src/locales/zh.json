@@ -56,7 +56,8 @@
     }
   },
   "navShort": {
-    "wheel": "转盘"
+    "wheel": "转盘",
+    "raffle": "抽奖"
   },
   "nav": {
     "dashboard": "首页",

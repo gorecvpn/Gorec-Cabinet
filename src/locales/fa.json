@@ -61,7 +61,8 @@
     }
   },
   "navShort": {
-    "wheel": "گردونه"
+    "wheel": "گردونه",
+    "raffle": "قرعه"
   },
   "nav": {
     "dashboard": "داشبورد",

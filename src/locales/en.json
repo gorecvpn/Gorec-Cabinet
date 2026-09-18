@@ -61,7 +61,8 @@
     }
   },
   "navShort": {
-    "wheel": "Wheel"
+    "wheel": "Wheel",
+    "raffle": "Raffle"
   },
   "nav": {
     "dashboard": "Dashboard",
