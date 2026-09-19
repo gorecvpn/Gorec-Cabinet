@@ -59,12 +59,7 @@ export const DEFAULT_BUTTON_STYLES: ButtonStylesConfig = {
 };
 
 /** Old cabinet defaults baked 🎫 into raffle labels; other sections use empty labels. */
-const STALE_RAFFLE_LABELS = new Set([
-  '🎫 Розыгрыш',
-  '🎫 Raffle',
-  '🎁 Розыгрыш',
-  '🎁 Raffle',
-]);
+const STALE_RAFFLE_LABELS = new Set(['🎫 Розыгрыш', '🎫 Raffle']);
 
 function scrubRaffleLabels(labels: Record<string, string>): Record<string, string> {
   const next: Record<string, string> = {};
