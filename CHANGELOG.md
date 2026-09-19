@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.81.0](https://github.com/gorecvpn/Gorec-Cabinet/compare/v1.80.5...v1.81.0) (2026-09-19)
+
+
+### Features
+
+* **menu:** add raffle builtin for Telegram Розыгрыш toggle (1.80.6) ([#26](https://github.com/gorecvpn/Gorec-Cabinet/issues/26)) ([695896e](https://github.com/gorecvpn/Gorec-Cabinet/commit/695896ea5044616505c6d3b537d052cdc3e4f2ed))
+* **raffle:** clearer tariff tickets, grant, winners CSV (1.80.9) ([#29](https://github.com/gorecvpn/Gorec-Cabinet/issues/29)) ([1a9e29e](https://github.com/gorecvpn/Gorec-Cabinet/commit/1a9e29e52d75321b9a3a8a481601f7f142715402))
+
 ## [1.78.0](https://github.com/BEDOLAGA-DEV/bedolaga-cabinet/compare/v1.77.0...v1.78.0) (2026-09-18)
 
 
