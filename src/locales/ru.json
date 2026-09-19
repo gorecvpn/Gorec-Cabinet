@@ -7443,7 +7443,12 @@
     "ended": "Завершён",
     "places": "Призы по местам",
     "place": "{{place}} место",
-    "tariffTicketsHint": "Для некоторых тарифов число билетов отличается — смотрите условия тарифа при покупке."
+    "tariffTicketsHint": "Для некоторых тарифов число билетов отличается — смотрите условия тарифа при покупке.",
+    "progressTitle": "Ваш прогресс",
+    "progressTickets": "Билетов: {{count}}",
+    "progressTimeLeft": "До окончания",
+    "progressDaysLeft": "{{days}} дн. {{hours}} ч.",
+    "progressEndsAt": "Дата окончания: {{date}}"
   },
   "polls": {
     "title": "Опросы",

@@ -420,7 +420,7 @@ export default function AdminRaffle() {
     try {
       const blob = await adminRaffleApi.downloadWinnersCsv(campaignId);
       if (blob) {
-        downloadBlobFile(filename, blob);
+        await downloadBlobFile(filename, blob);
         notify.success(t('admin.raffle.toast.csvDownloaded'));
         return;
       }
@@ -433,7 +433,7 @@ export default function AdminRaffle() {
         notify.error(t('admin.raffle.toast.csvEmpty'));
         return;
       }
-      downloadTextFile(filename, winnersToCsv(rows));
+      await downloadTextFile(filename, winnersToCsv(rows));
       notify.success(t('admin.raffle.toast.csvDownloaded'));
     } catch (err) {
       notify.error(getErrorMessage(err, t('admin.raffle.toast.csvError')));

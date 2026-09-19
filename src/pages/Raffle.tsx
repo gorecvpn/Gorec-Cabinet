@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { raffleApi, type RaffleCampaignSummary, type RafflePrizeSlot } from '../api/raffle';
-import { TrophyIcon } from '@/components/icons';
+import { GiftIcon } from '@/components/icons';
 import { PageSkeleton, Skeleton } from '@/components/ui/skeleton';
 import { ProtectedPrizeImage } from '@/components/raffle/ProtectedPrizeImage';
 
@@ -169,11 +169,22 @@ export default function Raffle() {
   const tickets = data?.tickets ?? [];
   const slots: RafflePrizeSlot[] = campaign?.prize_slots ?? [];
 
+  let progressPct = 0;
+  if (campaign?.starts_at && campaign?.ends_at) {
+    const start = new Date(campaign.starts_at).getTime();
+    const end = new Date(campaign.ends_at).getTime();
+    if (!Number.isNaN(start) && !Number.isNaN(end) && end > start) {
+      progressPct = Math.min(100, Math.max(0, ((Date.now() - start) / (end - start)) * 100));
+    }
+  } else if (countdown?.finished) {
+    progressPct = 100;
+  }
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-500/15">
-          <TrophyIcon className="h-6 w-6 text-accent-400" />
+          <GiftIcon className="h-6 w-6 text-accent-400" />
         </div>
         <div>
           <h1 className="text-2xl font-bold text-dark-50 sm:text-3xl">{t('raffle.title')}</h1>
@@ -183,7 +194,7 @@ export default function Raffle() {
 
       {!enabled || !campaign ? (
         <div className="card py-12 text-center">
-          <TrophyIcon className="mx-auto h-10 w-10 text-dark-500" />
+          <GiftIcon className="mx-auto h-10 w-10 text-dark-500" />
           <p className="mt-4 text-dark-400">
             {!enabled ? t('raffle.disabled') : t('raffle.noCampaign')}
           </p>
@@ -263,6 +274,46 @@ export default function Raffle() {
               {campaign.tickets_by_tariff && Object.keys(campaign.tickets_by_tariff).length > 0 && (
                 <p className="mt-1 text-xs text-dark-500">{t('raffle.tariffTicketsHint')}</p>
               )}
+            </div>
+          </div>
+
+          <div className="card space-y-4">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-lg font-semibold">{t('raffle.progressTitle')}</h3>
+              <span className="rounded-full bg-accent-500/15 px-2.5 py-1 text-sm font-medium text-accent-300">
+                {t('raffle.progressTickets', { count: tickets.length })}
+              </span>
+            </div>
+
+            <div>
+              <div className="mb-2 flex items-center justify-between text-sm">
+                <span className="text-dark-400">{t('raffle.progressTimeLeft')}</span>
+                <span className="font-medium tabular-nums text-dark-100">
+                  {!campaign.ends_at
+                    ? t('raffle.noEndDate')
+                    : countdown?.finished
+                      ? t('raffle.ended')
+                      : t('raffle.progressDaysLeft', {
+                          days: countdown?.days ?? 0,
+                          hours: countdown?.hours ?? 0,
+                        })}
+                </span>
+              </div>
+              <div className="h-2.5 overflow-hidden rounded-full bg-dark-700/80">
+                <div
+                  className="h-full rounded-full bg-accent-500 transition-[width] duration-500"
+                  style={{ width: `${progressPct.toFixed(1)}%` }}
+                  role="progressbar"
+                  aria-valuenow={Math.round(progressPct)}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                />
+              </div>
+              <p className="mt-2 text-xs text-dark-500">
+                {campaign.ends_at
+                  ? t('raffle.progressEndsAt', { date: formatDate(campaign.ends_at, locale) })
+                  : t('raffle.noEndDate')}
+              </p>
             </div>
           </div>
 

@@ -13,7 +13,7 @@ import {
   UsersIcon,
   ChatIcon,
   WheelIcon,
-  TrophyIcon,
+  GiftIcon,
 } from './icons';
 import type { MobileNavItem, MobileNavKey } from './mobileNavRoutes';
 
@@ -26,7 +26,7 @@ const ICONS: Record<MobileNavKey, NavIcon> = {
   wheel: WheelIcon,
   referral: UsersIcon,
   support: ChatIcon,
-  raffle: TrophyIcon,
+  raffle: GiftIcon,
 };
 
 interface MobileBottomNavProps {
