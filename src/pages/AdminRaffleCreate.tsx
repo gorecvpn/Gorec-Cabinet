@@ -8,6 +8,7 @@ import { AdminBackButton } from '../components/admin';
 import { useNotify } from '@/platform';
 import { createNumberInputHandler } from '../utils/inputHelpers';
 import { PrizeImageField } from '@/components/raffle/PrizeImageField';
+import { TicketsByTariffEditor } from '@/components/raffle/TicketsByTariffEditor';
 
 function toIsoOrNull(localValue: string): string | null {
   if (!localValue.trim()) return null;
@@ -45,7 +46,7 @@ export default function AdminRaffleCreate() {
   const [endsAt, setEndsAt] = useState('');
   const [ticketsPerPurchase, setTicketsPerPurchase] = useState<number | ''>(1);
   const [skipTrial, setSkipTrial] = useState(true);
-  const [tariffTickets, setTariffTickets] = useState<Record<string, number | ''>>({});
+  const [tariffTickets, setTariffTickets] = useState<Record<string, number>>({});
   const [formError, setFormError] = useState<string | null>(null);
 
   const { data: tariffsData } = useQuery({
@@ -138,7 +139,6 @@ export default function AdminRaffleCreate() {
 
     const tickets_by_tariff: Record<string, number> = {};
     for (const [tariffId, raw] of Object.entries(tariffTickets)) {
-      if (raw === '' || raw == null) continue;
       const n = typeof raw === 'number' ? raw : Number(raw);
       if (!Number.isFinite(n) || n < 1 || n > 50) {
         setFormError(t('admin.raffle.form.ticketsByTariffInvalid'));
@@ -529,46 +529,12 @@ export default function AdminRaffleCreate() {
           </label>
           <p className="mt-1 text-xs text-dark-500">{t('admin.raffle.form.skipTrialHint')}</p>
 
-          <div className="mt-4 space-y-2">
-            <p className="text-sm font-medium text-dark-200">
-              {t('admin.raffle.form.ticketsByTariff')}
-            </p>
-            <p className="text-xs text-dark-500">{t('admin.raffle.form.ticketsByTariffHint')}</p>
-            {tariffs.length === 0 ? (
-              <p className="text-xs text-dark-500">{t('admin.raffle.form.noTariffs')}</p>
-            ) : (
-              <div className="max-h-56 space-y-2 overflow-y-auto rounded-xl border border-dark-700 p-2">
-                {tariffs.map((tariff) => (
-                  <div
-                    key={tariff.id}
-                    className="flex items-center justify-between gap-3 rounded-lg bg-dark-900/60 px-3 py-2"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate text-sm text-dark-100">{tariff.name}</p>
-                      <p className="text-xs text-dark-500">#{tariff.id}</p>
-                    </div>
-                    <input
-                      type="number"
-                      min={1}
-                      max={50}
-                      placeholder={String(ticketsPerPurchase || 1)}
-                      value={tariffTickets[String(tariff.id)] ?? ''}
-                      onChange={createNumberInputHandler(
-                        (v) =>
-                          setTariffTickets((prev) => ({
-                            ...prev,
-                            [String(tariff.id)]: v,
-                          })),
-                        1,
-                        50,
-                      )}
-                      className="w-20 rounded-lg border border-dark-600 bg-dark-950 px-2 py-1.5 text-sm text-dark-100 outline-none focus:border-accent-500"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <TicketsByTariffEditor
+            tariffs={tariffs}
+            value={tariffTickets}
+            onChange={setTariffTickets}
+            defaultTickets={typeof ticketsPerPurchase === 'number' ? ticketsPerPurchase : 1}
+          />
         </div>
 
         {formError && (

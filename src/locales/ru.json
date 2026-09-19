@@ -6730,7 +6730,9 @@
         "history": "История",
         "retryAward": "Выдать приз",
         "edit": "Редактировать",
-        "delete": "Удалить"
+        "delete": "Удалить",
+        "grantTickets": "Выдать билеты",
+        "downloadCsv": "Скачать CSV"
       },
       "confirm": {
         "activateTitle": "Активировать кампанию?",
@@ -6756,7 +6758,12 @@
         "updated": "Кампания обновлена",
         "updateError": "Не удалось обновить кампанию",
         "deleted": "Кампания удалена",
-        "deleteError": "Не удалось удалить кампанию"
+        "deleteError": "Не удалось удалить кампанию",
+        "granted": "Выдано билетов: {{count}}",
+        "grantError": "Не удалось выдать билеты",
+        "csvDownloaded": "CSV победителей скачан",
+        "csvEmpty": "Нет победителей для экспорта",
+        "csvError": "Не удалось скачать CSV"
       },
       "winnersTitle": "Победители",
       "winnersSubtitle": "Кампания #{{id}}",
@@ -6814,7 +6821,13 @@
         "imageUploadButton": "Загрузить",
         "imageUploadError": "Не удалось загрузить фото",
         "imageUploadSizeError": "Файл слишком большой (макс. 5 МБ)",
-        "imageUploadTypeError": "Допустимы только JPEG, PNG или WebP"
+        "imageUploadTypeError": "Допустимы только JPEG, PNG или WebP",
+        "ticketsByTariffDefault": "По умолчанию для остальных тарифов: {{count}}",
+        "ticketsByTariffEmpty": "Нет переопределений — все покупки получают значение по умолчанию выше.",
+        "ticketsByTariffAdd": "Добавить тариф",
+        "ticketsByTariffSelect": "Выберите тариф…",
+        "ticketsByTariffCount": "Билетов",
+        "ticketsByTariffAddButton": "Добавить"
       },
       "historyTitle": "История розыгрыша",
       "historySubtitleNamed": "«{{name}}» · #{{id}}",
@@ -6830,7 +6843,22 @@
       "fairness": "Справедливость",
       "ticketsPerPurchase": "Билетов/покупка",
       "editTitle": "Редактирование розыгрыша",
-      "editSubtitle": "«{{name}}» · статус: {{status}}"
+      "editSubtitle": "«{{name}}» · статус: {{status}}",
+      "autoDrawBadge": "Авто-розыгрыш",
+      "autoDrawAt": "Авто-розыгрыш: {{date}}",
+      "autoDrawEnabled": "Авто-розыгрыш включён",
+      "endsAtPassed": "Срок прошёл — ожидается розыгрыш",
+      "grant": {
+        "title": "Выдать билеты",
+        "subtitle": "«{{name}}» · #{{id}}",
+        "hint": "Укажите либо ID пользователя кабинета, либо Telegram ID (не оба). Только для активной кампании.",
+        "userId": "ID пользователя",
+        "telegramId": "Telegram ID",
+        "count": "Число билетов",
+        "note": "Комментарий (необязательно)",
+        "userRequired": "Укажите либо user id, либо Telegram id",
+        "countInvalid": "Число билетов: от 1 до 50"
+      }
     }
   },
   "adminUpdates": {

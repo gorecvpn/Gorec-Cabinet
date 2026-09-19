@@ -6133,7 +6133,9 @@
         "history": "History",
         "retryAward": "Award prize",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "grantTickets": "Grant tickets",
+        "downloadCsv": "Download CSV"
       },
       "confirm": {
         "activateTitle": "Activate campaign?",
@@ -6159,7 +6161,12 @@
         "updated": "Campaign updated",
         "updateError": "Failed to update campaign",
         "deleted": "Campaign deleted",
-        "deleteError": "Failed to delete campaign"
+        "deleteError": "Failed to delete campaign",
+        "granted": "Granted {{count}} ticket(s)",
+        "grantError": "Failed to grant tickets",
+        "csvDownloaded": "Winners CSV downloaded",
+        "csvEmpty": "No winners to export",
+        "csvError": "Failed to download CSV"
       },
       "winnersTitle": "Winners",
       "winnersSubtitle": "Campaign #{{id}}",
@@ -6217,7 +6224,13 @@
         "imageUploadButton": "Upload",
         "imageUploadError": "Failed to upload photo",
         "imageUploadSizeError": "File too large (max 5 MB)",
-        "imageUploadTypeError": "Only JPEG, PNG, or WebP are allowed"
+        "imageUploadTypeError": "Only JPEG, PNG, or WebP are allowed",
+        "ticketsByTariffDefault": "Default for all other tariffs: {{count}}",
+        "ticketsByTariffEmpty": "No per-tariff overrides — every purchase gets the default above.",
+        "ticketsByTariffAdd": "Add tariff override",
+        "ticketsByTariffSelect": "Select a tariff…",
+        "ticketsByTariffCount": "Tickets",
+        "ticketsByTariffAddButton": "Add"
       },
       "historyTitle": "Draw history",
       "historySubtitleNamed": "“{{name}}” · #{{id}}",
@@ -6233,7 +6246,22 @@
       "fairness": "Fairness",
       "ticketsPerPurchase": "Tickets/purchase",
       "editTitle": "Edit raffle",
-      "editSubtitle": "“{{name}}” · status: {{status}}"
+      "editSubtitle": "“{{name}}” · status: {{status}}",
+      "autoDrawBadge": "Auto-draw",
+      "autoDrawAt": "Auto-draw at {{date}}",
+      "autoDrawEnabled": "Auto-draw enabled",
+      "endsAtPassed": "End time passed — awaiting draw",
+      "grant": {
+        "title": "Grant raffle tickets",
+        "subtitle": "“{{name}}” · #{{id}}",
+        "hint": "Provide either cabinet user id or Telegram id (not both). Only works on an active campaign.",
+        "userId": "User ID",
+        "telegramId": "Telegram ID",
+        "count": "Ticket count",
+        "note": "Note (optional)",
+        "userRequired": "Enter either user id or Telegram id",
+        "countInvalid": "Ticket count must be 1–50"
+      }
     }
   },
   "adminUpdates": {

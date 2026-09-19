@@ -15,12 +15,16 @@ import { usePermissionStore } from '@/store/permissions';
 import {
   BackIcon,
   CheckIcon,
+  DownloadIcon,
   PlusIcon,
   TicketIcon,
   TrophyIcon,
+  UserPlusIcon,
   UsersIcon,
   XIcon,
 } from '@/components/icons';
+import { createNumberInputHandler } from '../utils/inputHelpers';
+import { downloadBlobFile, downloadTextFile, winnersToCsv } from '../utils/raffleWinnersCsv';
 import { StatCard } from '../components/stats';
 import { Skeleton, SkeletonGroup } from '@/components/ui/skeleton';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -98,6 +102,30 @@ function statusTone(status: string): string {
   }
 }
 
+function endsAtStatus(
+  campaign: AdminRaffleCampaign,
+  t: (key: string, opts?: Record<string, unknown>) => string,
+): { label: string; tone: string } | null {
+  if (
+    campaign.status === 'active' &&
+    campaign.ends_at &&
+    !Number.isNaN(new Date(campaign.ends_at).getTime()) &&
+    new Date(campaign.ends_at).getTime() < Date.now()
+  ) {
+    return {
+      label: t('admin.raffle.endsAtPassed'),
+      tone: 'bg-warning-500/20 text-warning-300',
+    };
+  }
+  if (campaign.auto_draw === true && !campaign.ends_at) {
+    return {
+      label: t('admin.raffle.autoDrawEnabled'),
+      tone: 'bg-accent-500/20 text-accent-300',
+    };
+  }
+  return null;
+}
+
 function getErrorMessage(error: unknown, fallback: string): string {
   if (error && typeof error === 'object' && 'response' in error) {
     const detail = (error as { response?: { data?: { detail?: unknown } } }).response?.data?.detail;
@@ -129,8 +157,20 @@ export default function AdminRaffle() {
     drawAlgorithm?: string | null;
     loading?: boolean;
   } | null>(null);
+  const [grantModal, setGrantModal] = useState<{
+    campaignId: number;
+    campaignName: string;
+  } | null>(null);
+  const [grantUserId, setGrantUserId] = useState<number | ''>('');
+  const [grantTelegramId, setGrantTelegramId] = useState<number | ''>('');
+  const [grantCount, setGrantCount] = useState<number | ''>(1);
+  const [grantNote, setGrantNote] = useState('');
+  const [csvExporting, setCsvExporting] = useState(false);
   const winnersDialogRef = useFocusTrap<HTMLDivElement>(winnersModal !== null, {
     onEscape: () => setWinnersModal(null),
+  });
+  const grantDialogRef = useFocusTrap<HTMLDivElement>(grantModal !== null, {
+    onEscape: () => setGrantModal(null),
   });
 
   const { data, isLoading, error } = useQuery({
@@ -239,6 +279,43 @@ export default function AdminRaffle() {
     onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.deleteError'))),
   });
 
+  const grantMutation = useMutation({
+    mutationFn: ({
+      campaignId,
+      user_id,
+      telegram_id,
+      count,
+      note,
+    }: {
+      campaignId: number;
+      user_id?: number;
+      telegram_id?: number;
+      count: number;
+      note?: string;
+    }) =>
+      adminRaffleApi.grantTickets(campaignId, {
+        user_id: user_id ?? null,
+        telegram_id: telegram_id ?? null,
+        count,
+        note: note || null,
+      }),
+    onSuccess: (result) => {
+      notify.success(
+        t('admin.raffle.toast.granted', {
+          count: result.tickets_issued,
+          defaultValue: `Granted ${result.tickets_issued} ticket(s)`,
+        }),
+      );
+      setGrantModal(null);
+      setGrantUserId('');
+      setGrantTelegramId('');
+      setGrantCount(1);
+      setGrantNote('');
+      invalidate();
+    },
+    onError: (err) => notify.error(getErrorMessage(err, t('admin.raffle.toast.grantError'))),
+  });
+
   const campaigns = data?.campaigns ?? [];
   const enabled = data?.enabled ?? false;
   const activeCount = campaigns.filter((c) => c.status === 'active').length;
@@ -250,7 +327,9 @@ export default function AdminRaffle() {
     drawMutation.isPending ||
     historyMutation.isPending ||
     awardMutation.isPending ||
-    deleteMutation.isPending;
+    deleteMutation.isPending ||
+    grantMutation.isPending ||
+    csvExporting;
 
   const handleActivate = async (campaign: AdminRaffleCampaign) => {
     const ok = await confirmAction(
@@ -301,6 +380,66 @@ export default function AdminRaffle() {
       t('admin.raffle.confirm.deleteTitle'),
     );
     if (ok) deleteMutation.mutate({ id: campaign.id, force: isActive });
+  };
+
+  const openGrantModal = (campaign: AdminRaffleCampaign) => {
+    setGrantUserId('');
+    setGrantTelegramId('');
+    setGrantCount(1);
+    setGrantNote('');
+    setGrantModal({ campaignId: campaign.id, campaignName: campaign.name });
+  };
+
+  const handleGrantSubmit = () => {
+    if (!grantModal) return;
+    const uid = typeof grantUserId === 'number' ? grantUserId : Number(grantUserId);
+    const tid = typeof grantTelegramId === 'number' ? grantTelegramId : Number(grantTelegramId);
+    const hasUser = Number.isFinite(uid) && uid > 0;
+    const hasTg = Number.isFinite(tid) && tid > 0;
+    if (hasUser === hasTg) {
+      notify.error(t('admin.raffle.grant.userRequired'));
+      return;
+    }
+    const count = typeof grantCount === 'number' ? grantCount : Number(grantCount);
+    if (!Number.isFinite(count) || count < 1 || count > 50) {
+      notify.error(t('admin.raffle.grant.countInvalid'));
+      return;
+    }
+    grantMutation.mutate({
+      campaignId: grantModal.campaignId,
+      user_id: hasUser ? uid : undefined,
+      telegram_id: hasTg ? tid : undefined,
+      count: Math.round(count),
+      note: grantNote.trim() || undefined,
+    });
+  };
+
+  const handleDownloadCsv = async (campaignId: number, winners?: AdminRaffleWinner[]) => {
+    setCsvExporting(true);
+    const filename = `raffle-${campaignId}-winners.csv`;
+    try {
+      const blob = await adminRaffleApi.downloadWinnersCsv(campaignId);
+      if (blob) {
+        downloadBlobFile(filename, blob);
+        notify.success(t('admin.raffle.toast.csvDownloaded'));
+        return;
+      }
+      let rows = winners;
+      if (!rows || rows.length === 0) {
+        const detail = await adminRaffleApi.getCampaign(campaignId);
+        rows = detail.winners;
+      }
+      if (!rows.length) {
+        notify.error(t('admin.raffle.toast.csvEmpty'));
+        return;
+      }
+      downloadTextFile(filename, winnersToCsv(rows));
+      notify.success(t('admin.raffle.toast.csvDownloaded'));
+    } catch (err) {
+      notify.error(getErrorMessage(err, t('admin.raffle.toast.csvError')));
+    } finally {
+      setCsvExporting(false);
+    }
   };
 
   return (
@@ -397,6 +536,11 @@ export default function AdminRaffle() {
                         defaultValue: campaign.status,
                       })}
                     </span>
+                    {campaign.auto_draw === true && (
+                      <span className="rounded bg-accent-500/20 px-2 py-0.5 text-xs text-accent-300">
+                        {t('admin.raffle.autoDrawBadge')}
+                      </span>
+                    )}
                     <span className="rounded bg-dark-700 px-2 py-0.5 text-xs text-dark-300">
                       #{campaign.id}
                     </span>
@@ -424,8 +568,18 @@ export default function AdminRaffle() {
                       {t('admin.raffle.starts')}: {formatDate(campaign.starts_at)}
                     </span>
                     <span>
-                      {t('admin.raffle.ends')}: {formatDate(campaign.ends_at)}
+                      {campaign.auto_draw === true && campaign.ends_at
+                        ? t('admin.raffle.autoDrawAt', { date: formatDate(campaign.ends_at) })
+                        : `${t('admin.raffle.ends')}: ${formatDate(campaign.ends_at)}`}
                     </span>
+                    {(() => {
+                      const status = endsAtStatus(campaign, t);
+                      return status ? (
+                        <span className={`rounded px-2 py-0.5 text-xs ${status.tone}`}>
+                          {status.label}
+                        </span>
+                      ) : null;
+                    })()}
                     {campaign.winners > 0 && (
                       <span className="text-success-400">
                         {t('admin.raffle.winnersCount', { count: campaign.winners })}
@@ -442,6 +596,26 @@ export default function AdminRaffle() {
                       className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
                     >
                       {t('admin.raffle.actions.history')}
+                    </button>
+                  )}
+                  {canRead && campaign.status === 'drawn' && (
+                    <button
+                      disabled={busy}
+                      onClick={() => void handleDownloadCsv(campaign.id)}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
+                    >
+                      <DownloadIcon className="h-4 w-4" />
+                      {t('admin.raffle.actions.downloadCsv')}
+                    </button>
+                  )}
+                  {canEdit && campaign.status === 'active' && (
+                    <button
+                      disabled={busy}
+                      onClick={() => openGrantModal(campaign)}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
+                    >
+                      <UserPlusIcon className="h-4 w-4" />
+                      {t('admin.raffle.actions.grantTickets')}
                     </button>
                   )}
                   {canEdit && (
@@ -540,13 +714,28 @@ export default function AdminRaffle() {
                   </p>
                 )}
               </div>
-              <button
-                onClick={() => setWinnersModal(null)}
-                className="rounded-lg p-2 text-dark-400 hover:bg-dark-800 hover:text-dark-200"
-                aria-label={t('common.close')}
-              >
-                <XIcon />
-              </button>
+              <div className="flex items-center gap-2">
+                {!winnersModal.loading && winnersModal.winners.length > 0 && (
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() =>
+                      void handleDownloadCsv(winnersModal.campaignId, winnersModal.winners)
+                    }
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 hover:bg-dark-600 disabled:opacity-50"
+                  >
+                    <DownloadIcon className="h-4 w-4" />
+                    {t('admin.raffle.actions.downloadCsv')}
+                  </button>
+                )}
+                <button
+                  onClick={() => setWinnersModal(null)}
+                  className="rounded-lg p-2 text-dark-400 hover:bg-dark-800 hover:text-dark-200"
+                  aria-label={t('common.close')}
+                >
+                  <XIcon />
+                </button>
+              </div>
             </div>
 
             {winnersModal.loading ? (
@@ -633,6 +822,128 @@ export default function AdminRaffle() {
             >
               {t('common.close')}
             </button>
+          </div>
+        </div>
+      )}
+
+      {grantModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div
+            ref={grantDialogRef}
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            className="w-full max-w-md rounded-2xl border border-dark-700 bg-dark-900 p-5 shadow-xl"
+          >
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-lg font-semibold text-dark-100">
+                  {t('admin.raffle.grant.title')}
+                </h3>
+                <p className="text-sm text-dark-400">
+                  {t('admin.raffle.grant.subtitle', {
+                    name: grantModal.campaignName,
+                    id: grantModal.campaignId,
+                  })}
+                </p>
+              </div>
+              <button
+                onClick={() => setGrantModal(null)}
+                className="rounded-lg p-2 text-dark-400 hover:bg-dark-800 hover:text-dark-200"
+                aria-label={t('common.close')}
+              >
+                <XIcon />
+              </button>
+            </div>
+
+            <p className="mb-3 text-xs text-dark-500">{t('admin.raffle.grant.hint')}</p>
+
+            <div className="space-y-3">
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium text-dark-300"
+                  htmlFor="raffle-grant-user-id"
+                >
+                  {t('admin.raffle.grant.userId')}
+                </label>
+                <input
+                  id="raffle-grant-user-id"
+                  type="number"
+                  min={1}
+                  value={grantUserId}
+                  onChange={createNumberInputHandler(setGrantUserId, 1)}
+                  className="w-full rounded-xl border border-dark-600 bg-dark-800 px-3 py-2 text-dark-100 outline-none focus:border-accent-500"
+                />
+              </div>
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium text-dark-300"
+                  htmlFor="raffle-grant-telegram-id"
+                >
+                  {t('admin.raffle.grant.telegramId')}
+                </label>
+                <input
+                  id="raffle-grant-telegram-id"
+                  type="number"
+                  min={1}
+                  value={grantTelegramId}
+                  onChange={createNumberInputHandler(setGrantTelegramId, 1)}
+                  className="w-full rounded-xl border border-dark-600 bg-dark-800 px-3 py-2 text-dark-100 outline-none focus:border-accent-500"
+                />
+              </div>
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium text-dark-300"
+                  htmlFor="raffle-grant-count"
+                >
+                  {t('admin.raffle.grant.count')}
+                </label>
+                <input
+                  id="raffle-grant-count"
+                  type="number"
+                  min={1}
+                  max={50}
+                  value={grantCount}
+                  onChange={createNumberInputHandler(setGrantCount, 1, 50)}
+                  className="w-full rounded-xl border border-dark-600 bg-dark-800 px-3 py-2 text-dark-100 outline-none focus:border-accent-500"
+                />
+              </div>
+              <div>
+                <label
+                  className="mb-1 block text-sm font-medium text-dark-300"
+                  htmlFor="raffle-grant-note"
+                >
+                  {t('admin.raffle.grant.note')}
+                </label>
+                <input
+                  id="raffle-grant-note"
+                  value={grantNote}
+                  onChange={(e) => setGrantNote(e.target.value)}
+                  maxLength={200}
+                  className="w-full rounded-xl border border-dark-600 bg-dark-800 px-3 py-2 text-dark-100 outline-none focus:border-accent-500"
+                />
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setGrantModal(null)}
+                className="rounded-xl border border-dark-600 px-4 py-2 text-dark-300 hover:border-dark-500"
+              >
+                {t('common.cancel')}
+              </button>
+              <button
+                type="button"
+                disabled={grantMutation.isPending}
+                onClick={handleGrantSubmit}
+                className="rounded-xl bg-accent-500 px-4 py-2 text-on-accent hover:bg-accent-600 disabled:opacity-50"
+              >
+                {grantMutation.isPending
+                  ? t('common.loading')
+                  : t('admin.raffle.actions.grantTickets')}
+              </button>
+            </div>
           </div>
         </div>
       )}
