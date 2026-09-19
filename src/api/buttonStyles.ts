@@ -52,15 +52,24 @@ export const DEFAULT_BUTTON_STYLES: ButtonStylesConfig = {
   subscription: { ...DEFAULT_SECTION, style: 'success' },
   balance: { ...DEFAULT_SECTION, style: 'primary' },
   referral: { ...DEFAULT_SECTION, style: 'success' },
-  raffle: {
-    ...DEFAULT_SECTION,
-    style: 'primary',
-    labels: { ru: '🎫 Розыгрыш', en: '🎫 Raffle' },
-  },
+  raffle: { ...DEFAULT_SECTION, style: 'primary' },
   support: { ...DEFAULT_SECTION, style: 'primary' },
   info: { ...DEFAULT_SECTION, style: 'primary' },
   admin: { ...DEFAULT_SECTION, style: 'danger' },
 };
+
+/** Old cabinet defaults baked 🎫 into raffle labels; other sections use empty labels. */
+const STALE_RAFFLE_LABELS = new Set(['🎫 Розыгрыш', '🎫 Raffle']);
+
+function scrubRaffleLabels(labels: Record<string, string>): Record<string, string> {
+  const next: Record<string, string> = {};
+  for (const [locale, value] of Object.entries(labels)) {
+    const trimmed = (value || '').trim();
+    if (!trimmed || STALE_RAFFLE_LABELS.has(trimmed)) continue;
+    next[locale] = value;
+  }
+  return next;
+}
 
 function normalizeConfig(data: ButtonStylesConfig): ButtonStylesConfig {
   const result = {} as ButtonStylesConfig;
@@ -68,14 +77,18 @@ function normalizeConfig(data: ButtonStylesConfig): ButtonStylesConfig {
   for (const section of BUTTON_SECTIONS) {
     const defaults = DEFAULT_BUTTON_STYLES[section];
     const saved = incoming[section];
+    let labels = {
+      ...(defaults.labels || {}),
+      ...(saved?.labels || {}),
+    };
+    if (section === 'raffle') {
+      labels = scrubRaffleLabels(labels);
+    }
     result[section] = {
       ...DEFAULT_SECTION,
       ...defaults,
       ...saved,
-      labels: {
-        ...(defaults.labels || {}),
-        ...(saved?.labels || {}),
-      },
+      labels,
     };
   }
   return result;
