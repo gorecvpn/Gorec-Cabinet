@@ -1,5 +1,6 @@
 import apiClient from './client';
 import { isEndpointMissingError } from '@/utils/api-error';
+import { blobLooksLikeCsv } from '@/utils/raffleWinnersCsv';
 
 export type RafflePrizeType = 'days' | 'balance' | 'custom';
 export type RaffleCampaignStatus = 'draft' | 'active' | 'closed' | 'drawn';
@@ -231,21 +232,35 @@ export const adminRaffleApi = {
   },
 
   /**
-   * Winners report CSV from bot. Returns null on 404 so UI can fall back to client CSV.
-   * Expected bot route — see docs/raffle-admin-expected-endpoints.md.
+   * Winners report CSV from bot. Returns null when the route is missing or the
+   * body is not CSV so UI can fall back to a client-built file.
+   * Tries cabinet-expected path first, then `/export/winners.csv` (bot 4.16.10).
    */
   downloadWinnersCsv: async (campaignId: number): Promise<Blob | null> => {
-    try {
-      const response = await apiClient.get<Blob>(
-        `/cabinet/admin/raffle/campaigns/${campaignId}/winners.csv`,
-        { responseType: 'blob' },
-      );
-      return response.data;
-    } catch (err) {
-      if (isEndpointMissingError(err)) {
-        return null;
+    const paths = [
+      `/cabinet/admin/raffle/campaigns/${campaignId}/winners.csv`,
+      `/cabinet/admin/raffle/campaigns/${campaignId}/export/winners.csv`,
+    ];
+    let lastErr: unknown;
+    for (const path of paths) {
+      try {
+        const response = await apiClient.get<Blob>(path, { responseType: 'blob' });
+        const blob = response.data;
+        if (blob && (await blobLooksLikeCsv(blob))) {
+          return blob;
+        }
+      } catch (err) {
+        lastErr = err;
+        if (isEndpointMissingError(err)) {
+          continue;
+        }
+        // 400 "after draw" etc. — surface to UI
+        throw err;
       }
-      throw err;
     }
+    if (lastErr && !isEndpointMissingError(lastErr)) {
+      throw lastErr;
+    }
+    return null;
   },
 };
