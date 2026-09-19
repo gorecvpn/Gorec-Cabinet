@@ -106,7 +106,12 @@ export async function blobLooksLikeCsv(blob: Blob): Promise<boolean> {
   const head = (await blob.slice(0, 64).text()).trimStart();
   if (!head) return false;
   if (head.startsWith('{') || head.startsWith('[') || head.startsWith('<!')) return false;
-  if (type.includes('csv') || type.includes('text/plain') || type === '' || type.includes('octet-stream')) {
+  if (
+    type.includes('csv') ||
+    type.includes('text/plain') ||
+    type === '' ||
+    type.includes('octet-stream')
+  ) {
     return head.includes(',') || /^[a-zA-Z_]/.test(head);
   }
   return head.includes(',');
