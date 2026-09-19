@@ -1,4 +1,5 @@
 import apiClient from './client';
+import { isEndpointMissingError } from '@/utils/api-error';
 
 export type RafflePrizeType = 'days' | 'balance' | 'custom';
 export type RaffleCampaignStatus = 'draft' | 'active' | 'closed' | 'drawn';
@@ -18,6 +19,8 @@ export interface AdminRaffleCampaign {
   status: RaffleCampaignStatus | string;
   starts_at: string;
   ends_at: string | null;
+  /** When true, bot auto-draws at ends_at (optional; shown if bot exposes it). */
+  auto_draw?: boolean | null;
   max_winners: number;
   prize_type: RafflePrizeType | string;
   prize_value: number | null;
@@ -54,6 +57,7 @@ export interface CreateRaffleCampaignRequest {
   skip_trial_purchases?: boolean;
   starts_at?: string | null;
   ends_at?: string | null;
+  auto_draw?: boolean | null;
 }
 
 export interface UpdateRaffleCampaignRequest {
@@ -69,6 +73,7 @@ export interface UpdateRaffleCampaignRequest {
   tickets_by_tariff?: Record<string, number> | null;
   skip_trial_purchases?: boolean | null;
   starts_at?: string | null;
+  auto_draw?: boolean | null;
 }
 
 export interface AdminRaffleWinner {
@@ -113,6 +118,23 @@ export interface RaffleImageUploadResponse {
   size_bytes: number;
   width: number | null;
   height: number | null;
+}
+
+/** Expected bot body for POST .../grant-tickets (see docs/raffle-admin-expected-endpoints.md). */
+export interface GrantRaffleTicketsRequest {
+  user_id?: number | null;
+  telegram_id?: number | null;
+  count: number;
+  note?: string | null;
+}
+
+export interface GrantRaffleTicketsResponse {
+  campaign_id: number;
+  user_id: number;
+  tickets_issued: number;
+  ticket_codes?: string[];
+  tickets?: number;
+  unique_users?: number;
 }
 
 export const adminRaffleApi = {
@@ -191,5 +213,39 @@ export const adminRaffleApi = {
     await apiClient.delete(`/cabinet/admin/raffle/campaigns/${campaignId}`, {
       params: force ? { force: true } : undefined,
     });
+  },
+
+  /**
+   * Manual ticket grant for an active campaign.
+   * Expected bot route — see docs/raffle-admin-expected-endpoints.md.
+   */
+  grantTickets: async (
+    campaignId: number,
+    data: GrantRaffleTicketsRequest,
+  ): Promise<GrantRaffleTicketsResponse> => {
+    const response = await apiClient.post<GrantRaffleTicketsResponse>(
+      `/cabinet/admin/raffle/campaigns/${campaignId}/grant-tickets`,
+      data,
+    );
+    return response.data;
+  },
+
+  /**
+   * Winners report CSV from bot. Returns null on 404 so UI can fall back to client CSV.
+   * Expected bot route — see docs/raffle-admin-expected-endpoints.md.
+   */
+  downloadWinnersCsv: async (campaignId: number): Promise<Blob | null> => {
+    try {
+      const response = await apiClient.get<Blob>(
+        `/cabinet/admin/raffle/campaigns/${campaignId}/winners.csv`,
+        { responseType: 'blob' },
+      );
+      return response.data;
+    } catch (err) {
+      if (isEndpointMissingError(err)) {
+        return null;
+      }
+      throw err;
+    }
   },
 };
