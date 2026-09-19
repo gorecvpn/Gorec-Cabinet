@@ -6636,5 +6636,12 @@
     "offer": "公开要约",
     "privacy": "隐私政策",
     "recurrent": "定期付款"
+  },
+  "raffle": {
+    "progressTitle": "你的进度",
+    "progressTickets": "票数：{{count}}",
+    "progressTimeLeft": "剩余时间",
+    "progressDaysLeft": "{{days}}天 {{hours}}小时",
+    "progressEndsAt": "结束时间：{{date}}"
   }
 }
