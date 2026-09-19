@@ -83,9 +83,12 @@ function clickDownload(filename: string, blob: Blob) {
   revokeLater(url);
 }
 
-/** Trigger a device download (or native share sheet on mobile / Telegram). */
+/** Trigger a device download; in Telegram WebApp prefer native share when available. */
 export async function downloadBlobFile(filename: string, blob: Blob): Promise<void> {
-  if (await tryShareFile(filename, blob)) return;
+  const tg = (window as unknown as { Telegram?: { WebApp?: { initData?: string } } }).Telegram
+    ?.WebApp;
+  const inTelegram = Boolean(tg?.initData);
+  if (inTelegram && (await tryShareFile(filename, blob))) return;
   clickDownload(filename, blob);
 }
 
