@@ -14,8 +14,6 @@ import {
   ChatIcon,
   WheelIcon,
   GiftIcon,
-  TrophyIcon,
-  GiftIcon,
 } from './icons';
 import type { MobileNavItem, MobileNavKey } from './mobileNavRoutes';
 
