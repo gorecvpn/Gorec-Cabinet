@@ -6691,5 +6691,12 @@
     "offer": "پیشنهاد عمومی",
     "privacy": "سیاست حفظ حریم خصوصی",
     "recurrent": "پرداخت‌های مکرر"
+  },
+  "raffle": {
+    "progressTitle": "پیشرفت شما",
+    "progressTickets": "بلیت‌ها: {{count}}",
+    "progressTimeLeft": "تا پایان",
+    "progressDaysLeft": "{{days}} روز {{hours}} ساعت",
+    "progressEndsAt": "پایان: {{date}}"
   }
 }
