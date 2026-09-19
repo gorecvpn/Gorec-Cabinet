@@ -49,29 +49,73 @@ export function winnersToCsv(winners: AdminRaffleWinner[]): string {
   return `${lines.join('\n')}\n`;
 }
 
-export function downloadTextFile(
+function revokeLater(url: string) {
+  // Immediate revoke cancels the download in Telegram WebView / mobile Safari.
+  window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}
+
+async function tryShareFile(filename: string, blob: Blob): Promise<boolean> {
+  try {
+    const file = new File([blob], filename, { type: blob.type || 'text/csv' });
+    const nav = navigator as Navigator & {
+      canShare?: (data?: ShareData) => boolean;
+      share?: (data: ShareData) => Promise<void>;
+    };
+    if (typeof nav.share !== 'function') return false;
+    if (typeof nav.canShare === 'function' && !nav.canShare({ files: [file] })) return false;
+    await nav.share({ files: [file], title: filename });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function clickDownload(filename: string, blob: Blob) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.rel = 'noopener';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  revokeLater(url);
+}
+
+/** Trigger a device download; in Telegram WebApp prefer native share when available. */
+export async function downloadBlobFile(filename: string, blob: Blob): Promise<void> {
+  const tg = (window as unknown as { Telegram?: { WebApp?: { initData?: string } } }).Telegram
+    ?.WebApp;
+  const inTelegram = Boolean(tg?.initData);
+  if (inTelegram && (await tryShareFile(filename, blob))) return;
+  clickDownload(filename, blob);
+}
+
+export async function downloadTextFile(
   filename: string,
   content: string,
   mime = 'text/csv;charset=utf-8',
-) {
-  const blob = new Blob([content], { type: mime });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+): Promise<void> {
+  // BOM helps Excel open UTF-8 CSV correctly.
+  const blob = new Blob(['\uFEFF', content], { type: mime });
+  await downloadBlobFile(filename, blob);
 }
 
-export function downloadBlobFile(filename: string, blob: Blob) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+/** True when a blob looks like CSV rather than an error JSON/HTML body. */
+export async function blobLooksLikeCsv(blob: Blob): Promise<boolean> {
+  const type = (blob.type || '').toLowerCase();
+  if (type.includes('json') || type.includes('html')) return false;
+  const head = (await blob.slice(0, 64).text()).trimStart();
+  if (!head) return false;
+  if (head.startsWith('{') || head.startsWith('[') || head.startsWith('<!')) return false;
+  if (
+    type.includes('csv') ||
+    type.includes('text/plain') ||
+    type === '' ||
+    type.includes('octet-stream')
+  ) {
+    return head.includes(',') || /^[a-zA-Z_]/.test(head);
+  }
+  return head.includes(',');
 }
