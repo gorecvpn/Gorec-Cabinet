@@ -6836,7 +6836,12 @@
     "ended": "Ended",
     "places": "Prizes by place",
     "place": "Place {{place}}",
-    "tariffTicketsHint": "Some tariffs grant a different ticket count — see tariff terms at purchase."
+    "tariffTicketsHint": "Some tariffs grant a different ticket count — see tariff terms at purchase.",
+    "progressTitle": "Your progress",
+    "progressTickets": "Tickets: {{count}}",
+    "progressTimeLeft": "Time left",
+    "progressDaysLeft": "{{days}}d {{hours}}h",
+    "progressEndsAt": "Ends at: {{date}}"
   },
   "polls": {
     "title": "Polls",
