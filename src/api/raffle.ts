@@ -22,6 +22,8 @@ export interface RaffleCampaignSummary {
   max_winners: number;
   tickets_per_purchase?: number;
   tickets_by_tariff?: Record<string, number> | null;
+  /** tickets_per_purchase is granted for each month of the purchased period. */
+  tickets_per_month?: boolean;
 }
 
 export interface RaffleTicketItem {

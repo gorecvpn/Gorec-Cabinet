@@ -564,6 +564,7 @@ export default function AdminRaffle() {
                         {t('admin.raffle.ticketsPerPurchase')}: {campaign.tickets_per_purchase}
                       </span>
                     )}
+                    {campaign.tickets_per_month && <span>{t('admin.raffle.ticketsPerMonth')}</span>}
                     <span>
                       {t('admin.raffle.starts')}: {formatDate(campaign.starts_at)}
                     </span>

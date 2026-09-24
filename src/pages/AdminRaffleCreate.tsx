@@ -46,6 +46,7 @@ export default function AdminRaffleCreate() {
   const [endsAt, setEndsAt] = useState('');
   const [ticketsPerPurchase, setTicketsPerPurchase] = useState<number | ''>(1);
   const [skipTrial, setSkipTrial] = useState(true);
+  const [ticketsPerMonth, setTicketsPerMonth] = useState(true);
   const [tariffTickets, setTariffTickets] = useState<Record<string, number>>({});
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -214,6 +215,7 @@ export default function AdminRaffleCreate() {
       tickets_per_purchase: perPurchase,
       tickets_by_tariff: Object.keys(tickets_by_tariff).length ? tickets_by_tariff : null,
       skip_trial_purchases: skipTrial,
+      tickets_per_month: ticketsPerMonth,
       starts_at: toIsoOrNull(startsAt),
       ends_at: toIsoOrNull(endsAt),
     });
@@ -528,6 +530,17 @@ export default function AdminRaffleCreate() {
             {t('admin.raffle.form.skipTrial')}
           </label>
           <p className="mt-1 text-xs text-dark-500">{t('admin.raffle.form.skipTrialHint')}</p>
+
+          <label className="mt-3 flex items-center gap-2 text-sm text-dark-200">
+            <input
+              type="checkbox"
+              checked={ticketsPerMonth}
+              onChange={(e) => setTicketsPerMonth(e.target.checked)}
+              className="rounded border-dark-600"
+            />
+            {t('admin.raffle.form.ticketsPerMonth')}
+          </label>
+          <p className="mt-1 text-xs text-dark-500">{t('admin.raffle.form.ticketsPerMonthHint')}</p>
 
           <TicketsByTariffEditor
             tariffs={tariffs}

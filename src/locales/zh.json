@@ -5755,6 +5755,13 @@
         "retrySent": "错误已发送至管理员聊天",
         "retryFailed": "无法发送至管理员聊天"
       }
+    },
+    "raffle": {
+      "form": {
+        "ticketsPerMonth": "按订阅月数发放抽奖券",
+        "ticketsPerMonthHint": "1 个月 = 1 张，3 个月 = 3 张，6 个月 = 6 张，12 个月 = 12 张（月数 = 周期天数 / 30，四舍五入，最少 1）。默认值和按套餐设置的数量均按每月计算。附加项和按日扣费不乘以月数。"
+      },
+      "ticketsPerMonth": "每月抽奖券"
     }
   },
   "adminUpdates": {
@@ -6642,6 +6649,7 @@
     "progressTickets": "票数：{{count}}",
     "progressTimeLeft": "剩余时间",
     "progressDaysLeft": "{{days}}天 {{hours}}小时",
-    "progressEndsAt": "结束时间：{{date}}"
+    "progressEndsAt": "结束时间：{{date}}",
+    "howToEarnPerMonth": "每购买 1 个月订阅可获得 {{n}} 张抽奖券：1 个月 → {{n}}，3 个月 → {{n3}}，6 个月 → {{n6}}，12 个月 → {{n12}}。"
   }
 }

@@ -73,6 +73,7 @@ export default function AdminRaffleEdit() {
   const [endsAt, setEndsAt] = useState('');
   const [ticketsPerPurchase, setTicketsPerPurchase] = useState<number | ''>(1);
   const [skipTrial, setSkipTrial] = useState(true);
+  const [ticketsPerMonth, setTicketsPerMonth] = useState(true);
   const [tariffTickets, setTariffTickets] = useState<Record<string, number>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
@@ -110,6 +111,7 @@ export default function AdminRaffleEdit() {
     setEndsAt(toLocalInput(campaign.ends_at));
     setTicketsPerPurchase(campaign.tickets_per_purchase ?? 1);
     setSkipTrial(campaign.skip_trial_purchases ?? true);
+    setTicketsPerMonth(campaign.tickets_per_month ?? true);
     const map: Record<string, number> = {};
     if (campaign.tickets_by_tariff) {
       for (const [k, v] of Object.entries(campaign.tickets_by_tariff)) {
@@ -306,6 +308,7 @@ export default function AdminRaffleEdit() {
       payload.tickets_per_purchase = perPurchase;
       payload.tickets_by_tariff = Object.keys(tickets_by_tariff).length ? tickets_by_tariff : null;
       payload.skip_trial_purchases = skipTrial;
+      payload.tickets_per_month = ticketsPerMonth;
     }
 
     updateMutation.mutate(payload);
@@ -651,6 +654,18 @@ export default function AdminRaffleEdit() {
               />
               {t('admin.raffle.form.skipTrial')}
             </label>
+            <label className="mt-3 flex items-center gap-2 text-sm text-dark-200">
+              <input
+                type="checkbox"
+                checked={ticketsPerMonth}
+                onChange={(e) => setTicketsPerMonth(e.target.checked)}
+                className="rounded border-dark-600"
+              />
+              {t('admin.raffle.form.ticketsPerMonth')}
+            </label>
+            <p className="mt-1 text-xs text-dark-500">
+              {t('admin.raffle.form.ticketsPerMonthHint')}
+            </p>
             <TicketsByTariffEditor
               tariffs={tariffs}
               value={tariffTickets}
