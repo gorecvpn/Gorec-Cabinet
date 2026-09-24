@@ -30,6 +30,8 @@ export interface AdminRaffleCampaign {
   tickets_per_purchase?: number;
   tickets_by_tariff?: Record<string, number> | null;
   skip_trial_purchases?: boolean;
+  /** Default / per-tariff counts are tickets per month of the purchased period. */
+  tickets_per_month?: boolean;
   tickets: number;
   unique_users: number;
   winners: number;
@@ -56,6 +58,7 @@ export interface CreateRaffleCampaignRequest {
   tickets_per_purchase?: number;
   tickets_by_tariff?: Record<string, number> | null;
   skip_trial_purchases?: boolean;
+  tickets_per_month?: boolean;
   starts_at?: string | null;
   ends_at?: string | null;
   auto_draw?: boolean | null;
@@ -73,6 +76,7 @@ export interface UpdateRaffleCampaignRequest {
   tickets_per_purchase?: number | null;
   tickets_by_tariff?: Record<string, number> | null;
   skip_trial_purchases?: boolean | null;
+  tickets_per_month?: boolean | null;
   starts_at?: string | null;
   auto_draw?: boolean | null;
 }
