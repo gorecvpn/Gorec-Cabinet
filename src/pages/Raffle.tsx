@@ -168,6 +168,7 @@ export default function Raffle() {
   const enabled = data?.enabled ?? false;
   const tickets = data?.tickets ?? [];
   const slots: RafflePrizeSlot[] = campaign?.prize_slots ?? [];
+  const perMonthTickets = campaign?.tickets_per_purchase ?? 1;
 
   let progressPct = 0;
   if (campaign?.starts_at && campaign?.ends_at) {
@@ -267,9 +268,16 @@ export default function Raffle() {
 
             <div className="rounded-2xl border border-dashed border-dark-700 bg-dark-900/30 px-3.5 py-3">
               <p className="text-sm text-dark-300">
-                {t('raffle.howToEarn', {
-                  count: campaign.tickets_per_purchase ?? 1,
-                })}
+                {campaign.tickets_per_month
+                  ? t('raffle.howToEarnPerMonth', {
+                      n: perMonthTickets,
+                      n3: perMonthTickets * 3,
+                      n6: perMonthTickets * 6,
+                      n12: perMonthTickets * 12,
+                    })
+                  : t('raffle.howToEarn', {
+                      count: campaign.tickets_per_purchase ?? 1,
+                    })}
               </p>
               {campaign.tickets_by_tariff && Object.keys(campaign.tickets_by_tariff).length > 0 && (
                 <p className="mt-1 text-xs text-dark-500">{t('raffle.tariffTicketsHint')}</p>
