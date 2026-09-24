@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.81.0](https://github.com/gorecvpn/Gorec-Cabinet/compare/v1.80.5...v1.81.0) (2026-09-24)
+
+
+### Features
+
+* **menu:** add raffle builtin for Telegram Розыгрыш toggle (1.80.6) ([#26](https://github.com/gorecvpn/Gorec-Cabinet/issues/26)) ([695896e](https://github.com/gorecvpn/Gorec-Cabinet/commit/695896ea5044616505c6d3b537d052cdc3e4f2ed))
+* raffle admin toggle for tickets per month of subscription ([#35](https://github.com/gorecvpn/Gorec-Cabinet/issues/35)) ([613351f](https://github.com/gorecvpn/Gorec-Cabinet/commit/613351fdacbdabbfe7f7da0d1b517f09f712afcd))
+* **raffle:** clearer tariff tickets, grant, winners CSV (1.80.9) ([#29](https://github.com/gorecvpn/Gorec-Cabinet/issues/29)) ([1a9e29e](https://github.com/gorecvpn/Gorec-Cabinet/commit/1a9e29e52d75321b9a3a8a481601f7f142715402))
+* **raffle:** CSV fix, Gift icon, progress block (1.80.10) ([#30](https://github.com/gorecvpn/Gorec-Cabinet/issues/30)) ([38c8dc1](https://github.com/gorecvpn/Gorec-Cabinet/commit/38c8dc149b54311a7789d4941c1dca7480eb199e))
+
+
+### Bug Fixes
+
+* **raffle:** empty button labels like other sections (1.80.11) ([#31](https://github.com/gorecvpn/Gorec-Cabinet/issues/31)) ([050e8a1](https://github.com/gorecvpn/Gorec-Cabinet/commit/050e8a1c202a3ab9d88fad96205f19876324235f))
+* **raffle:** section name without 🎫 like other buttons ([#34](https://github.com/gorecvpn/Gorec-Cabinet/issues/34)) ([3915a6c](https://github.com/gorecvpn/Gorec-Cabinet/commit/3915a6c9025e4ff5e2b63746fc43f4d24c80f8df))
+
 ## [1.78.0](https://github.com/BEDOLAGA-DEV/bedolaga-cabinet/compare/v1.77.0...v1.78.0) (2026-09-18)
 
 
