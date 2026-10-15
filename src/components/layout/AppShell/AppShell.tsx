@@ -11,6 +11,7 @@ import { useHeaderHeight } from '@/hooks/useHeaderHeight';
 import { useTheme } from '@/hooks/useTheme';
 import { useBranding } from '@/hooks/useBranding';
 import { useFeatureFlags } from '@/hooks/useFeatureFlags';
+import { useLiteMode } from '@/hooks/useLiteMode';
 import { useScrollRestoration } from '@/hooks/useScrollRestoration';
 import { resetVirtualKeyboard } from '@/hooks/useVirtualKeyboard';
 import { themeColorsApi } from '@/api/themeColors';
@@ -62,6 +63,7 @@ export function AppShell({ children }: AppShellProps) {
   const { appName, logoLetter, hasCustomLogo, logoUrl } = useBranding();
   const { referralEnabled, wheelEnabled, hasContests, raffleEnabled, hasPolls, giftEnabled } =
     useFeatureFlags();
+  const { lite } = useLiteMode();
   useScrollRestoration();
   // Анимированный фон рендерит BackgroundHost в App (не перемонтируется при
   // смене роута) — здесь только регистрируем, что на этом роуте он нужен.
@@ -90,7 +92,7 @@ export function AppShell({ children }: AppShellProps) {
 
   // Нижняя панель живёт только на экранах своих кнопок; на остальных её нет и
   // место под неё не резервируется (data-mobile-nav="off" → --mobile-nav-clearance).
-  const navItems = mobileNavItems({ wheelEnabled, referralEnabled, raffleEnabled });
+  const navItems = mobileNavItems({ wheelEnabled, referralEnabled, raffleEnabled, lite });
   const showMobileNav = isMobileNavScreen(location.pathname, navItems);
 
   // Desktop navigation — labels always visible (no hover-reveal gimmick)
