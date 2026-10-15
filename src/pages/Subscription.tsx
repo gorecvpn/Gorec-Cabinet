@@ -32,6 +32,7 @@ import { getFlagEmoji } from '../utils/subscriptionHelpers';
 import Twemoji from '@/lib/twemoji';
 import { AutopayToggle } from '../components/subscription/manage/AutopayToggle';
 import { DailyPausePanel } from '../components/subscription/manage/DailyPausePanel';
+import { SubscriptionFreezePanel } from '../components/subscription/manage/SubscriptionFreezePanel';
 import {
   canReissueLink,
   ReissueLinkButton,
@@ -957,6 +958,20 @@ export default function Subscription() {
         >
           <DailyPausePanel subscription={subscription} subscriptionId={subscriptionId} />
         </div>
+      )}
+
+      {/* Subscription pause (freeze) — any time, unused days returned */}
+      {subscription && (
+        <SubscriptionFreezePanel
+          subscription={subscription}
+          subscriptionId={subscriptionId}
+          cardStyle={{
+            background: g.cardBg,
+            border: `1px solid ${g.cardBorder}`,
+            boxShadow: g.shadow,
+            padding: '24px 28px',
+          }}
+        />
       )}
 
       {/* Purchase / Renewal CTA */}

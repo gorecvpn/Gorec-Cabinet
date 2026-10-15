@@ -838,6 +838,35 @@
       "autopayHint": "Your subscription will renew automatically via Cashera",
       "purchaseButton": "⚡ Subscribe with Cashera auto-pay",
       "purchaseHint": "Confirm auto-charges via the Cashera link; renewals are then charged automatically."
+    },
+    "freeze": {
+      "title": "Pause subscription",
+      "hint": "Freeze your subscription for a while — unused days are fully returned.",
+      "pauseBtn": "⏸ Pause",
+      "resumeBtn": "▶️ Resume",
+      "confirmBtn": "Pause subscription",
+      "pausedUntil": "Paused until {{date}}",
+      "pausedInfo_one": "VPN access is suspended. Saved remaining time: {{count}} day — fully returned. You can resume at any time; when the pause ends, the subscription resumes automatically.",
+      "pausedInfo_other": "VPN access is suspended. Saved remaining time: {{count}} days — fully returned. You can resume at any time; when the pause ends, the subscription resumes automatically.",
+      "chooseDescription_one": "VPN access is disabled during the pause. The remaining {{count}} day is saved. Pausing is free. For how many days?",
+      "chooseDescription_other": "VPN access is disabled during the pause. The remaining {{count}} days are saved. Pausing is free. For how many days?",
+      "daysOption_one": "{{count}} day",
+      "daysOption_other": "{{count}} days",
+      "limitLine": "Pauses used: {{used}} of {{limit}} per 30 days",
+      "errors": {
+        "disabled": "Subscription pause is not available right now.",
+        "no_subscription": "No active subscription.",
+        "already_paused": "The subscription is already paused.",
+        "user_blocked": "The account is blocked.",
+        "trial": "A trial subscription cannot be paused.",
+        "daily": "Daily tariffs are paused with their own button.",
+        "not_active": "Only an active subscription can be paused.",
+        "too_little_remaining": "Too little time is left on the subscription to pause it.",
+        "limit_reached": "Pause limit reached. The next pause is available from {{date}}.",
+        "invalid_days": "Invalid pause duration.",
+        "not_paused": "The subscription is not paused.",
+        "subscription_paused": "The subscription is paused — resume it first."
+      }
     }
   },
   "balance": {
@@ -5287,7 +5316,16 @@
         },
         "messages_one": "{{count}} message",
         "messages_other": "{{count}} messages",
-        "ticketLoadError": "Could not open the ticket"
+        "ticketLoadError": "Could not open the ticket",
+        "freeze": {
+          "title": "Subscription pause",
+          "notPaused": "Not paused. A forced pause ignores the user's pause limit.",
+          "pausedUntil_one": "Paused until {{date}}, saved remaining {{count}} day",
+          "pausedUntil_other": "Paused until {{date}}, saved remaining {{count}} days",
+          "days": "days",
+          "pause": "Pause",
+          "resume": "Resume"
+        }
       },
       "notFound": "User not found",
       "summary": {

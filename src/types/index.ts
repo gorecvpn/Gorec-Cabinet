@@ -101,6 +101,10 @@ export interface Subscription {
   // Daily tariff fields
   is_daily?: boolean;
   is_daily_paused?: boolean;
+  /** Пауза (заморозка) пользователем — не суточная пауза */
+  is_paused?: boolean;
+  pause_planned_until?: string | null;
+  pause_remaining_days?: number | null;
   daily_price_kopeks?: number;
   next_daily_charge_at?: string; // ISO datetime string
   // Tariff info
