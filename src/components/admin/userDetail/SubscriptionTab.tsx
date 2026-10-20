@@ -15,6 +15,7 @@ import { formatShortDate } from '@/utils/format';
 import type { SalesMode } from '@/pages/adminUserDetail/salesMode';
 import { CreateSubscriptionForm } from './CreateSubscriptionForm';
 import { DangerZone } from './DangerZone';
+import { FreezeCard } from './FreezeCard';
 import { type DeviceRow, DevicesCard } from './DevicesCard';
 import { NodeUsageCard } from './NodeUsageCard';
 import { PanelSyncCard } from './PanelSyncCard';
@@ -63,6 +64,7 @@ export interface SubscriptionTabProps {
   busy: boolean;
   actions: SubscriptionTabActions;
   reachabilityLink: string | null;
+  dpicheckerLink?: string | null;
   mode: SalesMode;
 }
 
@@ -158,6 +160,12 @@ export function SubscriptionTab(props: SubscriptionTabProps) {
             classic={mode === 'classic'}
           />
 
+          <FreezeCard
+            userId={props.userId}
+            subscriptionId={selectedSub.id}
+            canManage={can.manage}
+          />
+
           <div className="grid gap-4 lg:grid-cols-2">
             <DevicesCard
               devices={props.devices}
@@ -188,6 +196,7 @@ export function SubscriptionTab(props: SubscriptionTabProps) {
             panelInfo={props.panelInfo}
             remnawaveId={user.remnawave_id}
             reachabilityLink={props.reachabilityLink}
+            dpicheckerLink={props.dpicheckerLink ?? null}
           />
         </>
       )}

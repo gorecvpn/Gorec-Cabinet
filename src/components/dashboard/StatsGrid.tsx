@@ -2,7 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { useCurrency } from '../../hooks/useCurrency';
 import { StatCard } from '@/components/stats';
-import { CardIcon, ChevronRightIcon, UsersIcon } from '@/components/icons';
+import { CardIcon, ChevronRightIcon, InfoIcon, UsersIcon } from '@/components/icons';
+import { TrophyIcon } from '@/components/icons/extended-icons';
+import { useFeatureFlags } from '../../hooks/useFeatureFlags';
 
 interface StatsGridProps {
   balanceRubles: number;
@@ -19,6 +21,7 @@ export default function StatsGrid({
 }: StatsGridProps) {
   const { t } = useTranslation();
   const { formatAmount, currencySymbol } = useCurrency();
+  const { raffleEnabled } = useFeatureFlags();
 
   const chevron = <ChevronRightIcon className="h-4 w-4 shrink-0 text-dark-500" />;
 
@@ -41,6 +44,27 @@ export default function StatsGrid({
           icon={<UsersIcon className="h-5 w-5" />}
           tone="neutral"
           loading={refLoading}
+          trailing={chevron}
+        />
+      </Link>
+      {/* GorecVPN: «Розыгрыш» и «Помощь» в стиле карточек баланса/рефералов */}
+      {raffleEnabled && (
+        <Link to="/raffle" className="block h-full">
+          <StatCard
+            label={t('dashboard.stats.raffle')}
+            value=""
+            icon={<TrophyIcon className="h-5 w-5" />}
+            tone="neutral"
+            trailing={chevron}
+          />
+        </Link>
+      )}
+      <Link to="/info" className="block h-full">
+        <StatCard
+          label={t('dashboard.stats.help')}
+          value=""
+          icon={<InfoIcon className="h-5 w-5" />}
+          tone="neutral"
           trailing={chevron}
         />
       </Link>

@@ -190,6 +190,54 @@ export default function Balance() {
         </Card>
       </motion.div>
 
+      {/* Payment Methods — self-animated: mounts after its query resolves, when
+          the parent stagger orchestration has already finished and would leave
+          it stuck at opacity 0 */}
+      {paymentMethods && paymentMethods.length > 0 && (
+        <motion.div variants={staggerItem} initial="initial" animate="animate">
+          <Card>
+            <h2 className="mb-4 text-lg font-semibold text-dark-100">
+              {t('balance.topUpBalance')}
+            </h2>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {paymentMethods.map((method) => {
+                const methodKey = method.id.toLowerCase().replace(/-/g, '_');
+                const translatedName = t(`balance.paymentMethods.${methodKey}.name`, {
+                  defaultValue: '',
+                });
+                const translatedDesc = t(`balance.paymentMethods.${methodKey}.description`, {
+                  defaultValue: '',
+                });
+
+                return (
+                  <Card
+                    key={method.id}
+                    interactive={method.is_available}
+                    className={!method.is_available ? 'cursor-not-allowed opacity-50' : ''}
+                    onClick={() => method.is_available && navigate(`/balance/top-up/${method.id}`)}
+                  >
+                    <div className="font-semibold text-dark-100">
+                      {method.name || translatedName}
+                    </div>
+                    {(method.description || translatedDesc) && (
+                      <div className="mt-1 text-sm text-dark-500">
+                        {method.description || translatedDesc}
+                      </div>
+                    )}
+                    <div className="mt-3 text-xs text-dark-400">
+                      {formatAmount(method.min_amount_kopeks / 100, 0)} {t('common.rangeTo', 'to')}{' '}
+                      {formatAmount(method.max_amount_kopeks / 100, 0)}
+                      {'\u00A0'}
+                      {currencySymbol}
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          </Card>
+        </motion.div>
+      )}
+
       {/* Promo Code Section */}
       <motion.div variants={staggerItem}>
         <Card>
@@ -280,54 +328,6 @@ export default function Balance() {
           )}
         </Card>
       </motion.div>
-
-      {/* Payment Methods — self-animated: mounts after its query resolves, when
-          the parent stagger orchestration has already finished and would leave
-          it stuck at opacity 0 */}
-      {paymentMethods && paymentMethods.length > 0 && (
-        <motion.div variants={staggerItem} initial="initial" animate="animate">
-          <Card>
-            <h2 className="mb-4 text-lg font-semibold text-dark-100">
-              {t('balance.topUpBalance')}
-            </h2>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {paymentMethods.map((method) => {
-                const methodKey = method.id.toLowerCase().replace(/-/g, '_');
-                const translatedName = t(`balance.paymentMethods.${methodKey}.name`, {
-                  defaultValue: '',
-                });
-                const translatedDesc = t(`balance.paymentMethods.${methodKey}.description`, {
-                  defaultValue: '',
-                });
-
-                return (
-                  <Card
-                    key={method.id}
-                    interactive={method.is_available}
-                    className={!method.is_available ? 'cursor-not-allowed opacity-50' : ''}
-                    onClick={() => method.is_available && navigate(`/balance/top-up/${method.id}`)}
-                  >
-                    <div className="font-semibold text-dark-100">
-                      {method.name || translatedName}
-                    </div>
-                    {(method.description || translatedDesc) && (
-                      <div className="mt-1 text-sm text-dark-500">
-                        {method.description || translatedDesc}
-                      </div>
-                    )}
-                    <div className="mt-3 text-xs text-dark-400">
-                      {formatAmount(method.min_amount_kopeks / 100, 0)} {t('common.rangeTo', 'to')}{' '}
-                      {formatAmount(method.max_amount_kopeks / 100, 0)}
-                      {'\u00A0'}
-                      {currencySymbol}
-                    </div>
-                  </Card>
-                );
-              })}
-            </div>
-          </Card>
-        </motion.div>
-      )}
 
       {/* Transaction History */}
       <motion.div variants={staggerItem}>

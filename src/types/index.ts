@@ -101,6 +101,10 @@ export interface Subscription {
   // Daily tariff fields
   is_daily?: boolean;
   is_daily_paused?: boolean;
+  /** Пауза (заморозка) пользователем — не суточная пауза */
+  is_paused?: boolean;
+  pause_planned_until?: string | null;
+  pause_remaining_days?: number | null;
   daily_price_kopeks?: number;
   next_daily_charge_at?: string; // ISO datetime string
   // Tariff info
@@ -361,6 +365,7 @@ export interface TariffsPurchaseOptions {
   // автооплатой СБП» рядом с покупкой с баланса
   platega_recurrent_enabled?: boolean;
   lava_recurrent_enabled?: boolean;
+  cashera_recurrent_enabled?: boolean;
 }
 
 export interface ClassicPurchaseOptions {
@@ -816,6 +821,15 @@ export interface SbpRecurringInfo {
 export interface LavaRecurringInfo {
   status: string; // 'none' | 'PENDING' | 'ACTIVE' | 'PAST_DUE'
   charge_days?: number;
+  amount_kopeks?: number;
+  next_charge_at?: string | null;
+  redirect_url?: string | null;
+}
+
+export interface CasheraRecurringInfo {
+  status: string; // 'none' | 'PENDING' | 'ACTIVE' | 'PAST_DUE'
+  charge_days?: number;
+  interval?: string; // daily | weekly | monthly | yearly
   amount_kopeks?: number;
   next_charge_at?: string | null;
   redirect_url?: string | null;
