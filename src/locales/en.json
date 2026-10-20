@@ -374,7 +374,9 @@
       "balance": "Balance",
       "subscription": "Subscription",
       "referrals": "Referrals",
-      "earnings": "Earnings"
+      "earnings": "Earnings",
+      "raffle": "Raffle",
+      "help": "Help"
     },
     "manageAll": "Manage all",
     "showAll": "Show all",
@@ -867,6 +869,10 @@
         "not_paused": "The subscription is not paused.",
         "subscription_paused": "The subscription is paused — resume it first."
       }
+    },
+    "giftCta": {
+      "title": "🎁 Gift a subscription",
+      "subtitle": "Send VPN to a friend as a gift"
     }
   },
   "balance": {
@@ -6922,7 +6928,9 @@
         "note": "Note (optional)",
         "userRequired": "Enter either user id or Telegram id",
         "countInvalid": "Ticket count must be 1–50"
-      }
+      },
+      "expand": "Expand",
+      "collapse": "Collapse"
     }
   },
   "adminUpdates": {

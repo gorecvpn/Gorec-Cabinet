@@ -6381,7 +6381,9 @@
         "ticketsPerMonth": "按订阅月数发放抽奖券",
         "ticketsPerMonthHint": "1 个月 = 1 张，3 个月 = 3 张，6 个月 = 6 张，12 个月 = 12 张（月数 = 周期天数 / 30，四舍五入，最少 1）。默认值和按套餐设置的数量均按每月计算。附加项和按日扣费不乘以月数。"
       },
-      "ticketsPerMonth": "每月抽奖券"
+      "ticketsPerMonth": "每月抽奖券",
+      "expand": "展开",
+      "collapse": "收起"
     }
   },
   "adminUpdates": {

@@ -382,7 +382,9 @@
       "balance": "Баланс",
       "subscription": "Подписка",
       "referrals": "Рефералы",
-      "earnings": "Заработок"
+      "earnings": "Заработок",
+      "raffle": "Розыгрыш",
+      "help": "Помощь"
     },
     "manageAll": "Управлять всеми",
     "showAll": "Показать все",
@@ -898,6 +900,10 @@
         "not_paused": "Подписка не на паузе.",
         "subscription_paused": "Подписка на паузе — сначала выйдите из паузы."
       }
+    },
+    "giftCta": {
+      "title": "🎁 Подарить подписку",
+      "subtitle": "Отправьте VPN в подарок другу"
     }
   },
   "balance": {
@@ -7524,7 +7530,9 @@
         "note": "Комментарий (необязательно)",
         "userRequired": "Укажите либо user id, либо Telegram id",
         "countInvalid": "Число билетов: от 1 до 50"
-      }
+      },
+      "expand": "Развернуть",
+      "collapse": "Свернуть"
     }
   },
   "adminUpdates": {
