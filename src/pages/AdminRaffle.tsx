@@ -15,6 +15,7 @@ import { usePermissionStore } from '@/store/permissions';
 import {
   BackIcon,
   CheckIcon,
+  ChevronDownIcon,
   DownloadIcon,
   PlusIcon,
   TicketIcon,
@@ -166,6 +167,15 @@ export default function AdminRaffle() {
   const [grantCount, setGrantCount] = useState<number | ''>(1);
   const [grantNote, setGrantNote] = useState('');
   const [csvExporting, setCsvExporting] = useState(false);
+  const [expandedIds, setExpandedIds] = useState<Set<number>>(() => new Set());
+  const toggleExpanded = (id: number) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
   const winnersDialogRef = useFocusTrap<HTMLDivElement>(winnersModal !== null, {
     onEscape: () => setWinnersModal(null),
   });
@@ -470,7 +480,7 @@ export default function AdminRaffle() {
         </PermissionGate>
       </div>
 
-      {!enabled && (
+      {data && !enabled && (
         <div className="mb-6 rounded-xl border border-warning-500/30 bg-warning-500/10 px-4 py-3 text-sm text-warning-300">
           {t('admin.raffle.disabledHint')}
         </div>
@@ -520,163 +530,208 @@ export default function AdminRaffle() {
         </div>
       ) : (
         <div className="space-y-3">
-          {campaigns.map((campaign) => (
-            <div
-              key={campaign.id}
-              className={`rounded-xl border bg-dark-800 p-4 transition-colors ${
-                campaign.status === 'active' ? 'border-dark-700' : 'border-dark-700/50'
-              }`}
-            >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div className="min-w-0 flex-1">
-                  <div className="mb-2 flex flex-wrap items-center gap-2">
-                    <h2 className="font-semibold text-dark-100">{campaign.name}</h2>
-                    <span className={`rounded px-2 py-0.5 text-xs ${statusTone(campaign.status)}`}>
-                      {t(`admin.raffle.status.${campaign.status}`, {
-                        defaultValue: campaign.status,
-                      })}
-                    </span>
-                    {campaign.auto_draw === true && (
-                      <span className="rounded bg-accent-500/20 px-2 py-0.5 text-xs text-accent-300">
-                        {t('admin.raffle.autoDrawBadge')}
-                      </span>
-                    )}
-                    <span className="rounded bg-dark-700 px-2 py-0.5 text-xs text-dark-300">
-                      #{campaign.id}
-                    </span>
+          {campaigns.map((campaign) => {
+            // GorecVPN: карточки кампаний сворачиваются, детали и действия — по клику
+            const isOpen = expandedIds.has(campaign.id);
+            return (
+              <div
+                key={campaign.id}
+                className={`overflow-hidden rounded-xl border bg-dark-800 transition-colors ${
+                  isOpen
+                    ? 'border-dark-600'
+                    : campaign.status === 'active'
+                      ? 'border-dark-700 hover:border-dark-600'
+                      : 'border-dark-700/50 hover:border-dark-600'
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleExpanded(campaign.id)}
+                  aria-expanded={isOpen}
+                  aria-label={isOpen ? t('admin.raffle.collapse') : t('admin.raffle.expand')}
+                  className="flex w-full items-center gap-3 p-4 text-left"
+                >
+                  <div
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${statusTone(campaign.status)}`}
+                  >
+                    <TrophyIcon className="h-5 w-5" />
                   </div>
-                  {campaign.description && (
-                    <div className="whitespace-pre-wrap mb-2 text-sm text-dark-400 [overflow-wrap:anywhere]">
-                      {campaign.description}
-                    </div>
-                  )}
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-dark-400">
-                    <span className="text-accent-300">{formatPrize(campaign, t)}</span>
-                    <span>
-                      {t('admin.raffle.tickets')}: {campaign.tickets} / {campaign.unique_users}{' '}
-                      {t('admin.raffle.users')}
-                    </span>
-                    <span>
-                      {t('admin.raffle.maxWinners')}: {campaign.max_winners}
-                    </span>
-                    {campaign.tickets_per_purchase != null && (
-                      <span>
-                        {t('admin.raffle.ticketsPerPurchase')}: {campaign.tickets_per_purchase}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h2 className="truncate font-semibold text-dark-100">{campaign.name}</h2>
+                      <span
+                        className={`rounded px-2 py-0.5 text-xs ${statusTone(campaign.status)}`}
+                      >
+                        {t(`admin.raffle.status.${campaign.status}`, {
+                          defaultValue: campaign.status,
+                        })}
                       </span>
-                    )}
-                    {campaign.tickets_per_month && <span>{t('admin.raffle.ticketsPerMonth')}</span>}
-                    <span>
-                      {t('admin.raffle.starts')}: {formatDate(campaign.starts_at)}
-                    </span>
-                    <span>
-                      {campaign.auto_draw === true && campaign.ends_at
-                        ? t('admin.raffle.autoDrawAt', { date: formatDate(campaign.ends_at) })
-                        : `${t('admin.raffle.ends')}: ${formatDate(campaign.ends_at)}`}
-                    </span>
-                    {(() => {
-                      const status = endsAtStatus(campaign, t);
-                      return status ? (
-                        <span className={`rounded px-2 py-0.5 text-xs ${status.tone}`}>
-                          {status.label}
+                      {campaign.auto_draw === true && (
+                        <span className="rounded bg-accent-500/20 px-2 py-0.5 text-xs text-accent-300">
+                          {t('admin.raffle.autoDrawBadge')}
                         </span>
-                      ) : null;
-                    })()}
-                    {campaign.winners > 0 && (
-                      <span className="text-success-400">
-                        {t('admin.raffle.winnersCount', { count: campaign.winners })}
+                      )}
+                      <span className="rounded bg-dark-700 px-2 py-0.5 text-xs text-dark-300">
+                        #{campaign.id}
                       </span>
-                    )}
+                    </div>
+                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-dark-400">
+                      <span className="text-accent-300">{formatPrize(campaign, t)}</span>
+                      <span>
+                        🎟 {campaign.tickets} · 👥 {campaign.unique_users}
+                      </span>
+                      <span>
+                        {formatDate(campaign.starts_at)} — {formatDate(campaign.ends_at)}
+                      </span>
+                      {campaign.winners > 0 && (
+                        <span className="text-success-400">
+                          {t('admin.raffle.winnersCount', { count: campaign.winners })}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 border-t border-dark-700 pt-3 sm:border-0 sm:pt-0">
-                  {canRead && (campaign.status === 'drawn' || campaign.winners > 0) && (
-                    <button
-                      disabled={busy}
-                      onClick={() => handleHistory(campaign)}
-                      className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
-                    >
-                      {t('admin.raffle.actions.history')}
-                    </button>
-                  )}
-                  {canRead && campaign.status === 'drawn' && (
-                    <button
-                      disabled={busy}
-                      onClick={() => void handleDownloadCsv(campaign.id)}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
-                    >
-                      <DownloadIcon className="h-4 w-4" />
-                      {t('admin.raffle.actions.downloadCsv')}
-                    </button>
-                  )}
-                  {canEdit && campaign.status === 'active' && (
-                    <button
-                      disabled={busy}
-                      onClick={() => openGrantModal(campaign)}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
-                    >
-                      <UserPlusIcon className="h-4 w-4" />
-                      {t('admin.raffle.actions.grantTickets')}
-                    </button>
-                  )}
-                  {canEdit && (
-                    <>
-                      {(campaign.status === 'draft' ||
-                        campaign.status === 'active' ||
-                        campaign.status === 'closed') && (
+                  <ChevronDownIcon
+                    className={`h-5 w-5 shrink-0 text-dark-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="border-t border-dark-700 px-4 pb-4 pt-3">
+                    {campaign.description && (
+                      <div className="whitespace-pre-wrap mb-2 text-sm text-dark-400 [overflow-wrap:anywhere]">
+                        {campaign.description}
+                      </div>
+                    )}
+                    <div className="mb-3">
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-dark-400">
+                        <span className="text-accent-300">{formatPrize(campaign, t)}</span>
+                        <span>
+                          {t('admin.raffle.tickets')}: {campaign.tickets} / {campaign.unique_users}{' '}
+                          {t('admin.raffle.users')}
+                        </span>
+                        <span>
+                          {t('admin.raffle.maxWinners')}: {campaign.max_winners}
+                        </span>
+                        {campaign.tickets_per_purchase != null && (
+                          <span>
+                            {t('admin.raffle.ticketsPerPurchase')}: {campaign.tickets_per_purchase}
+                          </span>
+                        )}
+                        {campaign.tickets_per_month && (
+                          <span>{t('admin.raffle.ticketsPerMonth')}</span>
+                        )}
+                        <span>
+                          {t('admin.raffle.starts')}: {formatDate(campaign.starts_at)}
+                        </span>
+                        <span>
+                          {campaign.auto_draw === true && campaign.ends_at
+                            ? t('admin.raffle.autoDrawAt', { date: formatDate(campaign.ends_at) })
+                            : `${t('admin.raffle.ends')}: ${formatDate(campaign.ends_at)}`}
+                        </span>
+                        {(() => {
+                          const status = endsAtStatus(campaign, t);
+                          return status ? (
+                            <span className={`rounded px-2 py-0.5 text-xs ${status.tone}`}>
+                              {status.label}
+                            </span>
+                          ) : null;
+                        })()}
+                        {campaign.winners > 0 && (
+                          <span className="text-success-400">
+                            {t('admin.raffle.winnersCount', { count: campaign.winners })}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 border-t border-dark-700/60 pt-3">
+                      {canRead && (campaign.status === 'drawn' || campaign.winners > 0) && (
                         <button
                           disabled={busy}
-                          onClick={() => handleEdit(campaign)}
+                          onClick={() => handleHistory(campaign)}
                           className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
                         >
-                          {t('admin.raffle.actions.edit')}
+                          {t('admin.raffle.actions.history')}
                         </button>
                       )}
-                      {(campaign.status === 'draft' || campaign.status === 'closed') && (
-                        <button
-                          disabled={busy || !enabled}
-                          onClick={() => void handleActivate(campaign)}
-                          className="rounded-lg bg-success-500/20 px-3 py-1.5 text-sm text-success-300 transition-colors hover:bg-success-500/30 disabled:opacity-50"
-                        >
-                          {t('admin.raffle.actions.activate')}
-                        </button>
-                      )}
-                      {campaign.status === 'active' && (
+                      {canRead && campaign.status === 'drawn' && (
                         <button
                           disabled={busy}
-                          onClick={() => void handleClose(campaign)}
-                          className="rounded-lg bg-warning-500/20 px-3 py-1.5 text-sm text-warning-300 transition-colors hover:bg-warning-500/30 disabled:opacity-50"
+                          onClick={() => void handleDownloadCsv(campaign.id)}
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
                         >
-                          {t('admin.raffle.actions.close')}
+                          <DownloadIcon className="h-4 w-4" />
+                          {t('admin.raffle.actions.downloadCsv')}
                         </button>
                       )}
-                      {(campaign.status === 'active' || campaign.status === 'closed') && (
+                      {canEdit && campaign.status === 'active' && (
                         <button
                           disabled={busy}
-                          onClick={() => void handleDraw(campaign)}
-                          className="rounded-lg bg-accent-500/20 px-3 py-1.5 text-sm text-accent-300 transition-colors hover:bg-accent-500/30 disabled:opacity-50"
+                          onClick={() => openGrantModal(campaign)}
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
                         >
-                          {t('admin.raffle.actions.draw')}
+                          <UserPlusIcon className="h-4 w-4" />
+                          {t('admin.raffle.actions.grantTickets')}
                         </button>
                       )}
-                      {(campaign.status === 'draft' ||
-                        campaign.status === 'active' ||
-                        campaign.status === 'closed' ||
-                        campaign.status === 'drawn') && (
-                        <button
-                          disabled={busy}
-                          onClick={() => void handleDelete(campaign)}
-                          className="rounded-lg bg-error-500/15 px-3 py-1.5 text-sm text-error-300 transition-colors hover:bg-error-500/25 disabled:opacity-50"
-                        >
-                          {t('admin.raffle.actions.delete')}
-                        </button>
+                      {canEdit && (
+                        <>
+                          {(campaign.status === 'draft' ||
+                            campaign.status === 'active' ||
+                            campaign.status === 'closed') && (
+                            <button
+                              disabled={busy}
+                              onClick={() => handleEdit(campaign)}
+                              className="rounded-lg bg-dark-700 px-3 py-1.5 text-sm text-dark-200 transition-colors hover:bg-dark-600 disabled:opacity-50"
+                            >
+                              {t('admin.raffle.actions.edit')}
+                            </button>
+                          )}
+                          {(campaign.status === 'draft' || campaign.status === 'closed') && (
+                            <button
+                              disabled={busy || !enabled}
+                              onClick={() => void handleActivate(campaign)}
+                              className="rounded-lg bg-success-500/20 px-3 py-1.5 text-sm text-success-300 transition-colors hover:bg-success-500/30 disabled:opacity-50"
+                            >
+                              {t('admin.raffle.actions.activate')}
+                            </button>
+                          )}
+                          {campaign.status === 'active' && (
+                            <button
+                              disabled={busy}
+                              onClick={() => void handleClose(campaign)}
+                              className="rounded-lg bg-warning-500/20 px-3 py-1.5 text-sm text-warning-300 transition-colors hover:bg-warning-500/30 disabled:opacity-50"
+                            >
+                              {t('admin.raffle.actions.close')}
+                            </button>
+                          )}
+                          {(campaign.status === 'active' || campaign.status === 'closed') && (
+                            <button
+                              disabled={busy}
+                              onClick={() => void handleDraw(campaign)}
+                              className="rounded-lg bg-accent-500/20 px-3 py-1.5 text-sm text-accent-300 transition-colors hover:bg-accent-500/30 disabled:opacity-50"
+                            >
+                              {t('admin.raffle.actions.draw')}
+                            </button>
+                          )}
+                          {(campaign.status === 'draft' ||
+                            campaign.status === 'active' ||
+                            campaign.status === 'closed' ||
+                            campaign.status === 'drawn') && (
+                            <button
+                              disabled={busy}
+                              onClick={() => void handleDelete(campaign)}
+                              className="rounded-lg bg-error-500/15 px-3 py-1.5 text-sm text-error-300 transition-colors hover:bg-error-500/25 disabled:opacity-50"
+                            >
+                              {t('admin.raffle.actions.delete')}
+                            </button>
+                          )}
+                        </>
                       )}
-                    </>
-                  )}
-                </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

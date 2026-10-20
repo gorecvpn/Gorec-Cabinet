@@ -346,7 +346,9 @@
       "balance": "余额",
       "referrals": "推荐人",
       "subscription": "订阅",
-      "earnings": "收益"
+      "earnings": "收益",
+      "raffle": "Raffle",
+      "help": "Help"
     },
     "reminders": {
       "dismiss": "关闭"
@@ -942,6 +944,10 @@
         "not_paused": "The subscription is not paused.",
         "subscription_paused": "The subscription is paused — resume it first."
       }
+    },
+    "giftCta": {
+      "title": "🎁 Gift a subscription",
+      "subtitle": "Send VPN to a friend as a gift"
     }
   },
   "balance": {
@@ -8056,7 +8062,9 @@
       "winnersCount_few": "{{count}} победителя",
       "winnersCount_many": "{{count}} победителей",
       "prizeDays_few": "{{count}} дня подписки",
-      "prizeDays_many": "{{count}} дней подписки"
+      "prizeDays_many": "{{count}} дней подписки",
+      "expand": "展开",
+      "collapse": "收起"
     }
   },
   "adminUpdates": {
