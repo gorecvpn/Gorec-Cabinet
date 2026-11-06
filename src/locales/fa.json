@@ -22,9 +22,9 @@
     "currency": "تومان",
     "copy": "کپی",
     "units": {
-      "tb": "TB",
-      "gb": "GB",
-      "mb": "MB",
+      "tb": "ترابایت",
+      "gb": "گیگابایت",
+      "mb": "مگابایت",
       "gbPerDay": "گیگابایت/روز",
       "hoursValue": "{{hours}} ساعت"
     },
@@ -75,8 +75,7 @@
     }
   },
   "navShort": {
-    "wheel": "گردونه",
-    "raffle": "قرعه"
+    "wheel": "گردونه"
   },
   "nav": {
     "dashboard": "داشبورد",
@@ -93,7 +92,7 @@
     "menu": "منو",
     "gift": "هدیه",
     "navigation": "ناوبری",
-    "raffle": "قرعه‌کشی"
+    "raffle": "Raffle"
   },
   "notifications": {
     "ticketNotifications": "اعلان‌های تیکت",
@@ -276,6 +275,8 @@
     "firstNamePlaceholder": "نام شما (اختیاری)",
     "forgotPasswordHint": "ایمیل خود را وارد کنید تا لینک بازنشانی دریافت کنید",
     "invalidCredentials": "ایمیل یا رمز عبور نامعتبر",
+    "registrationInviteRequired": "ثبت‌نام فقط با دعوت امکان‌پذیر است. برای دریافت دعوت‌نامه با مدیر سرویس تماس بگیرید.",
+    "emailAuthDisabled": "ورود با ایمیل غیرفعال است. از روش دیگری برای ورود استفاده کنید.",
     "invalidEmail": "لطفاً یک آدرس ایمیل معتبر وارد کنید",
     "loginSuccess": "ورود موفق",
     "passwordMismatch": "رمزهای عبور مطابقت ندارند",
@@ -293,9 +294,7 @@
     "continueWithDiscord": "ادامه با Discord",
     "continueWithVk": "ادامه با VK",
     "oauthError": "مجوز رد شد یا ناموفق بود",
-    "oauthExpired": "نشست OAuth منقضی شده است. لطفاً دوباره امتحان کنید.",
-    "registrationInviteRequired": "ثبت‌نام فقط با دعوت امکان‌پذیر است. برای دریافت دعوت‌نامه با مدیر سرویس تماس بگیرید.",
-    "emailAuthDisabled": "ورود با ایمیل غیرفعال است. از روش دیگری برای ورود استفاده کنید."
+    "oauthExpired": "نشست OAuth منقضی شده است. لطفاً دوباره امتحان کنید."
   },
   "emailVerification": {
     "title": "تایید ایمیل",
@@ -388,6 +387,17 @@
     "daysRemaining": "روزهای باقی‌مانده"
   },
   "subscription": {
+    "accounting": {
+      "label": "ترافیک در دسترس",
+      "available": "مجموع باقی‌مانده",
+      "baseRemaining": "سهم باقی‌مانده طرح",
+      "nextRefresh": "تمدید ترافیک طرح",
+      "packageRemaining": "{{amount}} باقی‌مانده",
+      "packageExpires": "معتبر تا"
+    },
+    "dailyRenewalExplanation": "این طرح هر بار برای یک روز از موجودی تمدید می‌شود. اگر دوره پرداخت‌شده تمام شده باشد، با ازسرگیری هزینه یک روز کسر می‌شود.",
+    "dailyRenewalPrice": "هزینه روزانه: {{price}}",
+    "purchaseOutcomeUnknown": "پاسخی دریافت نشد. ممکن است عملیات انجام شده باشد. اتصال را برقرار و اشتراک را در برنامه VPN به‌روزرسانی کنید، سپس پیش از تلاش دوباره اشتراک و موجودی را در پنل بررسی کنید.",
     "title": "اشتراک",
     "currentPlan": "پلن فعلی",
     "status": "وضعیت",
@@ -501,6 +511,7 @@
       "yourDevice": "دستگاه شما",
       "copyLink": "کپی لینک اشتراک",
       "copied": "لینک کپی شد!",
+      "copyFailed": "کپی پیوند انجام نشد. متن بالا را انتخاب و کپی کنید.",
       "openLink": "باز کردن لینک",
       "changeApp": "تغییر برنامه",
       "selectPlatform": "انتخاب پلتفرم",
@@ -515,7 +526,6 @@
       "qrScanHint": "برای اتصال با دوربین اسکن کنید",
       "qrButton": "کد QR",
       "openQr": "باز کردن کد QR",
-      "copyFailed": "کپی پیوند انجام نشد. متن بالا را انتخاب و کپی کنید.",
       "instructions": "آموزش"
     },
     "additionalOptions": {
@@ -671,10 +681,10 @@
       "activate": "فعال‌سازی با {{price}}",
       "canPause": "می‌تواند در هر زمان متوقف شود",
       "chargedDaily": "هر روز از موجودی کسر می‌شود",
-      "costPerDay": "هزینه روزانه",
-      "pausedOnLowBalance": "با کمبود موجودی اشتراک متوقف می‌شود",
       "firstCharge": "اولین پرداخت",
-      "nextCharge": "پس از آن روزانه {{price}}"
+      "nextCharge": "پس از آن روزانه {{price}}",
+      "costPerDay": "هزینه روزانه",
+      "pausedOnLowBalance": "با کمبود موجودی اشتراک متوقف می‌شود"
     },
     "pause": {
       "active": "فعال",
@@ -843,17 +853,6 @@
       "purchaseButton": "⚡ خرید با پرداخت خودکار Cashera",
       "purchaseHint": "برداشت خودکار را از طریق لینک Cashera تأیید کنید؛ سپس تمدیدها خودکار برداشت می‌شوند."
     },
-    "accounting": {
-      "label": "ترافیک در دسترس",
-      "available": "مجموع باقی‌مانده",
-      "baseRemaining": "سهم باقی‌مانده طرح",
-      "nextRefresh": "تمدید ترافیک طرح",
-      "packageRemaining": "{{amount}} باقی‌مانده",
-      "packageExpires": "معتبر تا"
-    },
-    "dailyRenewalExplanation": "این طرح هر بار برای یک روز از موجودی تمدید می‌شود. اگر دوره پرداخت‌شده تمام شده باشد، با ازسرگیری هزینه یک روز کسر می‌شود.",
-    "dailyRenewalPrice": "هزینه روزانه: {{price}}",
-    "purchaseOutcomeUnknown": "پاسخی دریافت نشد. ممکن است عملیات انجام شده باشد. اتصال را برقرار و اشتراک را در برنامه VPN به‌روزرسانی کنید، سپس پیش از تلاش دوباره اشتراک و موجودی را در پنل بررسی کنید.",
     "purchaseDevices": {
       "otherQuantity": "تعداد دیگر",
       "exactQuantity": "تعداد دستگاه‌ها را وارد کنید",
@@ -958,6 +957,10 @@
     "devicesFree_other": "{{count}} دستگاه رایگان"
   },
   "balance": {
+    "paymentEmail": "ایمیل پرداخت",
+    "paymentEmailHelp": "Antilopay به اطلاعات تماس خریدار نیاز دارد. ایمیل حساب شما تغییر نمی‌کند.",
+    "paymentEmailInvalid": "یک ایمیل معتبر برای پرداخت وارد کنید.",
+    "paymentRange": "از {{min}} تا {{max}}",
     "title": "موجودی",
     "currentBalance": "موجودی فعلی",
     "topUp": "شارژ",
@@ -990,7 +993,10 @@
         "description": "پرداخت SBP از طریق Jupiter (FPGate P2P)"
       },
       "cispay": {
-        "description": "پرداخت با کارت یا SBP از طریق cisPay"
+        "description": "پرداخت از طریق CisPay"
+      },
+      "anore": {
+        "description": "پرداخت از طریق Anore"
       },
       "tabpay": {
         "description": "پرداخت با کارت یا SBP از طریق TabPay"
@@ -1009,9 +1015,6 @@
       },
       "cashera": {
         "description": "SBP، کارت‌ها، رمزارز (Cashera)"
-      },
-      "anore": {
-        "description": "پرداخت از طریق Anore"
       },
       "heleket": {
         "description": "پرداخت با رمزارز از طریق Heleket"
@@ -1163,10 +1166,6 @@
     },
     "top_up": "افزایش موجودی",
     "scanQrToPay": "کد QR را در برنامه بانک اسکن کنید یا صفحه پرداخت را باز کنید",
-    "paymentEmail": "ایمیل پرداخت",
-    "paymentEmailHelp": "Antilopay به اطلاعات تماس خریدار نیاز دارد. ایمیل حساب شما تغییر نمی‌کند.",
-    "paymentEmailInvalid": "یک ایمیل معتبر برای پرداخت وارد کنید.",
-    "paymentRange": "از {{min}} تا {{max}}",
     "paymentOption": "روش پرداخت",
     "selectPaymentOption": "روش پرداخت را انتخاب کنید"
   },
@@ -1391,10 +1390,11 @@
       "closed": "بسته"
     },
     "attachImage": "پیوست تصویر",
+    "attachMedia": "پیوست عکس یا ویدیو",
     "downloadFile": "دانلود فایل",
     "invalidFileType": "نوع فایل نامعتبر. از JPEG، PNG، GIF یا WebP استفاده کنید.",
     "fileTooLarge": "فایل خیلی بزرگ است. حداکثر 10MB.",
-    "uploadFailed": "آپلود تصویر ناموفق",
+    "uploadFailed": "بارگذاری پیوست ناموفق بود",
     "imageLoadFailed": "بارگذاری تصویر ناموفق",
     "tooManyRequests": "درخواست‌های زیادی ارسال شده. لطفاً {{seconds}} ثانیه صبر کنید.",
     "contactSupport": "برای پشتیبانی با {{username}} تماس بگیرید",
@@ -1409,7 +1409,6 @@
       "createFailed": "ایجاد تیکت ناموفق بود. لطفاً دوباره تلاش کنید.",
       "replyFailed": "ارسال پاسخ ناموفق بود. لطفاً دوباره تلاش کنید."
     },
-    "attachMedia": "پیوست عکس یا ویدیو",
     "useProfile": "برای دریافت پشتیبانی به پروفایل ربات بروید",
     "goToProfile": "رفتن به پروفایل"
   },
@@ -1419,8 +1418,8 @@
     "prizes": "جوایز",
     "spinsRemaining": "تعداد چرخش باقی‌مانده امروز",
     "choosePayment": "روش پرداخت را انتخاب کنید",
-    "stars": "Stars",
-    "telegramStars": "Telegram Stars",
+    "stars": "ستاره‌ها",
+    "telegramStars": "ستاره‌های تلگرام",
     "days": "روز",
     "days_other": "{{count}} روز",
     "subscriptionDays": "روز اشتراک",
@@ -1622,7 +1621,6 @@
       "legalPages": "صفحات سیستمی",
       "systemErrors": "خطاهای سیستم",
       "dpichecker": "DPI//CHECKER",
-      "raffle": "قرعه‌کشی",
       "coupons": "کوپن‌ها",
       "bulkActions": "اقدامات گروهی"
     },
@@ -2055,6 +2053,9 @@
       }
     },
     "broadcasts": {
+      "captionLimit": "توضیح رسانه می‌تواند حداکثر ۱۰۲۴ نویسه داشته باشد؛ برچسب‌های HTML محاسبه نمی‌شوند.",
+      "captionTooLong": "توضیح از ۱۰۲۴ نویسه بیشتر است. متن را کوتاه کنید یا پیوست را حذف کنید تا بتوانید تا ۴۰۰۰ نویسه بفرستید.",
+      "partialSend": "ارسال تلگرام شماره {{id}} ایجاد شد. ایجاد ارسال ایمیل تأیید نشد: {{error}}. پیش از تلاش مجدد، تاریخچه را بررسی کنید؛ تلگرام را دوباره ارسال نکنید.",
       "title": "نشریات",
       "subtitle": "ارسال گروهی پیام به کاربران",
       "create": "ایجاد پیام",
@@ -2166,15 +2167,15 @@
         "source": "بر اساس منبع",
         "tariff": "بر اساس تعرفه"
       },
-      "enableTelegram": "Telegram",
-      "enableEmail": "Email",
+      "enableTelegram": "تلگرام",
+      "enableEmail": "ایمیل",
       "sendingBoth": "۲ پیام‌رسانی ایجاد خواهد شد",
       "bothCreated": "پیام‌رسانی‌ها ایجاد شدند",
       "atLeastOneChannel": "حداقل یک کانال را انتخاب کنید",
       "customButtons": "دکمه‌های سفارشی",
       "addCustomButton": "افزودن دکمه",
       "customButtonLabelPlaceholder": "متن دکمه",
-      "customButtonTypeCallback": "Callback",
+      "customButtonTypeCallback": "فراخوان بازگشتی",
       "customButtonTypeUrl": "لینک",
       "customButtonCallbackPlaceholder": "callback_data (مثلاً back_to_menu)",
       "customButtonUrlPlaceholder": "https://example.com",
@@ -2205,9 +2206,6 @@
       "selectEmailFilterPlaceholder": "فیلتر را انتخاب کنید...",
       "singleUser": "فقط {{name}}",
       "telegramSection": "ارسال انبوه تلگرام",
-      "captionLimit": "توضیح رسانه می‌تواند حداکثر ۱۰۲۴ نویسه داشته باشد؛ برچسب‌های HTML محاسبه نمی‌شوند.",
-      "captionTooLong": "توضیح از ۱۰۲۴ نویسه بیشتر است. متن را کوتاه کنید یا پیوست را حذف کنید تا بتوانید تا ۴۰۰۰ نویسه بفرستید.",
-      "partialSend": "ارسال تلگرام شماره {{id}} ایجاد شد. ایجاد ارسال ایمیل تأیید نشد: {{error}}. پیش از تلاش مجدد، تاریخچه را بررسی کنید؛ تلگرام را دوباره ارسال نکنید.",
       "channel": {
         "telegram": "تلگرام",
         "email": "ایمیل",
@@ -2525,7 +2523,7 @@
       },
       "tree": {
         "payments_general": "عمومی",
-        "payments_stars": "Telegram Stars",
+        "payments_stars": "ستاره‌های تلگرام",
         "payments_yookassa": "YooKassa",
         "payments_cryptobot": "CryptoBot",
         "payments_cloudpayments": "CloudPayments",
@@ -2539,7 +2537,6 @@
         "payments_wata": "Wata",
         "payments_riopay": "RioPay",
         "payments_severpay": "SeverPay",
-        "payments_paypear": "PayPear",
         "payments_rollypay": "RollyPay",
         "payments_aurapay": "AuraPay",
         "payments_etoplatezhi": "Etoplatezhi",
@@ -2547,6 +2544,7 @@
         "payments_jupiter": "Jupiter",
         "payments_cispay": "CisPay",
         "payments_tabpay": "TabPay",
+        "payments_anore": "Anore",
         "payments_paritypay": "ParityPay",
         "payments_donut": "Donut",
         "payments_lava": "Lava",
@@ -2560,7 +2558,7 @@
         "subs_autopay": "پرداخت خودکار",
         "iface_general": "عمومی",
         "iface_connect": "دکمه اتصال",
-        "iface_miniapp": "MiniApp",
+        "iface_miniapp": "مینی‌اپ",
         "iface_happ": "HAPP",
         "iface_widget": "ویجت ورود",
         "iface_oidc": "OIDC",
@@ -2581,8 +2579,8 @@
         "sys_core": "هسته و اشکال‌زدایی",
         "sys_remnawave": "Remnawave",
         "sys_reachability": "BSCHEKER",
-        "sys_webapi": "Web API",
-        "sys_webhook": "Webhook",
+        "sys_webapi": "رابط برنامه‌نویسی وب",
+        "sys_webhook": "وب‌هوک",
         "sys_server": "وضعیت سرور",
         "sys_monitoring": "نظارت",
         "sys_maintenance": "نگهداری",
@@ -2594,17 +2592,16 @@
         "sys_cabinet": "کابین",
         "sys_other": "سایر تنظیمات",
         "sys_dpichecker": "DPI//CHECKER",
-        "payments_cashera": "Cashera",
-        "payments_anore": "Anore"
+        "payments_cashera": "Cashera"
       },
       "categories": {
+        "ANORE": "Anore",
+        "CISPAY": "CisPay",
         "CABINET": "کابین",
         "INFO_PAGES": "اسناد حقوقی و پرسش‌های متداول",
         "MENU": "دکمه منو",
-        "TELEGRAM_WIDGET": "Telegram Login Widget",
-        "TELEGRAM_OIDC": "Telegram Login (OIDC)",
-        "ANORE": "Anore",
-        "CISPAY": "CisPay",
+        "TELEGRAM_WIDGET": "ویجت ورود تلگرام",
+        "TELEGRAM_OIDC": "ورود تلگرام (OIDC)",
         "PAYMENT": "پرداخت‌ها",
         "YOOKASSA": "YooKassa",
         "CRYPTOBOT": "CryptoBot",
@@ -2666,7 +2663,7 @@
         "Telegram Widget Request Access": "درخواست دسترسی",
         "telegramOidcEnabled": "فعال‌سازی OIDC",
         "telegramOidcClientId": "Client ID (شناسه ربات)",
-        "telegramOidcClientSecret": "Client Secret",
+        "telegramOidcClientSecret": "رمز محرمانه کلاینت",
         "Miniapp Tickets Enabled": "تیکت‌ها",
         "Connect Button Enabled": "دکمه اتصال",
         "Connect Button Text": "متن دکمه",
@@ -3916,8 +3913,7 @@
         "support": "پشتیبانی",
         "info": "اطلاعات",
         "admin": "پنل مدیریت",
-        "language": "زبان",
-        "raffle": "قرعه‌کشی"
+        "language": "زبان"
       },
       "descriptions": {
         "home": "دکمه کابینت شخصی",
@@ -3927,8 +3923,7 @@
         "support": "تیکت‌های پشتیبانی",
         "info": "بخش اطلاعات",
         "admin": "پنل مدیریت وب",
-        "language": "انتخاب زبان ربات",
-        "raffle": "قرعه‌کشی بلیط‌های تلگرام"
+        "language": "انتخاب زبان ربات"
       },
       "styles": {
         "default": "بدون رنگ",
@@ -3968,7 +3963,7 @@
       "copyTo": "کپی به...",
       "appId": "شناسه برنامه",
       "appName": "نام",
-      "urlScheme": "URL Scheme",
+      "urlScheme": "طرح نشانی URL",
       "featured": "ویژه",
       "base64Encoding": "کدگذاری Base64",
       "buttons": "دکمه‌ها",
@@ -4140,7 +4135,7 @@
       "descriptionLabel": "توضیحات",
       "descriptionPlaceholder2": "توضیح مختصر تعرفه",
       "trafficLimitLabel": "محدودیت ترافیک",
-      "gbUnit": "GB",
+      "gbUnit": "گیگابایت",
       "trafficLimitHint": "0 = ترافیک نامحدود",
       "deviceLimitLabel": "دستگاه‌ها در تعرفه",
       "tierLevelLabel": "سطح تعرفه",
@@ -4177,7 +4172,7 @@
       "trafficPackagesLabel": "بسته‌های ترافیک:",
       "addPackageTitle": "افزودن بسته",
       "noPackagesHint": "هیچ بسته‌ای اضافه نشده است. حداقل یک بسته اضافه کنید.",
-      "gbPackageUnit": "GB:",
+      "gbPackageUnit": "گیگابایت:",
       "customDaysTitle": "تعداد روزهای سفارشی",
       "customDaysDesc": "کاربر مدت اشتراک را انتخاب می‌کند",
       "pricePerDayLabel": "قیمت روزانه:",
@@ -4299,6 +4294,8 @@
       "description": "توضیحات",
       "descriptionHint": "زیر نام روش پرداخت نمایش داده می‌شود. خالی — متن پیش‌فرض",
       "subOptions": "گزینه‌های پرداخت",
+      "providerOptionDisabled": "این روش در تنظیمات سرویس پرداخت غیرفعال است. فعال کردن آن فقط در این صفحه برای پذیرش پرداخت کافی نیست.",
+      "providerSettings": "باز کردن تنظیمات CisPay",
       "minAmount": "حداقل مبلغ (کپک)",
       "maxAmount": "حداکثر مبلغ (کپک)",
       "conditions": "شرایط نمایش",
@@ -4343,9 +4340,7 @@
       "overpayCertConfirmDelete": "گواهی Overpay حذف شود؟",
       "overpayCertFileTooLarge": "حجم فایل بیش از ۱ مگابایت است",
       "overpayCertUploadError": "بارگذاری گواهی ناموفق بود",
-      "overpayCertDeleteError": "حذف گواهی ناموفق بود",
-      "providerOptionDisabled": "این روش در تنظیمات سرویس پرداخت غیرفعال است. فعال کردن آن فقط در این صفحه برای پذیرش پرداخت کافی نیست.",
-      "providerSettings": "باز کردن تنظیمات CisPay"
+      "overpayCertDeleteError": "حذف گواهی ناموفق بود"
     },
     "campaigns": {
       "title": "کمپین‌های تبلیغاتی",
@@ -6138,8 +6133,8 @@
         "limit": "حداکثر ۲۰ پیکربندی در هر تست",
         "core": "هسته Xray",
         "coreAuto": "خودکار",
-        "coreStable": "Stable",
-        "corePrerelease": "Prerelease",
+        "coreStable": "پایدار",
+        "corePrerelease": "پیش‌انتشار",
         "empty": "اشتراک پیکربندی قابل‌استفاده‌ای ندارد",
         "pickBs": "لیست سفید ({{count}})",
         "source": "منبع",
@@ -7112,6 +7107,7 @@
       "stickyPayButtonHint": "دکمه پرداخت در موبایل پایین صفحه ثابت می‌ماند"
     },
     "infoPages": {
+      "botFaq": "پرسش‌های متداول ربات",
       "title": "صفحات اطلاعات",
       "subtitle": "مدیریت صفحات اطلاعات ثابت",
       "create": "ایجاد صفحه",
@@ -7142,7 +7138,7 @@
       },
       "replacesTabNone": "بدون جایگزینی",
       "replacesTabOptions": {
-        "faq": "FAQ",
+        "faq": "پرسش‌های متداول",
         "rules": "قوانین",
         "privacy": "حریم خصوصی",
         "offer": "پیشنهاد"
@@ -7152,11 +7148,11 @@
       "filter": {
         "all": "همه",
         "page": "صفحات",
-        "faq": "FAQ"
+        "faq": "پرسش‌های متداول"
       },
       "pageTypes": {
         "page": "صفحه",
-        "faq": "FAQ"
+        "faq": "پرسش‌های متداول"
       },
       "faq": {
         "questions": "سوالات و پاسخ‌ها",
@@ -7185,8 +7181,7 @@
         "bot": "فقط ربات",
         "web": "فقط وب",
         "both": "ربات و وب"
-      },
-      "botFaq": "پرسش‌های متداول ربات"
+      }
     },
     "bulkActions": {
       "title": "عملیات دسته‌ای",
@@ -7244,7 +7239,7 @@
         "processed": "پردازش شده: {{current}} / {{total}}",
         "succeeded": "موفق",
         "failed": "ناموفق",
-        "ok": "OK",
+        "ok": "موفق",
         "errorGeneric": "خطا",
         "doNotClose": "لطفا تا پایان عملیات این پنجره را نبندید",
         "summarySuccess": "{{count}} موفق",
@@ -7293,7 +7288,7 @@
       "userTarget": "هدف: کاربران",
       "daysUnit": "روز",
       "trafficOf": "از",
-      "trafficGbUnit": "GB",
+      "trafficGbUnit": "گیگابایت",
       "selectAllSubs": "انتخاب همه اشتراک‌ها",
       "deselectAllSubs": "لغو انتخاب همه اشتراک‌ها"
     },
@@ -7306,7 +7301,7 @@
         "offer": "پیشنهاد",
         "recurrent": "پرداخت‌های تکراری",
         "rules": "قوانین",
-        "faq": "FAQ"
+        "faq": "پرسش‌های متداول"
       },
       "displayMode": "نمایش",
       "displayModes": {
@@ -7874,13 +7869,6 @@
         "response": "ربات پاسخ داد {{code}}"
       }
     },
-    "raffle": {
-      "form": {
-        "ticketsPerMonth": "بلیت به ازای هر ماه اشتراک",
-        "ticketsPerMonthHint": "۱ ماه = ۱ بلیت، ۳ ماه = ۳، ۶ ماه = ۶، ۱۲ ماه = ۱۲ (ماه‌ها = روزهای دوره / ۳۰، گردشده، حداقل ۱). مقدار پیش‌فرض و مقادیر هر تعرفه به ازای یک ماه حساب می‌شوند. افزونه‌ها و پرداخت‌های روزانه ضرب نمی‌شوند."
-      },
-      "ticketsPerMonth": "بلیت در ماه"
-    },
     "coupons": {
       "title": "کوپن‌ها",
       "days": "روز",
@@ -7974,7 +7962,183 @@
     "dashboard": {
       "nodeUptime": "مدت کارکرد: {{uptime}}"
     },
-    "tariffSummary": "{{name}} ({{traffic}} گیگابایت، دستگاه‌ها: {{devices}})"
+    "tariffSummary": "{{name}} ({{traffic}} گیگابایت، دستگاه‌ها: {{devices}})",
+    "raffle": {
+      "form": {
+        "ticketsPerMonth": "بلیت به ازای هر ماه اشتراک",
+        "ticketsPerMonthHint": "۱ ماه = ۱ بلیت، ۳ ماه = ۳، ۶ ماه = ۶، ۱۲ ماه = ۱۲ (ماه‌ها = روزهای دوره / ۳۰، گردشده، حداقل ۱). مقدار پیش‌فرض و مقادیر هر تعرفه به ازای یک ماه حساب می‌شوند. افزونه‌ها و پرداخت‌های روزانه ضرب نمی‌شوند.",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "description": "Description",
+        "startsAt": "Starts at",
+        "startsAtHint": "If empty, the bot uses the current time",
+        "endsAt": "Ends at",
+        "maxWinners": "How many prizes / winners",
+        "maxWinnersInvalid": "Winners must be between 1 and 1000",
+        "prizeType": "Prize type",
+        "prizeTypeDays": "Subscription days",
+        "prizeTypeBalance": "Balance",
+        "prizeTypeCustom": "Custom text",
+        "prizeValueDays": "Days",
+        "prizeValueBalance": "Amount, ₽",
+        "prizeValueRequired": "Prize value must be greater than 0",
+        "prizeText": "Prize description",
+        "prizeTextRequired": "Custom prize requires text",
+        "submit": "Create",
+        "maxWinnersHint": "That many unique users will be selected in the draw (weighted by tickets).",
+        "maxWinnersPrizeHint": "The prize below is awarded to every winner (places 1–N).",
+        "winnersSection": "Winners and prizes",
+        "winnersSectionHint": "Different prizes per place, or one winner count with a shared prize.",
+        "usePrizeSlots": "Different prizes by place",
+        "place": "Place {{place}}",
+        "addPlace": "Add place",
+        "slotsRequired": "Add at least one place",
+        "ticketsSection": "Ticket issuance rules",
+        "ticketsSectionHint": "How many tickets a purchase grants. Optional per-tariff overrides.",
+        "ticketsPerPurchase": "Tickets per purchase (default)",
+        "ticketsPerPurchaseInvalid": "Tickets per purchase must be 1–50",
+        "ticketsByTariff": "Tickets by tariff",
+        "ticketsByTariffHint": "Leave empty to use the default above. Example: Premium → 2.",
+        "ticketsByTariffInvalid": "Per-tariff tickets must be 1–50",
+        "noTariffs": "No tariffs found",
+        "skipTrial": "Skip trial purchases",
+        "skipTrialHint": "Do not issue tickets for zero/trial subscription payments.",
+        "imageUrl": "Prize image URL",
+        "imageUrlPlaceholder": "https://… or /uploads/images/…",
+        "imageUrlHint": "Upload a photo from your phone or paste an HTTPS URL / server path.",
+        "imageUrlInvalid": "Use an https:// URL or a path starting with /",
+        "save": "Save",
+        "editForbidden": "Editing is not available for this status",
+        "editForbiddenDrawn": "A drawn campaign cannot be edited. You can delete it from the list.",
+        "editActiveHint": "You can extend the end date and edit prize places on an active campaign. Ticket issuance rules stay locked.",
+        "endsAtExtendHint": "You can extend or change the end date of an active campaign.",
+        "imageUpload": "Prize photo",
+        "imageUploadButton": "Upload",
+        "imageUploadError": "Failed to upload photo",
+        "imageUploadSizeError": "File too large (max 5 MB)",
+        "imageUploadTypeError": "Only JPEG, PNG, or WebP are allowed",
+        "ticketsByTariffDefault": "Default for all other tariffs: {{count}}",
+        "ticketsByTariffEmpty": "No per-tariff overrides — every purchase gets the default above.",
+        "ticketsByTariffAdd": "Add tariff override",
+        "ticketsByTariffSelect": "Select a tariff…",
+        "ticketsByTariffCount": "Tickets",
+        "ticketsByTariffAddButton": "Add"
+      },
+      "ticketsPerMonth": "بلیت در ماه",
+      "title": "Raffle",
+      "subtitle": "Ticket campaigns for subscription purchases",
+      "createButton": "Create campaign",
+      "createTitle": "New raffle campaign",
+      "createSubtitle": "Draft can be activated later",
+      "disabledHint": "RAFFLE_ENABLED=false — campaigns cannot be activated until raffle is enabled on the bot.",
+      "loadError": "Failed to load campaigns",
+      "noCampaigns": "No campaigns yet",
+      "tickets": "Tickets",
+      "users": "users",
+      "maxWinners": "Winners",
+      "starts": "Starts",
+      "ends": "Ends",
+      "winnersCount_one": "{{count}} winner",
+      "winnersCount_other": "{{count}} winners",
+      "winnersCount": "{{count}} winners",
+      "prizeDays_one": "{{count}} subscription day",
+      "prizeDays_other": "{{count}} subscription days",
+      "prizeDays": "{{count}} subscription days",
+      "prizeBalance": "{{amount}} ₽",
+      "prizeCustom": "Custom prize",
+      "stats": {
+        "campaigns": "Campaigns",
+        "active": "Active",
+        "tickets": "Tickets",
+        "winners": "Winners"
+      },
+      "status": {
+        "draft": "Draft",
+        "active": "Active",
+        "closed": "Closed",
+        "drawn": "Drawn"
+      },
+      "actions": {
+        "activate": "Activate",
+        "close": "Close",
+        "draw": "Draw",
+        "history": "History",
+        "retryAward": "Award prize",
+        "edit": "Edit",
+        "delete": "Delete",
+        "grantTickets": "Grant tickets",
+        "downloadCsv": "Download CSV"
+      },
+      "confirm": {
+        "activateTitle": "Activate campaign?",
+        "activate": "“{{name}}” will become active and start issuing tickets for purchases.",
+        "closeTitle": "Close campaign?",
+        "close": "“{{name}}” will stop issuing tickets.",
+        "drawTitle": "Run the draw?",
+        "draw": "Draw “{{name}}” among {{count}} tickets? Up to {{winners}} unique winners will be selected. This cannot be undone.",
+        "deleteTitle": "Delete campaign?",
+        "delete": "Delete “{{name}}” with all tickets and winners? This cannot be undone.",
+        "deleteActive": "Campaign “{{name}}” is active. Force-delete will remove all tickets. Continue?"
+      },
+      "toast": {
+        "activated": "Campaign activated",
+        "closed": "Campaign closed",
+        "drawn": "Draw completed",
+        "created": "Campaign created",
+        "actionError": "Action failed",
+        "createError": "Failed to create campaign",
+        "historyError": "Failed to load history",
+        "awarded": "Prize awarded",
+        "awardError": "Failed to award prize",
+        "updated": "Campaign updated",
+        "updateError": "Failed to update campaign",
+        "deleted": "Campaign deleted",
+        "deleteError": "Failed to delete campaign",
+        "granted": "Granted {{count}} ticket(s)",
+        "grantError": "Failed to grant tickets",
+        "csvDownloaded": "Winners CSV downloaded",
+        "csvEmpty": "No winners to export",
+        "csvError": "Failed to download CSV"
+      },
+      "winnersTitle": "Winners",
+      "winnersSubtitle": "Campaign #{{id}}",
+      "drawSuccessNoWinners": "Draw finished, but the API response had no winners list.",
+      "ticketStats": "Tickets: {{tickets}}, users: {{users}}",
+      "awarded": "Awarded",
+      "notAwarded": "Not awarded",
+      "historyTitle": "Draw history",
+      "historySubtitleNamed": "“{{name}}” · #{{id}}",
+      "historyEmpty": "No winners yet (no tickets or the draw stored no rows).",
+      "drawnAt": "Drawn at",
+      "history": {
+        "place": "Place",
+        "user": "User",
+        "ticket": "Ticket",
+        "prize": "Prize",
+        "awarded": "Awarded"
+      },
+      "fairness": "Fairness",
+      "ticketsPerPurchase": "Tickets/purchase",
+      "editTitle": "Edit raffle",
+      "editSubtitle": "“{{name}}” · status: {{status}}",
+      "autoDrawBadge": "Auto-draw",
+      "autoDrawAt": "Auto-draw at {{date}}",
+      "autoDrawEnabled": "Auto-draw enabled",
+      "endsAtPassed": "End time passed — awaiting draw",
+      "grant": {
+        "title": "Grant raffle tickets",
+        "subtitle": "“{{name}}” · #{{id}}",
+        "hint": "Provide either cabinet user id or Telegram id (not both). Only works on an active campaign.",
+        "userId": "User ID",
+        "telegramId": "Telegram ID",
+        "count": "Ticket count",
+        "note": "Note (optional)",
+        "userRequired": "Enter either user id or Telegram id",
+        "countInvalid": "Ticket count must be 1–50"
+      },
+      "expand": "Expand",
+      "collapse": "Collapse"
+    }
   },
   "adminUpdates": {
     "title": "به‌روزرسانی‌ها",
@@ -8391,7 +8555,7 @@
   },
   "banSystem": {
     "title": "نظارت بر مسدودسازی",
-    "subtitle": "مدیریت سیستم GorecBan",
+    "subtitle": "مدیریت سیستم BedolagaBan",
     "configureHint": "BAN_SYSTEM_API_URL و BAN_SYSTEM_API_TOKEN را در پیکربندی تنظیم کنید",
     "loadError": "بارگذاری داده‌ها ناموفق بود",
     "notConfigured": "سیستم مسدودسازی پیکربندی نشده",
@@ -8942,7 +9106,7 @@
     "shareGift": "به اشتراک گذاشتن هدیه",
     "shareModalActivateVia": "فعال‌سازی از طریق ربات:",
     "shareModalActivateViaCabinet": "از طریق کابین",
-    "shareText": "برای تو یک هدیهٔ Gorec VPN دارم، از همین‌جا فعالش کن:",
+    "shareText": "برای تو یک هدیهٔ Bedolaga VPN دارم، از همین‌جا فعالش کن:",
     "shareToastCopied": "لینک کپی شد",
     "statusActivated": "فعال شده",
     "statusAvailable": "قابل فعال‌سازی",
@@ -9117,14 +9281,6 @@
     "subscription": {
       "untitled": "اشتراک"
     }
-  },
-  "raffle": {
-    "progressTitle": "پیشرفت شما",
-    "progressTickets": "بلیت‌ها: {{count}}",
-    "progressTimeLeft": "تا پایان",
-    "progressDaysLeft": "{{days}} روز {{hours}} ساعت",
-    "progressEndsAt": "پایان: {{date}}",
-    "howToEarnPerMonth": "هر ماه اشتراک پرداخت‌شده {{n}} بلیت می‌دهد: ۱ ماه ← {{n}}، ۳ ماه ← {{n3}}، ۶ ماه ← {{n6}}، ۱۲ ماه ← {{n12}}."
   },
   "coupon": {
     "tariff": "طرح",
@@ -10068,5 +10224,13 @@
     "testUntil": "دسترسی آزمایشی تا {{until}} فعال شد",
     "discount": "تخفیف {{percent}}% فعال شد!",
     "discountUntil": "تخفیف {{percent}}% فعال شد! معتبر تا {{until}}"
+  },
+  "raffle": {
+    "progressTitle": "پیشرفت شما",
+    "progressTickets": "بلیت‌ها: {{count}}",
+    "progressTimeLeft": "تا پایان",
+    "progressDaysLeft": "{{days}} روز {{hours}} ساعت",
+    "progressEndsAt": "پایان: {{date}}",
+    "howToEarnPerMonth": "هر ماه اشتراک پرداخت‌شده {{n}} بلیت می‌دهد: ۱ ماه ← {{n}}، ۳ ماه ← {{n3}}، ۶ ماه ← {{n6}}، ۱۲ ماه ← {{n12}}."
   }
 }

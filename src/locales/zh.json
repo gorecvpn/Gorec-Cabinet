@@ -70,8 +70,7 @@
     }
   },
   "navShort": {
-    "wheel": "转盘",
-    "raffle": "抽奖"
+    "wheel": "转盘"
   },
   "nav": {
     "dashboard": "首页",
@@ -88,7 +87,7 @@
     "menu": "菜单",
     "gift": "赠送",
     "navigation": "导航",
-    "raffle": "抽奖"
+    "raffle": "Raffle"
   },
   "notifications": {
     "ticketNotifications": "工单通知",
@@ -265,6 +264,8 @@
     "firstNamePlaceholder": "您的名字（可选）",
     "forgotPasswordHint": "输入邮箱以接收重置链接",
     "invalidCredentials": "邮箱或密码无效",
+    "registrationInviteRequired": "仅限受邀用户注册。请联系服务管理员获取邀请。",
+    "emailAuthDisabled": "邮箱登录已停用。请使用其他可用的登录方式。",
     "invalidEmail": "请输入有效的邮箱地址",
     "loginSuccess": "登录成功",
     "passwordMismatch": "密码不匹配",
@@ -282,9 +283,7 @@
     "continueWithDiscord": "通过 Discord 继续",
     "continueWithVk": "通过 VK 继续",
     "oauthError": "授权被拒绝或失败",
-    "oauthExpired": "OAuth 会话已过期。请重试。",
-    "registrationInviteRequired": "仅限受邀用户注册。请联系服务管理员获取邀请。",
-    "emailAuthDisabled": "邮箱登录已停用。请使用其他可用的登录方式。"
+    "oauthExpired": "OAuth 会话已过期。请重试。"
   },
   "emailVerification": {
     "title": "邮箱验证",
@@ -377,6 +376,17 @@
     "daysRemaining": "剩余天数"
   },
   "subscription": {
+    "accounting": {
+      "label": "可用流量",
+      "available": "剩余总流量",
+      "baseRemaining": "其中套餐剩余",
+      "nextRefresh": "套餐流量刷新日期",
+      "packageRemaining": "剩余 {{amount}}",
+      "packageExpires": "有效期至"
+    },
+    "dailyRenewalExplanation": "此套餐每天从余额中扣费续订。已付费时段结束后，恢复订阅将扣除一天的费用。",
+    "dailyRenewalPrice": "每日价格：{{price}}",
+    "purchaseOutcomeUnknown": "未收到响应，操作可能已完成。请恢复网络连接并在 VPN 客户端中刷新订阅，然后在个人中心检查订阅和余额，再决定是否重试。",
     "title": "订阅",
     "currentPlan": "当前套餐",
     "status": "状态",
@@ -487,6 +497,7 @@
       "yourDevice": "您的设备",
       "copyLink": "复制订阅链接",
       "copied": "链接已复制！",
+      "copyFailed": "无法复制链接。请选中并复制上方文本。",
       "openLink": "打开链接",
       "changeApp": "更换应用",
       "selectPlatform": "选择平台",
@@ -501,7 +512,6 @@
       "qrScanHint": "使用相机扫描以连接",
       "qrButton": "二维码",
       "openQr": "打开二维码",
-      "copyFailed": "无法复制链接。请选中并复制上方文本。",
       "instructions": "使用说明"
     },
     "additionalOptions": {
@@ -646,10 +656,10 @@
       "activate": "以{{price}}激活",
       "canPause": "可随时暂停",
       "chargedDaily": "每天从余额中扣费",
-      "costPerDay": "每天费用",
-      "pausedOnLowBalance": "余额不足时订阅将暂停",
       "firstCharge": "首次扣款",
-      "nextCharge": "之后每天 {{price}}"
+      "nextCharge": "之后每天 {{price}}",
+      "costPerDay": "每天费用",
+      "pausedOnLowBalance": "余额不足时订阅将暂停"
     },
     "pause": {
       "active": "活跃",
@@ -812,17 +822,6 @@
       "purchaseButton": "⚡ 使用 Cashera 自动付款订阅",
       "purchaseHint": "通过 Cashera 链接确认自动扣款，之后续费将自动扣款。"
     },
-    "accounting": {
-      "label": "可用流量",
-      "available": "剩余总流量",
-      "baseRemaining": "其中套餐剩余",
-      "nextRefresh": "套餐流量刷新日期",
-      "packageRemaining": "剩余 {{amount}}",
-      "packageExpires": "有效期至"
-    },
-    "dailyRenewalExplanation": "此套餐每天从余额中扣费续订。已付费时段结束后，恢复订阅将扣除一天的费用。",
-    "dailyRenewalPrice": "每日价格：{{price}}",
-    "purchaseOutcomeUnknown": "未收到响应，操作可能已完成。请恢复网络连接并在 VPN 客户端中刷新订阅，然后在个人中心检查订阅和余额，再决定是否重试。",
     "purchaseDevices": {
       "otherQuantity": "其他数量",
       "exactQuantity": "输入设备数量",
@@ -917,6 +916,10 @@
     }
   },
   "balance": {
+    "paymentEmail": "支付邮箱",
+    "paymentEmailHelp": "Antilopay 需要买家的联系方式。账号邮箱不会更改。",
+    "paymentEmailInvalid": "请输入有效的支付邮箱。",
+    "paymentRange": "从 {{min}} 至 {{max}}",
     "title": "余额",
     "currentBalance": "当前余额",
     "topUp": "充值",
@@ -949,7 +952,10 @@
         "description": "通过 Jupiter (FPGate P2P) 使用 SBP 支付"
       },
       "cispay": {
-        "description": "通过 cisPay 使用银行卡或 SBP 支付"
+        "description": "通过 CisPay 付款"
+      },
+      "anore": {
+        "description": "通过 Anore 支付"
       },
       "tabpay": {
         "description": "通过 TabPay 使用银行卡或 SBP 支付"
@@ -968,9 +974,6 @@
       },
       "cashera": {
         "description": "SBP、银行卡、加密货币（Cashera）"
-      },
-      "anore": {
-        "description": "通过 Anore 支付"
       },
       "heleket": {
         "description": "通过 Heleket 使用加密货币付款"
@@ -1122,10 +1125,6 @@
     },
     "top_up": "充值",
     "scanQrToPay": "请在银行应用中扫描二维码，或打开支付页面",
-    "paymentEmail": "支付邮箱",
-    "paymentEmailHelp": "Antilopay 需要买家的联系方式。账号邮箱不会更改。",
-    "paymentEmailInvalid": "请输入有效的支付邮箱。",
-    "paymentRange": "从 {{min}} 至 {{max}}",
     "paymentOption": "付款方式",
     "selectPaymentOption": "选择付款方式"
   },
@@ -1350,10 +1349,11 @@
       "closed": "已关闭"
     },
     "attachImage": "附加图片",
+    "attachMedia": "添加照片或视频",
     "downloadFile": "下载文件",
     "invalidFileType": "文件类型无效。请使用JPEG、PNG、GIF或WebP。",
     "fileTooLarge": "文件过大。最大10MB。",
-    "uploadFailed": "图片上传失败",
+    "uploadFailed": "附件上传失败",
     "imageLoadFailed": "图片加载失败",
     "tooManyRequests": "请求过多。请等待 {{seconds}} 秒。",
     "contactSupport": "如需帮助，请联系{{username}}",
@@ -1368,7 +1368,6 @@
       "createFailed": "创建工单失败，请重试。",
       "replyFailed": "发送回复失败，请重试。"
     },
-    "attachMedia": "添加照片或视频",
     "useProfile": "如需帮助，请前往机器人个人资料页面",
     "goToProfile": "前往个人资料"
   },
@@ -1580,7 +1579,6 @@
       "legalPages": "系统页面",
       "systemErrors": "系统错误",
       "dpichecker": "DPI//CHECKER",
-      "raffle": "抽奖",
       "coupons": "兑换券",
       "bulkActions": "批量操作"
     },
@@ -1895,6 +1893,8 @@
       "description": "描述",
       "descriptionHint": "显示在支付方法名称下方。留空则使用默认文本",
       "subOptions": "支付选项",
+      "providerOptionDisabled": "此支付方式已在支付服务设置中关闭。仅在此处开启并不能启用收款。",
+      "providerSettings": "打开 CisPay 设置",
       "minAmount": "最小金额（戈比）",
       "maxAmount": "最大金额（戈比）",
       "conditions": "显示条件",
@@ -1939,9 +1939,7 @@
       "overpayCertConfirmDelete": "确定删除 Overpay 证书？",
       "overpayCertFileTooLarge": "文件超过 1 MB",
       "overpayCertUploadError": "证书上传失败",
-      "overpayCertDeleteError": "证书删除失败",
-      "providerOptionDisabled": "此支付方式已在支付服务设置中关闭。仅在此处开启并不能启用收款。",
-      "providerSettings": "打开 CisPay 设置"
+      "overpayCertDeleteError": "证书删除失败"
     },
     "emailTemplates": {
       "title": "邮件模板",
@@ -2117,6 +2115,9 @@
       }
     },
     "broadcasts": {
+      "captionLimit": "媒体说明最多可包含 1024 个字符，不计 HTML 标记。",
+      "captionTooLong": "说明超过 1024 个字符。请缩短文字，或移除附件以发送最多 4000 个字符。",
+      "partialSend": "Telegram 群发 #{{id}} 已创建。邮件群发创建状态未确认：{{error}}。重试前请检查历史记录，无需重复发送 Telegram。",
       "title": "广播",
       "subtitle": "向用户群发消息",
       "create": "创建群发",
@@ -2267,9 +2268,6 @@
       "selectEmailFilterPlaceholder": "选择筛选器...",
       "singleUser": "仅 {{name}}",
       "telegramSection": "Telegram 群发",
-      "captionLimit": "媒体说明最多可包含 1024 个字符，不计 HTML 标记。",
-      "captionTooLong": "说明超过 1024 个字符。请缩短文字，或移除附件以发送最多 4000 个字符。",
-      "partialSend": "Telegram 群发 #{{id}} 已创建。邮件群发创建状态未确认：{{error}}。重试前请检查历史记录，无需重复发送 Telegram。",
       "channel": {
         "telegram": "Telegram",
         "email": "电子邮件",
@@ -2565,7 +2563,6 @@
         "payments_wata": "Wata",
         "payments_riopay": "RioPay",
         "payments_severpay": "SeverPay",
-        "payments_paypear": "PayPear",
         "payments_rollypay": "RollyPay",
         "payments_aurapay": "AuraPay",
         "payments_etoplatezhi": "Etoplatezhi",
@@ -2573,6 +2570,7 @@
         "payments_jupiter": "Jupiter",
         "payments_cispay": "CisPay",
         "payments_tabpay": "TabPay",
+        "payments_anore": "Anore",
         "payments_paritypay": "ParityPay",
         "payments_donut": "Donut",
         "payments_lava": "Lava",
@@ -2620,17 +2618,16 @@
         "sys_cabinet": "用户中心",
         "sys_other": "其他设置",
         "sys_dpichecker": "DPI//CHECKER",
-        "payments_cashera": "Cashera",
-        "payments_anore": "Anore"
+        "payments_cashera": "Cashera"
       },
       "categories": {
+        "ANORE": "Anore",
+        "CISPAY": "CisPay",
         "CABINET": "用户中心",
         "INFO_PAGES": "法律文件与 FAQ",
         "MENU": "菜单按钮",
-        "TELEGRAM_WIDGET": "Telegram Login Widget",
-        "TELEGRAM_OIDC": "Telegram Login (OIDC)",
-        "ANORE": "Anore",
-        "CISPAY": "CisPay",
+        "TELEGRAM_WIDGET": "Telegram 登录组件",
+        "TELEGRAM_OIDC": "Telegram 登录（OIDC）",
         "PAYMENT": "付款",
         "PAYMENT_VERIFICATION": "付款核验",
         "YOOKASSA": "YooKassa",
@@ -3942,8 +3939,7 @@
         "support": "支持",
         "info": "信息",
         "admin": "管理面板",
-        "language": "语言",
-        "raffle": "抽奖"
+        "language": "语言"
       },
       "descriptions": {
         "home": "个人中心按钮",
@@ -3953,8 +3949,7 @@
         "support": "支持工单",
         "info": "信息板块",
         "admin": "网页管理面板",
-        "language": "机器人语言选择",
-        "raffle": "Telegram 抽奖活动"
+        "language": "机器人语言选择"
       },
       "styles": {
         "default": "无颜色",
@@ -6993,6 +6988,7 @@
       "stickyPayButtonHint": "手机上支付按钮固定在屏幕底部"
     },
     "infoPages": {
+      "botFaq": "机器人常见问题",
       "title": "信息页面",
       "subtitle": "管理静态信息页面",
       "create": "创建页面",
@@ -7066,8 +7062,7 @@
         "bot": "仅机器人",
         "web": "仅网页",
         "both": "机器人和网页"
-      },
-      "botFaq": "机器人常见问题"
+      }
     },
     "bulkActions": {
       "title": "批量操作",
@@ -7753,13 +7748,6 @@
         "response": "机器人响应 {{code}}"
       }
     },
-    "raffle": {
-      "form": {
-        "ticketsPerMonth": "按订阅月数发放抽奖券",
-        "ticketsPerMonthHint": "1 个月 = 1 张，3 个月 = 3 张，6 个月 = 6 张，12 个月 = 12 张（月数 = 周期天数 / 30，四舍五入，最少 1）。默认值和按套餐设置的数量均按每月计算。附加项和按日扣费不乘以月数。"
-      },
-      "ticketsPerMonth": "每月抽奖券"
-    },
     "coupons": {
       "title": "兑换券",
       "subtitle": "批量生成一次性订阅链接",
@@ -7853,7 +7841,183 @@
     "dashboard": {
       "nodeUptime": "运行时间：{{uptime}}"
     },
-    "tariffSummary": "{{name}}（{{traffic}} GB，设备数：{{devices}}）"
+    "tariffSummary": "{{name}}（{{traffic}} GB，设备数：{{devices}}）",
+    "raffle": {
+      "form": {
+        "ticketsPerMonth": "按订阅月数发放抽奖券",
+        "ticketsPerMonthHint": "1 个月 = 1 张，3 个月 = 3 张，6 个月 = 6 张，12 个月 = 12 张（月数 = 周期天数 / 30，四舍五入，最少 1）。默认值和按套餐设置的数量均按每月计算。附加项和按日扣费不乘以月数。",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "description": "Description",
+        "startsAt": "Starts at",
+        "startsAtHint": "If empty, the bot uses the current time",
+        "endsAt": "Ends at",
+        "maxWinners": "How many prizes / winners",
+        "maxWinnersInvalid": "Winners must be between 1 and 1000",
+        "prizeType": "Prize type",
+        "prizeTypeDays": "Subscription days",
+        "prizeTypeBalance": "Balance",
+        "prizeTypeCustom": "Custom text",
+        "prizeValueDays": "Days",
+        "prizeValueBalance": "Amount, ₽",
+        "prizeValueRequired": "Prize value must be greater than 0",
+        "prizeText": "Prize description",
+        "prizeTextRequired": "Custom prize requires text",
+        "submit": "Create",
+        "maxWinnersHint": "That many unique users will be selected in the draw (weighted by tickets).",
+        "maxWinnersPrizeHint": "The prize below is awarded to every winner (places 1–N).",
+        "winnersSection": "Winners and prizes",
+        "winnersSectionHint": "Different prizes per place, or one winner count with a shared prize.",
+        "usePrizeSlots": "Different prizes by place",
+        "place": "Place {{place}}",
+        "addPlace": "Add place",
+        "slotsRequired": "Add at least one place",
+        "ticketsSection": "Ticket issuance rules",
+        "ticketsSectionHint": "How many tickets a purchase grants. Optional per-tariff overrides.",
+        "ticketsPerPurchase": "Tickets per purchase (default)",
+        "ticketsPerPurchaseInvalid": "Tickets per purchase must be 1–50",
+        "ticketsByTariff": "Tickets by tariff",
+        "ticketsByTariffHint": "Leave empty to use the default above. Example: Premium → 2.",
+        "ticketsByTariffInvalid": "Per-tariff tickets must be 1–50",
+        "noTariffs": "No tariffs found",
+        "skipTrial": "Skip trial purchases",
+        "skipTrialHint": "Do not issue tickets for zero/trial subscription payments.",
+        "imageUrl": "Prize image URL",
+        "imageUrlPlaceholder": "https://… or /uploads/images/…",
+        "imageUrlHint": "Upload a photo from your phone or paste an HTTPS URL / server path.",
+        "imageUrlInvalid": "Use an https:// URL or a path starting with /",
+        "save": "Save",
+        "editForbidden": "Editing is not available for this status",
+        "editForbiddenDrawn": "A drawn campaign cannot be edited. You can delete it from the list.",
+        "editActiveHint": "You can extend the end date and edit prize places on an active campaign. Ticket issuance rules stay locked.",
+        "endsAtExtendHint": "You can extend or change the end date of an active campaign.",
+        "imageUpload": "Prize photo",
+        "imageUploadButton": "Upload",
+        "imageUploadError": "Failed to upload photo",
+        "imageUploadSizeError": "File too large (max 5 MB)",
+        "imageUploadTypeError": "Only JPEG, PNG, or WebP are allowed",
+        "ticketsByTariffDefault": "Default for all other tariffs: {{count}}",
+        "ticketsByTariffEmpty": "No per-tariff overrides — every purchase gets the default above.",
+        "ticketsByTariffAdd": "Add tariff override",
+        "ticketsByTariffSelect": "Select a tariff…",
+        "ticketsByTariffCount": "Tickets",
+        "ticketsByTariffAddButton": "Add"
+      },
+      "ticketsPerMonth": "每月抽奖券",
+      "title": "Raffle",
+      "subtitle": "Ticket campaigns for subscription purchases",
+      "createButton": "Create campaign",
+      "createTitle": "New raffle campaign",
+      "createSubtitle": "Draft can be activated later",
+      "disabledHint": "RAFFLE_ENABLED=false — campaigns cannot be activated until raffle is enabled on the bot.",
+      "loadError": "Failed to load campaigns",
+      "noCampaigns": "No campaigns yet",
+      "tickets": "Tickets",
+      "users": "users",
+      "maxWinners": "Winners",
+      "starts": "Starts",
+      "ends": "Ends",
+      "winnersCount_one": "{{count}} winner",
+      "winnersCount_other": "{{count}} winners",
+      "winnersCount": "{{count}} winners",
+      "prizeDays_one": "{{count}} subscription day",
+      "prizeDays_other": "{{count}} subscription days",
+      "prizeDays": "{{count}} subscription days",
+      "prizeBalance": "{{amount}} ₽",
+      "prizeCustom": "Custom prize",
+      "stats": {
+        "campaigns": "Campaigns",
+        "active": "Active",
+        "tickets": "Tickets",
+        "winners": "Winners"
+      },
+      "status": {
+        "draft": "Draft",
+        "active": "Active",
+        "closed": "Closed",
+        "drawn": "Drawn"
+      },
+      "actions": {
+        "activate": "Activate",
+        "close": "Close",
+        "draw": "Draw",
+        "history": "History",
+        "retryAward": "Award prize",
+        "edit": "Edit",
+        "delete": "Delete",
+        "grantTickets": "Grant tickets",
+        "downloadCsv": "Download CSV"
+      },
+      "confirm": {
+        "activateTitle": "Activate campaign?",
+        "activate": "“{{name}}” will become active and start issuing tickets for purchases.",
+        "closeTitle": "Close campaign?",
+        "close": "“{{name}}” will stop issuing tickets.",
+        "drawTitle": "Run the draw?",
+        "draw": "Draw “{{name}}” among {{count}} tickets? Up to {{winners}} unique winners will be selected. This cannot be undone.",
+        "deleteTitle": "Delete campaign?",
+        "delete": "Delete “{{name}}” with all tickets and winners? This cannot be undone.",
+        "deleteActive": "Campaign “{{name}}” is active. Force-delete will remove all tickets. Continue?"
+      },
+      "toast": {
+        "activated": "Campaign activated",
+        "closed": "Campaign closed",
+        "drawn": "Draw completed",
+        "created": "Campaign created",
+        "actionError": "Action failed",
+        "createError": "Failed to create campaign",
+        "historyError": "Failed to load history",
+        "awarded": "Prize awarded",
+        "awardError": "Failed to award prize",
+        "updated": "Campaign updated",
+        "updateError": "Failed to update campaign",
+        "deleted": "Campaign deleted",
+        "deleteError": "Failed to delete campaign",
+        "granted": "Granted {{count}} ticket(s)",
+        "grantError": "Failed to grant tickets",
+        "csvDownloaded": "Winners CSV downloaded",
+        "csvEmpty": "No winners to export",
+        "csvError": "Failed to download CSV"
+      },
+      "winnersTitle": "Winners",
+      "winnersSubtitle": "Campaign #{{id}}",
+      "drawSuccessNoWinners": "Draw finished, but the API response had no winners list.",
+      "ticketStats": "Tickets: {{tickets}}, users: {{users}}",
+      "awarded": "Awarded",
+      "notAwarded": "Not awarded",
+      "historyTitle": "Draw history",
+      "historySubtitleNamed": "“{{name}}” · #{{id}}",
+      "historyEmpty": "No winners yet (no tickets or the draw stored no rows).",
+      "drawnAt": "Drawn at",
+      "history": {
+        "place": "Place",
+        "user": "User",
+        "ticket": "Ticket",
+        "prize": "Prize",
+        "awarded": "Awarded"
+      },
+      "fairness": "Fairness",
+      "ticketsPerPurchase": "Tickets/purchase",
+      "editTitle": "Edit raffle",
+      "editSubtitle": "“{{name}}” · status: {{status}}",
+      "autoDrawBadge": "Auto-draw",
+      "autoDrawAt": "Auto-draw at {{date}}",
+      "autoDrawEnabled": "Auto-draw enabled",
+      "endsAtPassed": "End time passed — awaiting draw",
+      "grant": {
+        "title": "Grant raffle tickets",
+        "subtitle": "“{{name}}” · #{{id}}",
+        "hint": "Provide either cabinet user id or Telegram id (not both). Only works on an active campaign.",
+        "userId": "User ID",
+        "telegramId": "Telegram ID",
+        "count": "Ticket count",
+        "note": "Note (optional)",
+        "userRequired": "Enter either user id or Telegram id",
+        "countInvalid": "Ticket count must be 1–50"
+      },
+      "expand": "Expand",
+      "collapse": "Collapse"
+    }
   },
   "adminUpdates": {
     "title": "更新",
@@ -8304,7 +8468,7 @@
   },
   "banSystem": {
     "title": "封禁监控",
-    "subtitle": "GorecBan系统管理",
+    "subtitle": "BedolagaBan系统管理",
     "configureHint": "在配置中设置BAN_SYSTEM_API_URL和BAN_SYSTEM_API_TOKEN",
     "loadError": "加载数据失败",
     "notConfigured": "封禁系统未配置",
@@ -8809,7 +8973,7 @@
     "shareGift": "分享礼物",
     "shareModalActivateVia": "通过机器人激活：",
     "shareModalActivateViaCabinet": "通过个人中心",
-    "shareText": "我给你准备了一份 Gorec VPN 礼物，在这里激活它：",
+    "shareText": "我给你准备了一份 Bedolaga VPN 礼物，在这里激活它：",
     "shareToastCopied": "链接已复制",
     "statusActivated": "已激活",
     "statusAvailable": "可激活",
@@ -8980,14 +9144,6 @@
     "subscription": {
       "untitled": "订阅"
     }
-  },
-  "raffle": {
-    "progressTitle": "你的进度",
-    "progressTickets": "票数：{{count}}",
-    "progressTimeLeft": "剩余时间",
-    "progressDaysLeft": "{{days}}天 {{hours}}小时",
-    "progressEndsAt": "结束时间：{{date}}",
-    "howToEarnPerMonth": "每购买 1 个月订阅可获得 {{n}} 张抽奖券：1 个月 → {{n}}，3 个月 → {{n3}}，6 个月 → {{n6}}，12 个月 → {{n12}}。"
   },
   "resetPassword": {
     "title": "新密码",
@@ -9931,5 +10087,13 @@
     "testUntil": "试用访问已激活，有效期至 {{until}}",
     "discount": "{{percent}}% 折扣已激活！",
     "discountUntil": "{{percent}}% 折扣已激活！有效期至 {{until}}"
+  },
+  "raffle": {
+    "progressTitle": "你的进度",
+    "progressTickets": "票数：{{count}}",
+    "progressTimeLeft": "剩余时间",
+    "progressDaysLeft": "{{days}}天 {{hours}}小时",
+    "progressEndsAt": "结束时间：{{date}}",
+    "howToEarnPerMonth": "每购买 1 个月订阅可获得 {{n}} 张抽奖券：1 个月 → {{n}}，3 个月 → {{n3}}，6 个月 → {{n6}}，12 个月 → {{n12}}。"
   }
 }

@@ -80,8 +80,7 @@
     }
   },
   "navShort": {
-    "wheel": "Колесо",
-    "raffle": "Розыгрыш"
+    "wheel": "Колесо"
   },
   "nav": {
     "dashboard": "Главная",
@@ -274,6 +273,8 @@
     "invalidEmail": "Введите корректный email адрес",
     "emailAlreadyRegistered": "Этот email уже зарегистрирован",
     "invalidCredentials": "Неверный email или пароль",
+    "registrationInviteRequired": "Регистрация доступна только по приглашению. Обратитесь к администратору сервиса за приглашением.",
+    "emailAuthDisabled": "Вход по email отключён. Используйте другой доступный способ входа.",
     "forgotPasswordHint": "Введите email и мы отправим инструкции для сброса пароля.",
     "passwordResetSent": "Если аккаунт с таким email существует, мы отправили инструкции по сбросу пароля.",
     "sendResetLink": "Отправить ссылку",
@@ -301,9 +302,7 @@
     "continueWithDiscord": "Продолжить через Discord",
     "continueWithVk": "Продолжить через VK",
     "oauthError": "Авторизация отклонена или не удалась",
-    "oauthExpired": "Сессия OAuth истекла. Попробуйте снова.",
-    "registrationInviteRequired": "Регистрация доступна только по приглашению. Обратитесь к администратору сервиса за приглашением.",
-    "emailAuthDisabled": "Вход по email отключён. Используйте другой доступный способ входа."
+    "oauthExpired": "Сессия OAuth истекла. Попробуйте снова."
   },
   "emailVerification": {
     "title": "Подтверждение email",
@@ -405,6 +404,17 @@
     "subscriptions": "Подписки"
   },
   "subscription": {
+    "accounting": {
+      "label": "Доступный трафик",
+      "available": "Всего осталось",
+      "baseRemaining": "Из них по тарифу",
+      "nextRefresh": "Обновление трафика тарифа",
+      "packageRemaining": "Осталось {{amount}}",
+      "packageExpires": "Действует до"
+    },
+    "dailyRenewalExplanation": "Суточный тариф продлевается на один день при списании с баланса. Если оплаченный срок закончился, при возобновлении спишется стоимость суток.",
+    "dailyRenewalPrice": "Стоимость суток: {{price}}",
+    "purchaseOutcomeUnknown": "Ответ не получен. Операция могла выполниться. Восстановите соединение и обновите подписку в VPN-клиенте, затем проверьте подписку и баланс в кабинете перед повторной попыткой.",
     "title": "Подписка",
     "currentPlan": "Текущий тариф",
     "status": "Статус",
@@ -575,6 +585,7 @@
       "yourDevice": "Ваше устройство",
       "copyLink": "Скопировать ссылку",
       "copied": "Ссылка скопирована!",
+      "copyFailed": "Не удалось скопировать ссылку. Выделите и скопируйте текст выше.",
       "openLink": "Открыть ссылку",
       "instructions": "Инструкция",
       "changeApp": "Сменить приложение",
@@ -589,8 +600,7 @@
       "qrTitle": "QR-код подписки",
       "qrScanHint": "Отсканируйте для подключения",
       "qrButton": "QR-код",
-      "openQr": "Открыть QR-код",
-      "copyFailed": "Не удалось скопировать ссылку. Выделите и скопируйте текст выше."
+      "openQr": "Открыть QR-код"
     },
     "myDevices": "Мои устройства",
     "noDevices": "Нет подключенных устройств",
@@ -631,13 +641,13 @@
       "days": "дн."
     },
     "dailyPurchase": {
+      "firstCharge": "Первое списание",
+      "nextCharge": "Далее — {{price}} в день",
       "costPerDay": "Стоимость в день",
       "chargedDaily": "Оплата списывается ежедневно с баланса",
       "canPause": "Можно приостановить в любой момент",
       "pausedOnLowBalance": "При недостатке баланса подписка будет приостановлена",
-      "activate": "Активировать за {{price}}",
-      "firstCharge": "Первое списание",
-      "nextCharge": "Далее — {{price}} в день"
+      "activate": "Активировать за {{price}}"
     },
     "switchTariff": {
       "title": "Сменить тариф",
@@ -906,17 +916,6 @@
       "purchaseButton": "⚡ Оформить с автооплатой Cashera",
       "purchaseHint": "Подтвердите автосписания по ссылке Cashera; дальше продления списываются автоматически."
     },
-    "accounting": {
-      "label": "Доступный трафик",
-      "available": "Всего осталось",
-      "baseRemaining": "Из них по тарифу",
-      "nextRefresh": "Обновление трафика тарифа",
-      "packageRemaining": "Осталось {{amount}}",
-      "packageExpires": "Действует до"
-    },
-    "dailyRenewalExplanation": "Суточный тариф продлевается на один день при списании с баланса. Если оплаченный срок закончился, при возобновлении спишется стоимость суток.",
-    "dailyRenewalPrice": "Стоимость суток: {{price}}",
-    "purchaseOutcomeUnknown": "Ответ не получен. Операция могла выполниться. Восстановите соединение и обновите подписку в VPN-клиенте, затем проверьте подписку и баланс в кабинете перед повторной попыткой.",
     "purchaseDevices": {
       "otherQuantity": "Другое количество",
       "exactQuantity": "Укажите количество устройств",
@@ -993,6 +992,10 @@
     }
   },
   "balance": {
+    "paymentEmail": "Email для оплаты",
+    "paymentEmailHelp": "Antilopay нужен контакт покупателя. Email аккаунта не изменится.",
+    "paymentEmailInvalid": "Укажите корректный email для оплаты.",
+    "paymentRange": "От {{min}} до {{max}}",
     "title": "Баланс",
     "currentBalance": "Текущий баланс",
     "topUp": "Пополнить",
@@ -1048,9 +1051,6 @@
       "kassa_ai": {
         "description": "Оплата через Kassa AI"
       },
-      "paypear": {
-        "description": "Оплата через PayPear"
-      },
       "rollypay": {
         "description": "Оплата через RollyPay (СБП)"
       },
@@ -1067,7 +1067,10 @@
         "description": "Оплата СБП через Jupiter (FPGate P2P)"
       },
       "cispay": {
-        "description": "Оплата картой или через СБП (cisPay)"
+        "description": "Оплата через CisPay"
+      },
+      "anore": {
+        "description": "Оплата через Anore"
       },
       "tabpay": {
         "description": "Оплата картой или через СБП (TabPay)"
@@ -1086,9 +1089,6 @@
       },
       "cashera": {
         "description": "СБП, карты, криптовалюта (Cashera)"
-      },
-      "anore": {
-        "description": "Оплата через Anore"
       }
     },
     "transactionHistory": "История операций",
@@ -1202,11 +1202,7 @@
       "tryAgain": "Попробовать снова"
     },
     "top_up": "Пополнить баланс",
-    "scanQrToPay": "Отсканируйте QR-код в приложении банка или откройте оплату",
-    "paymentEmail": "Email для оплаты",
-    "paymentEmailHelp": "Antilopay нужен контакт покупателя. Email аккаунта не изменится.",
-    "paymentEmailInvalid": "Укажите корректный email для оплаты.",
-    "paymentRange": "От {{min}} до {{max}}"
+    "scanQrToPay": "Отсканируйте QR-код в приложении банка или откройте оплату"
   },
   "referral": {
     "title": "Реферальная программа",
@@ -1429,10 +1425,11 @@
       "closed": "Закрыт"
     },
     "attachImage": "Прикрепить изображение",
+    "attachMedia": "Прикрепить фото или видео",
     "downloadFile": "Скачать файл",
     "invalidFileType": "Неверный тип файла. Используйте JPEG, PNG, GIF или WebP.",
     "fileTooLarge": "Файл слишком большой. Максимальный размер 10МБ.",
-    "uploadFailed": "Не удалось загрузить изображение",
+    "uploadFailed": "Не удалось загрузить вложение",
     "imageLoadFailed": "Не удалось загрузить изображение",
     "tooManyRequests": "Слишком много запросов. Подождите {{seconds}} сек.",
     "ticketsDisabled": "Тикеты отключены",
@@ -1448,8 +1445,7 @@
       "alreadyOpenTicket": "У вас уже есть открытое обращение. Продолжите переписку в нём — новое можно создать после закрытия текущего.",
       "createFailed": "Не удалось создать обращение. Попробуйте ещё раз.",
       "replyFailed": "Не удалось отправить ответ. Попробуйте ещё раз."
-    },
-    "attachMedia": "Прикрепить фото или видео"
+    }
   },
   "wheel": {
     "title": "Колесо удачи",
@@ -1662,8 +1658,7 @@
       "infoPages": "Инфо-страницы",
       "legalPages": "Системные страницы",
       "systemErrors": "Ошибки системы",
-      "dpichecker": "DPI//CHECKER",
-      "raffle": "Розыгрыш"
+      "dpichecker": "DPI//CHECKER"
     },
     "panel": {
       "title": "Панель администратора",
@@ -2070,6 +2065,8 @@
       "description": "Описание",
       "descriptionHint": "Показывается под названием метода. Пусто — текст по умолчанию",
       "subOptions": "Варианты оплаты",
+      "providerOptionDisabled": "Этот способ выключен в настройках платёжного сервиса. Одного переключателя здесь недостаточно для приёма оплаты.",
+      "providerSettings": "Открыть настройки CisPay",
       "minAmount": "Мин. сумма (коп.)",
       "maxAmount": "Макс. сумма (коп.)",
       "quickAmounts": "Быстрые суммы (₽)",
@@ -2114,9 +2111,7 @@
       "firstTopupWasNot": "Не было",
       "cancelButton": "Отмена",
       "saveButton": "Сохранить",
-      "notFound": "Метод оплаты не найден",
-      "providerOptionDisabled": "Этот способ выключен в настройках платёжного сервиса. Одного переключателя здесь недостаточно для приёма оплаты.",
-      "providerSettings": "Открыть настройки CisPay"
+      "notFound": "Метод оплаты не найден"
     },
     "remnawave": {
       "title": "Remnawave",
@@ -3014,6 +3009,9 @@
       }
     },
     "broadcasts": {
+      "captionLimit": "С медиафайлом можно отправить до 1024 символов без учёта HTML-разметки.",
+      "captionTooLong": "Подпись длиннее 1024 символов. Сократите текст или уберите медиафайл — без него доступно до 4000 символов.",
+      "partialSend": "Рассылка Telegram №{{id}} уже создана. Создание email-рассылки не подтверждено: {{error}}. Проверьте историю перед повтором; Telegram повторять не нужно.",
       "title": "Рассылки",
       "subtitle": "Массовая отправка сообщений пользователям",
       "create": "Создать рассылку",
@@ -3169,10 +3167,7 @@
       "categoryNews": "Новости",
       "categoryPromo": "Промо",
       "categorySystem": "Системные",
-      "stopping": "Останавливается…",
-      "captionLimit": "С медиафайлом можно отправить до 1024 символов без учёта HTML-разметки.",
-      "captionTooLong": "Подпись длиннее 1024 символов. Сократите текст или уберите медиафайл — без него доступно до 4000 символов.",
-      "partialSend": "Рассылка Telegram №{{id}} уже создана. Создание email-рассылки не подтверждено: {{error}}. Проверьте историю перед повтором; Telegram повторять не нужно."
+      "stopping": "Останавливается…"
     },
     "pinnedMessages": {
       "title": "Закреплённые сообщения",
@@ -3453,7 +3448,6 @@
         "payments_wata": "Wata",
         "payments_riopay": "RioPay",
         "payments_severpay": "SeverPay",
-        "payments_paypear": "PayPear",
         "payments_rollypay": "RollyPay",
         "payments_aurapay": "AuraPay",
         "payments_etoplatezhi": "Etoplatezhi",
@@ -3461,6 +3455,7 @@
         "payments_jupiter": "Jupiter",
         "payments_cispay": "CisPay",
         "payments_tabpay": "TabPay",
+        "payments_anore": "Anore",
         "payments_paritypay": "ParityPay",
         "payments_donut": "Donut",
         "payments_lava": "Lava",
@@ -3508,8 +3503,7 @@
         "sys_cabinet": "Кабинет",
         "sys_other": "Прочие настройки",
         "sys_dpichecker": "DPI//CHECKER",
-        "payments_cashera": "Cashera",
-        "payments_anore": "Anore"
+        "payments_cashera": "Cashera"
       },
       "presets": {
         "standard": "Стандарт",
@@ -4560,6 +4554,8 @@
         "Telegram Api Url": "URL Telegram API"
       },
       "categories": {
+        "ANORE": "Anore",
+        "CISPAY": "CisPay",
         "CABINET": "Кабинет",
         "INFO_PAGES": "Правовые документы и FAQ",
         "MENU": "Кнопка меню",
@@ -4617,9 +4613,7 @@
         "CHANNEL": "Канал",
         "TIMEZONE": "Часовой пояс",
         "REFERRAL": "Реферальная система",
-        "MODERATION": "Модерация",
-        "ANORE": "Anore",
-        "CISPAY": "CisPay"
+        "MODERATION": "Модерация"
       },
       "offlineConv": "Офлайн-конверсии",
       "apiKey": "API-ключ",
@@ -4839,8 +4833,7 @@
         "support": "Поддержка",
         "info": "Информация",
         "admin": "Админка",
-        "language": "Язык",
-        "raffle": "Розыгрыш"
+        "language": "Язык"
       },
       "descriptions": {
         "home": "Кнопка личного кабинета",
@@ -4850,8 +4843,7 @@
         "support": "Обращения в поддержку",
         "info": "Информационный раздел",
         "admin": "Веб-админка",
-        "language": "Выбор языка",
-        "raffle": "Розыгрыш билетов Telegram"
+        "language": "Выбор языка"
       },
       "styles": {
         "default": "Без цвета",
@@ -6363,8 +6355,7 @@
             "logins": "Входы"
           },
           "fromBalance": "с баланса",
-          "loadError": "Не удалось загрузить активность",
-          "raffle": "Розыгрыш"
+          "loadError": "Не удалось загрузить активность"
         },
         "header": {
           "copy": "Скопировать",
@@ -7428,6 +7419,7 @@
       "stickyPayButtonHint": "Кнопка оплаты прикреплена к низу экрана на телефоне"
     },
     "infoPages": {
+      "botFaq": "FAQ из бота",
       "title": "Информационные страницы",
       "subtitle": "Управление статическими информационными страницами",
       "create": "Создать страницу",
@@ -7501,8 +7493,7 @@
         "en": "Английский",
         "zh": "Китайский",
         "fa": "Персидский"
-      },
-      "botFaq": "FAQ из бота"
+      }
     },
     "legalPages": {
       "title": "Системные страницы",
@@ -8083,6 +8074,10 @@
         "response": "бот ответил {{code}}"
       }
     },
+    "dashboard": {
+      "nodeUptime": "Время работы: {{uptime}}"
+    },
+    "tariffSummary": "{{name}} ({{traffic}} ГБ, устройств: {{devices}})",
     "raffle": {
       "title": "Розыгрыш",
       "subtitle": "Кампании билетов за покупку подписки",
@@ -8257,12 +8252,10 @@
         "note": "Комментарий (необязательно)",
         "userRequired": "Укажите либо user id, либо Telegram id",
         "countInvalid": "Число билетов: от 1 до 50"
-      }
-    },
-    "dashboard": {
-      "nodeUptime": "Время работы: {{uptime}}"
-    },
-    "tariffSummary": "{{name}} ({{traffic}} ГБ, устройств: {{devices}})"
+      },
+      "expand": "Развернуть",
+      "collapse": "Свернуть"
+    }
   },
   "adminUpdates": {
     "title": "Обновления",
@@ -8390,7 +8383,7 @@
   },
   "banSystem": {
     "title": "Мониторинг банов",
-    "subtitle": "Управление системой банов GorecBan",
+    "subtitle": "Управление системой банов BedolagaBan",
     "contactTelegram": "Написать в Telegram",
     "notConfigured": "Ban система не настроена",
     "configureHint": "Укажите BAN_SYSTEM_API_URL и BAN_SYSTEM_API_TOKEN в конфигурации",
@@ -9444,42 +9437,6 @@
       "untitled": "Подписка"
     }
   },
-  "raffle": {
-    "title": "Розыгрыш",
-    "error": "Не удалось загрузить розыгрыш",
-    "disabled": "Розыгрыш сейчас отключён",
-    "noCampaign": "Нет активной кампании розыгрыша",
-    "hint": "Купите подписку, пока кампания активна, чтобы получить билеты.",
-    "active": "Активен",
-    "prize": "Приз",
-    "ends": "Окончание",
-    "noEndDate": "Без даты окончания",
-    "howToEarn": "За оплаченную покупку подписки выдаётся {{count}} билет(ов). Число может зависеть от тарифа.",
-    "howToEarnPerMonth": "За каждый месяц оплаченной подписки — {{n}} билет(ов): 1 мес. → {{n}}, 3 мес. → {{n3}}, 6 мес. → {{n6}}, 12 мес. → {{n12}}.",
-    "myTickets": "Мои билеты",
-    "ticketCount_one": "{{count}} билет",
-    "ticketCount_few": "{{count}} билета",
-    "ticketCount_many": "{{count}} билетов",
-    "ticketCount": "{{count}} билетов",
-    "noTickets": "У вас пока нет билетов",
-    "prizeDays_one": "{{count}} день подписки",
-    "prizeDays_few": "{{count}} дня подписки",
-    "prizeDays_many": "{{count}} дней подписки",
-    "prizeDays": "{{count}} дней подписки",
-    "prizeBalance": "{{amount}} ₽ на баланс",
-    "prizeCustom": "Специальный приз",
-    "countdown": "До конца",
-    "countdownValue": "{{days}}д {{hours}}:{{minutes}}:{{seconds}}",
-    "ended": "Завершён",
-    "places": "Призы по местам",
-    "place": "{{place}} место",
-    "tariffTicketsHint": "Для некоторых тарифов число билетов отличается — смотрите условия тарифа при покупке.",
-    "progressTitle": "Ваш прогресс",
-    "progressTickets": "Билетов: {{count}}",
-    "progressTimeLeft": "До окончания",
-    "progressDaysLeft": "{{days}} дн. {{hours}} ч.",
-    "progressEndsAt": "Дата окончания: {{date}}"
-  },
   "colorPicker": {
     "hue": "Оттенок",
     "saturation": "Насыщенность",
@@ -10385,5 +10342,41 @@
     "testUntil": "Пробный доступ активирован до {{until}}",
     "discount": "Скидка {{percent}}% активирована!",
     "discountUntil": "Скидка {{percent}}% активирована! Действует до {{until}}"
+  },
+  "raffle": {
+    "title": "Розыгрыш",
+    "error": "Не удалось загрузить розыгрыш",
+    "disabled": "Розыгрыш сейчас отключён",
+    "noCampaign": "Нет активной кампании розыгрыша",
+    "hint": "Купите подписку, пока кампания активна, чтобы получить билеты.",
+    "active": "Активен",
+    "prize": "Приз",
+    "ends": "Окончание",
+    "noEndDate": "Без даты окончания",
+    "howToEarn": "За оплаченную покупку подписки выдаётся {{count}} билет(ов). Число может зависеть от тарифа.",
+    "howToEarnPerMonth": "За каждый месяц оплаченной подписки — {{n}} билет(ов): 1 мес. → {{n}}, 3 мес. → {{n3}}, 6 мес. → {{n6}}, 12 мес. → {{n12}}.",
+    "myTickets": "Мои билеты",
+    "ticketCount_one": "{{count}} билет",
+    "ticketCount_few": "{{count}} билета",
+    "ticketCount_many": "{{count}} билетов",
+    "ticketCount": "{{count}} билетов",
+    "noTickets": "У вас пока нет билетов",
+    "prizeDays_one": "{{count}} день подписки",
+    "prizeDays_few": "{{count}} дня подписки",
+    "prizeDays_many": "{{count}} дней подписки",
+    "prizeDays": "{{count}} дней подписки",
+    "prizeBalance": "{{amount}} ₽ на баланс",
+    "prizeCustom": "Специальный приз",
+    "countdown": "До конца",
+    "countdownValue": "{{days}}д {{hours}}:{{minutes}}:{{seconds}}",
+    "ended": "Завершён",
+    "places": "Призы по местам",
+    "place": "{{place}} место",
+    "tariffTicketsHint": "Для некоторых тарифов число билетов отличается — смотрите условия тарифа при покупке.",
+    "progressTitle": "Ваш прогресс",
+    "progressTickets": "Билетов: {{count}}",
+    "progressTimeLeft": "До окончания",
+    "progressDaysLeft": "{{days}} дн. {{hours}} ч.",
+    "progressEndsAt": "Дата окончания: {{date}}"
   }
 }

@@ -75,8 +75,7 @@
     }
   },
   "navShort": {
-    "wheel": "Wheel",
-    "raffle": "Raffle"
+    "wheel": "Wheel"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -266,6 +265,8 @@
     "invalidEmail": "Please enter a valid email address",
     "emailAlreadyRegistered": "This email is already registered",
     "invalidCredentials": "Invalid email or password",
+    "registrationInviteRequired": "Registration is by invitation only. Ask the service administrator for an invitation.",
+    "emailAuthDisabled": "Email sign-in is disabled. Use another available sign-in method.",
     "tooManyAttempts": "Too many attempts. Please try again later",
     "verificationEmailNotice": "After registration, a verification email will be sent to your address",
     "legalConsentPrefix": "I have read the",
@@ -293,9 +294,7 @@
     "continueWithDiscord": "Continue with Discord",
     "continueWithVk": "Continue with VK",
     "oauthError": "Authorization was denied or failed",
-    "oauthExpired": "OAuth session expired. Please try again.",
-    "registrationInviteRequired": "Registration is by invitation only. Ask the service administrator for an invitation.",
-    "emailAuthDisabled": "Email sign-in is disabled. Use another available sign-in method."
+    "oauthExpired": "OAuth session expired. Please try again."
   },
   "emailVerification": {
     "title": "Email Verification",
@@ -397,6 +396,17 @@
     "subscriptions": "Subscriptions"
   },
   "subscription": {
+    "accounting": {
+      "label": "Available traffic",
+      "available": "Total remaining",
+      "baseRemaining": "Included in the plan",
+      "nextRefresh": "Plan allowance renews",
+      "packageRemaining": "{{amount}} remaining",
+      "packageExpires": "Valid until"
+    },
+    "dailyRenewalExplanation": "This plan renews one day at a time from your balance. Resuming after the paid period ends charges one day.",
+    "dailyRenewalPrice": "Daily price: {{price}}",
+    "purchaseOutcomeUnknown": "No response was received. The operation may have completed. Restore your connection and refresh the subscription in your VPN client, then check your subscription and balance in the cabinet before trying again.",
     "title": "Subscription",
     "currentPlan": "Current Plan",
     "status": "Status",
@@ -555,6 +565,7 @@
       "yourDevice": "Your device",
       "copyLink": "Copy subscription link",
       "copied": "Link copied!",
+      "copyFailed": "Could not copy the link. Select and copy the text above.",
       "openLink": "Open link",
       "instructions": "Instructions",
       "changeApp": "Change app",
@@ -569,8 +580,7 @@
       "qrTitle": "Subscription QR Code",
       "qrScanHint": "Scan to connect",
       "qrButton": "QR Code",
-      "openQr": "Open QR code",
-      "copyFailed": "Could not copy the link. Select and copy the text above."
+      "openQr": "Open QR code"
     },
     "myDevices": "My Devices",
     "noDevices": "No connected devices",
@@ -611,13 +621,13 @@
       "minutes": "m"
     },
     "dailyPurchase": {
+      "firstCharge": "First charge",
+      "nextCharge": "Then {{price}} per day",
       "costPerDay": "Cost per day",
       "chargedDaily": "Payment is charged daily from balance",
       "canPause": "Can be paused at any time",
       "pausedOnLowBalance": "Subscription will be paused if balance is insufficient",
-      "activate": "Activate for {{price}}",
-      "firstCharge": "First charge",
-      "nextCharge": "Then {{price}} per day"
+      "activate": "Activate for {{price}}"
     },
     "switchTariff": {
       "title": "Switch Tariff",
@@ -878,17 +888,6 @@
       "purchaseButton": "⚡ Subscribe with Cashera auto-pay",
       "purchaseHint": "Confirm auto-charges via the Cashera link; renewals are then charged automatically."
     },
-    "accounting": {
-      "label": "Available traffic",
-      "available": "Total remaining",
-      "baseRemaining": "Included in the plan",
-      "nextRefresh": "Plan allowance renews",
-      "packageRemaining": "{{amount}} remaining",
-      "packageExpires": "Valid until"
-    },
-    "dailyRenewalExplanation": "This plan renews one day at a time from your balance. Resuming after the paid period ends charges one day.",
-    "dailyRenewalPrice": "Daily price: {{price}}",
-    "purchaseOutcomeUnknown": "No response was received. The operation may have completed. Restore your connection and refresh the subscription in your VPN client, then check your subscription and balance in the cabinet before trying again.",
     "purchaseDevices": {
       "otherQuantity": "Other quantity",
       "exactQuantity": "Enter the number of devices",
@@ -965,6 +964,10 @@
     }
   },
   "balance": {
+    "paymentEmail": "Payment email",
+    "paymentEmailHelp": "Antilopay requires a customer contact. Your account email will not change.",
+    "paymentEmailInvalid": "Enter a valid payment email.",
+    "paymentRange": "From {{min}} to {{max}}",
     "title": "Balance",
     "currentBalance": "Current Balance",
     "topUp": "Top Up",
@@ -1020,9 +1023,6 @@
       "kassa_ai": {
         "description": "Pay via Kassa AI"
       },
-      "paypear": {
-        "description": "Pay via PayPear"
-      },
       "rollypay": {
         "description": "Pay via RollyPay (SBP)"
       },
@@ -1039,7 +1039,10 @@
         "description": "Pay via SBP through Jupiter (FPGate P2P)"
       },
       "cispay": {
-        "description": "Pay by card or via SBP (cisPay)"
+        "description": "Pay via CisPay"
+      },
+      "anore": {
+        "description": "Pay via Anore"
       },
       "tabpay": {
         "description": "Pay by card or via SBP (TabPay)"
@@ -1058,9 +1061,6 @@
       },
       "cashera": {
         "description": "SBP, cards, crypto (Cashera)"
-      },
-      "anore": {
-        "description": "Pay via Anore"
       }
     },
     "transactionHistory": "Transaction History",
@@ -1174,11 +1174,7 @@
       "tryAgain": "Try Again"
     },
     "top_up": "Top up balance",
-    "scanQrToPay": "Scan the QR code in your banking app or open the payment page",
-    "paymentEmail": "Payment email",
-    "paymentEmailHelp": "Antilopay requires a customer contact. Your account email will not change.",
-    "paymentEmailInvalid": "Enter a valid payment email.",
-    "paymentRange": "From {{min}} to {{max}}"
+    "scanQrToPay": "Scan the QR code in your banking app or open the payment page"
   },
   "referral": {
     "title": "Referral Program",
@@ -1401,10 +1397,11 @@
       "closed": "Closed"
     },
     "attachImage": "Attach image",
+    "attachMedia": "Attach photo or video",
     "downloadFile": "Download file",
     "invalidFileType": "Invalid file type. Use JPEG, PNG, GIF or WebP.",
     "fileTooLarge": "File is too large. Maximum size is 10MB.",
-    "uploadFailed": "Failed to upload image",
+    "uploadFailed": "Failed to upload attachment",
     "imageLoadFailed": "Failed to load image",
     "tooManyRequests": "Too many requests. Please wait {{seconds}} sec.",
     "ticketsDisabled": "Tickets Disabled",
@@ -1420,8 +1417,7 @@
       "alreadyOpenTicket": "You already have an open ticket. Please continue the conversation there — a new ticket can be created once the current one is closed.",
       "createFailed": "Could not create the ticket. Please try again.",
       "replyFailed": "Could not send the reply. Please try again."
-    },
-    "attachMedia": "Attach photo or video"
+    }
   },
   "wheel": {
     "title": "Fortune Wheel",
@@ -1641,8 +1637,7 @@
       "infoPages": "Info Pages",
       "legalPages": "System pages",
       "systemErrors": "System errors",
-      "dpichecker": "DPI//CHECKER",
-      "raffle": "Raffle"
+      "dpichecker": "DPI//CHECKER"
     },
     "panel": {
       "title": "Admin Panel",
@@ -2049,6 +2044,8 @@
       "description": "Description",
       "descriptionHint": "Shown under the method name. Empty for default text",
       "subOptions": "Payment options",
+      "providerOptionDisabled": "This option is disabled in the payment provider settings. Enabling it here alone will not make it available for payments.",
+      "providerSettings": "Open CisPay settings",
       "minAmount": "Min amount (kopeks)",
       "maxAmount": "Max amount (kopeks)",
       "quickAmounts": "Quick amounts (₽)",
@@ -2093,9 +2090,7 @@
       "noPromoGroups": "No promo groups",
       "cancelButton": "Cancel",
       "saveButton": "Save",
-      "notFound": "Payment method not found",
-      "providerOptionDisabled": "This option is disabled in the payment provider settings. Enabling it here alone will not make it available for payments.",
-      "providerSettings": "Open CisPay settings"
+      "notFound": "Payment method not found"
     },
     "remnawave": {
       "title": "Remnawave",
@@ -2959,6 +2954,9 @@
       }
     },
     "broadcasts": {
+      "captionLimit": "Media captions allow up to 1024 characters, excluding HTML markup.",
+      "captionTooLong": "The caption exceeds 1024 characters. Shorten it or remove the attachment to send up to 4000 characters.",
+      "partialSend": "Telegram broadcast #{{id}} has been created. Email broadcast creation was not confirmed: {{error}}. Check the history before retrying; do not resend Telegram.",
       "title": "Broadcasts",
       "subtitle": "Mass sending of messages to users",
       "create": "Create Broadcast",
@@ -3114,10 +3112,7 @@
       "categoryNews": "News",
       "categoryPromo": "Promo",
       "categorySystem": "System",
-      "stopping": "Stopping…",
-      "captionLimit": "Media captions allow up to 1024 characters, excluding HTML markup.",
-      "captionTooLong": "The caption exceeds 1024 characters. Shorten it or remove the attachment to send up to 4000 characters.",
-      "partialSend": "Telegram broadcast #{{id}} has been created. Email broadcast creation was not confirmed: {{error}}. Check the history before retrying; do not resend Telegram."
+      "stopping": "Stopping…"
     },
     "pinnedMessages": {
       "title": "Pinned Messages",
@@ -3407,7 +3402,6 @@
         "payments_wata": "Wata",
         "payments_riopay": "RioPay",
         "payments_severpay": "SeverPay",
-        "payments_paypear": "PayPear",
         "payments_rollypay": "RollyPay",
         "payments_aurapay": "AuraPay",
         "payments_etoplatezhi": "Etoplatezhi",
@@ -3415,6 +3409,7 @@
         "payments_jupiter": "Jupiter",
         "payments_cispay": "CisPay",
         "payments_tabpay": "TabPay",
+        "payments_anore": "Anore",
         "payments_paritypay": "ParityPay",
         "payments_donut": "Donut",
         "payments_lava": "Lava",
@@ -3462,17 +3457,16 @@
         "sys_cabinet": "Cabinet",
         "sys_other": "Other settings",
         "sys_dpichecker": "DPI//CHECKER",
-        "payments_cashera": "Cashera",
-        "payments_anore": "Anore"
+        "payments_cashera": "Cashera"
       },
       "categories": {
+        "ANORE": "Anore",
+        "CISPAY": "CisPay",
         "CABINET": "Cabinet",
         "INFO_PAGES": "Legal documents and FAQ",
         "MENU": "Menu button",
         "TELEGRAM_WIDGET": "Telegram Login Widget",
         "TELEGRAM_OIDC": "Telegram Login (OIDC)",
-        "ANORE": "Anore",
-        "CISPAY": "CisPay",
         "PAYMENT": "Payments",
         "PAYMENT_VERIFICATION": "Payment Verification",
         "YOOKASSA": "YooKassa",
@@ -4902,8 +4896,7 @@
         "support": "Support",
         "info": "Info",
         "admin": "Admin Panel",
-        "language": "Language",
-        "raffle": "Raffle"
+        "language": "Language"
       },
       "descriptions": {
         "home": "Personal cabinet button",
@@ -4913,8 +4906,7 @@
         "support": "Support tickets",
         "info": "Information section",
         "admin": "Web admin panel",
-        "language": "Language selection",
-        "raffle": "Telegram raffle tickets"
+        "language": "Language selection"
       },
       "styles": {
         "default": "No color",
@@ -6411,8 +6403,7 @@
             "logins": "Logins"
           },
           "fromBalance": "from balance",
-          "loadError": "Could not load activity",
-          "raffle": "Raffle"
+          "loadError": "Could not load activity"
         },
         "header": {
           "copy": "Copy",
@@ -7322,6 +7313,7 @@
       "stickyPayButtonHint": "Button pinned to bottom of screen on mobile"
     },
     "infoPages": {
+      "botFaq": "Bot FAQ",
       "title": "Information Pages",
       "subtitle": "Manage static information pages",
       "create": "Create Page",
@@ -7395,8 +7387,7 @@
         "en": "English",
         "zh": "Chinese",
         "fa": "Persian"
-      },
-      "botFaq": "Bot FAQ"
+      }
     },
     "legalPages": {
       "title": "System pages",
@@ -7975,6 +7966,10 @@
         "response": "bot replied {{code}}"
       }
     },
+    "dashboard": {
+      "nodeUptime": "Uptime: {{uptime}}"
+    },
+    "tariffSummary": "{{name}} ({{traffic}} GB, devices: {{devices}})",
     "raffle": {
       "title": "Raffle",
       "subtitle": "Ticket campaigns for subscription purchases",
@@ -8147,12 +8142,10 @@
         "note": "Note (optional)",
         "userRequired": "Enter either user id or Telegram id",
         "countInvalid": "Ticket count must be 1–50"
-      }
-    },
-    "dashboard": {
-      "nodeUptime": "Uptime: {{uptime}}"
-    },
-    "tariffSummary": "{{name}} ({{traffic}} GB, devices: {{devices}})"
+      },
+      "expand": "Expand",
+      "collapse": "Collapse"
+    }
   },
   "adminUpdates": {
     "title": "Updates",
@@ -8273,7 +8266,7 @@
   },
   "banSystem": {
     "title": "Ban Monitoring",
-    "subtitle": "GorecBan system management",
+    "subtitle": "BedolagaBan system management",
     "contactTelegram": "Write in Telegram",
     "notConfigured": "Ban system is not configured",
     "configureHint": "Set BAN_SYSTEM_API_URL and BAN_SYSTEM_API_TOKEN in configuration",
@@ -9317,40 +9310,6 @@
       "untitled": "Subscription"
     }
   },
-  "raffle": {
-    "title": "Raffle",
-    "error": "Failed to load raffle",
-    "disabled": "Raffle is currently disabled",
-    "noCampaign": "No active raffle campaign",
-    "hint": "Buy a subscription while a campaign is active to get raffle tickets.",
-    "active": "Active",
-    "prize": "Prize",
-    "ends": "Ends",
-    "noEndDate": "No end date",
-    "howToEarn": "A paid subscription purchase grants {{count}} ticket(s). Count may vary by tariff.",
-    "howToEarnPerMonth": "Each month of a paid subscription grants {{n}} ticket(s): 1 mo → {{n}}, 3 mo → {{n3}}, 6 mo → {{n6}}, 12 mo → {{n12}}.",
-    "myTickets": "My tickets",
-    "ticketCount_one": "{{count}} ticket",
-    "ticketCount_other": "{{count}} tickets",
-    "ticketCount": "{{count}} tickets",
-    "noTickets": "You have no tickets yet",
-    "prizeDays_one": "{{count}} day of subscription",
-    "prizeDays_other": "{{count}} days of subscription",
-    "prizeDays": "{{count}} days of subscription",
-    "prizeBalance": "{{amount}} ₽ balance",
-    "prizeCustom": "Special prize",
-    "countdown": "Time left",
-    "countdownValue": "{{days}}d {{hours}}:{{minutes}}:{{seconds}}",
-    "ended": "Ended",
-    "places": "Prizes by place",
-    "place": "Place {{place}}",
-    "tariffTicketsHint": "Some tariffs grant a different ticket count — see tariff terms at purchase.",
-    "progressTitle": "Your progress",
-    "progressTickets": "Tickets: {{count}}",
-    "progressTimeLeft": "Time left",
-    "progressDaysLeft": "{{days}}d {{hours}}h",
-    "progressEndsAt": "Ends at: {{date}}"
-  },
   "colorPicker": {
     "hue": "Hue",
     "saturation": "Saturation",
@@ -10256,5 +10215,39 @@
     "testUntil": "Test access activated until {{until}}",
     "discount": "Discount of {{percent}}% activated!",
     "discountUntil": "Discount of {{percent}}% activated! Valid until {{until}}"
+  },
+  "raffle": {
+    "title": "Raffle",
+    "error": "Failed to load raffle",
+    "disabled": "Raffle is currently disabled",
+    "noCampaign": "No active raffle campaign",
+    "hint": "Buy a subscription while a campaign is active to get raffle tickets.",
+    "active": "Active",
+    "prize": "Prize",
+    "ends": "Ends",
+    "noEndDate": "No end date",
+    "howToEarn": "A paid subscription purchase grants {{count}} ticket(s). Count may vary by tariff.",
+    "howToEarnPerMonth": "Each month of a paid subscription grants {{n}} ticket(s): 1 mo → {{n}}, 3 mo → {{n3}}, 6 mo → {{n6}}, 12 mo → {{n12}}.",
+    "myTickets": "My tickets",
+    "ticketCount_one": "{{count}} ticket",
+    "ticketCount_other": "{{count}} tickets",
+    "ticketCount": "{{count}} tickets",
+    "noTickets": "You have no tickets yet",
+    "prizeDays_one": "{{count}} day of subscription",
+    "prizeDays_other": "{{count}} days of subscription",
+    "prizeDays": "{{count}} days of subscription",
+    "prizeBalance": "{{amount}} ₽ balance",
+    "prizeCustom": "Special prize",
+    "countdown": "Time left",
+    "countdownValue": "{{days}}d {{hours}}:{{minutes}}:{{seconds}}",
+    "ended": "Ended",
+    "places": "Prizes by place",
+    "place": "Place {{place}}",
+    "tariffTicketsHint": "Some tariffs grant a different ticket count — see tariff terms at purchase.",
+    "progressTitle": "Your progress",
+    "progressTickets": "Tickets: {{count}}",
+    "progressTimeLeft": "Time left",
+    "progressDaysLeft": "{{days}}d {{hours}}h",
+    "progressEndsAt": "Ends at: {{date}}"
   }
 }
