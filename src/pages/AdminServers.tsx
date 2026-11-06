@@ -1,3 +1,4 @@
+import { localizeOwnedResultMessage } from '../utils/owned-result-message';
 import { useNavigate } from 'react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +13,7 @@ import {
   BackIcon,
 } from '../components/icons';
 import { usePlatform } from '../platform/hooks/usePlatform';
-import Twemoji from 'react-twemoji';
+import Twemoji from '@/lib/twemoji';
 
 // Country flags (simple emoji mapping)
 import { getFlagEmoji as getCountryFlag } from '../utils/subscriptionHelpers';
@@ -49,7 +50,7 @@ export default function AdminServers() {
     mutationFn: serversApi.syncServers,
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['admin-servers'] });
-      alert(result.message);
+      alert(localizeOwnedResultMessage(result.message, 'servers', t));
     },
   });
 

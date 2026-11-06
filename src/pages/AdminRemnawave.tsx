@@ -1,3 +1,4 @@
+import { localizeOwnedResultMessage } from '../utils/owned-result-message';
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -18,7 +19,7 @@ import {
 import { usePlatform } from '../platform/hooks/usePlatform';
 import { formatUptime } from '../utils/format';
 import { getFlagEmoji } from '../utils/subscriptionHelpers';
-import Twemoji from 'react-twemoji';
+import Twemoji from '@/lib/twemoji';
 import { StatCard } from '../components/stats';
 import {
   ServerIcon,
@@ -56,8 +57,11 @@ import {
   ChevronRightIcon,
   GeoCheckIcon,
   RadarIcon,
+  WallIcon,
 } from '../components/icons';
 import { GeoCheckModal } from '../components/admin/remnawave/GeoCheckModal';
+import { buildLink as buildDpiLink } from '../components/admin/dpichecker/deepLink';
+import { useDpiAvailable } from '../components/admin/dpichecker/useDpiStatus';
 import { buildReachabilityLink } from '../components/admin/reachability/deepLink';
 import { useReachabilityAvailable } from '../components/admin/reachability/useReachabilityStatus';
 import { usePermissionStore } from '../store/permissions';
@@ -168,6 +172,9 @@ function NodeCard({ node, providerName, realtime, onAction, isLoading }: NodeCar
   const canRunReachability = usePermissionStore((s) => s.hasPermission('reachability:run'));
   const reachabilityAvailable = useReachabilityAvailable();
   const canReach = canRunReachability && reachabilityAvailable;
+  const canRunDpi = usePermissionStore((s) => s.hasPermission('dpichecker:run'));
+  const dpiAvailable = useDpiAvailable();
+  const canDpi = canRunDpi && dpiAvailable;
 
   const isUp = node.is_connected && node.is_node_online && !node.is_disabled;
   const dotColor = node.is_disabled ? 'bg-dark-500' : isUp ? 'bg-success-400' : 'bg-error-400';
@@ -270,6 +277,19 @@ function NodeCard({ node, providerName, realtime, onAction, isLoading }: NodeCar
                 <RadarIcon className="h-3.5 w-3.5" />
               </button>
             )}
+            {canDpi && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(buildDpiLink({ tab: 'ip', source: 'node', ref: node.uuid }));
+                }}
+                className="rounded-lg bg-dark-700 p-1.5 text-dark-300 transition-colors hover:bg-dark-600 hover:text-dark-100"
+                title={t('admin.dpichecker.shortcuts.checkNode')}
+                aria-label={t('admin.dpichecker.shortcuts.checkNode')}
+              >
+                <WallIcon className="h-3.5 w-3.5" />
+              </button>
+            )}
             {canGeoCheck && (
               <button
                 onClick={(e) => {
@@ -363,7 +383,10 @@ function NodeCard({ node, providerName, realtime, onAction, isLoading }: NodeCar
               {(loadAvg || ramPct !== null) && (
                 <div className="flex items-center gap-3">
                   {loadAvg && (
-                    <span className="flex items-center gap-1" title="load average 1 / 5 / 15 min">
+                    <span
+                      className="flex items-center gap-1"
+                      title={t('admin.remnawave.loadAverageHint')}
+                    >
                       <CpuIcon className="h-3 w-3 shrink-0 text-dark-500" />
                       {loadAvg}
                     </span>
@@ -427,7 +450,10 @@ function NodeCard({ node, providerName, realtime, onAction, isLoading }: NodeCar
                 </span>
               )}
               {loadAvg && (
-                <span className="flex items-center gap-1" title="load average 1 / 5 / 15 min">
+                <span
+                  className="flex items-center gap-1"
+                  title={t('admin.remnawave.loadAverageHint')}
+                >
                   <CpuIcon className="h-3 w-3 text-dark-500" />
                   {loadAvg}
                 </span>
@@ -577,7 +603,7 @@ function SyncCard({ title, description, onAction, isLoading, lastResult }: SyncC
             <p
               className={`mt-2 text-xs ${lastResult.success ? 'text-success-400' : 'text-error-400'}`}
             >
-              {lastResult.message}
+              {localizeOwnedResultMessage(lastResult.message ?? '', 'sync', t)}
             </p>
           )}
         </div>

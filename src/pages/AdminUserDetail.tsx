@@ -1,3 +1,4 @@
+import { getLocalizedApiErrorMessage } from '@/utils/api-error-display';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -17,11 +18,13 @@ import { UserFacts } from '@/components/admin/userDetail/UserFacts';
 import { UserHeader } from '@/components/admin/userDetail/UserHeader';
 import { buildReachabilityLink } from '@/components/admin/reachability/deepLink';
 import { useReachabilityAvailable } from '@/components/admin/reachability/useReachabilityStatus';
-import { TelegramSmallIcon } from '@/components/icons';
+import { buildLink as buildDpiLink } from '@/components/admin/dpichecker/deepLink';
+import { useDpiAvailable } from '@/components/admin/dpichecker/useDpiStatus';
+import { EmailIcon, TelegramSmallIcon } from '@/components/icons';
 import { PageSkeleton, Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { usePermissionStore } from '@/store/permissions';
-import { getApiErrorMessage } from '@/utils/api-error';
+
 import { useUserDetailActions } from './adminUserDetail/useUserDetailActions';
 import { salesModeOf } from './adminUserDetail/salesMode';
 import { useUserDetailData } from './adminUserDetail/useUserDetailData';
@@ -59,6 +62,11 @@ export default function AdminUserDetail() {
   const reachabilityLink =
     userId !== null && hasPermission('reachability:run') && reachabilityAvailable
       ? buildReachabilityLink({ mode: 'vless', userId })
+      : null;
+  const dpiAvailable = useDpiAvailable();
+  const dpicheckerLink =
+    userId !== null && hasPermission('dpichecker:run') && dpiAvailable
+      ? buildDpiLink({ tab: 'vpn', source: 'user', ref: String(userId) })
       : null;
 
   useEffect(() => {
@@ -116,7 +124,7 @@ export default function AdminUserDetail() {
           <h1 className="text-xl font-bold text-dark-100">{t('admin.users.notFound')}</h1>
         </div>
         <p className="mb-4 text-sm text-dark-400">
-          {getApiErrorMessage(userQuery.error, t('admin.users.detail.loadError'))}
+          {getLocalizedApiErrorMessage(userQuery.error, t('admin.users.detail.loadError'), t)}
         </p>
         <button type="button" onClick={() => void userQuery.refetch()} className="btn-secondary">
           {t('common.retry')}
@@ -144,7 +152,25 @@ export default function AdminUserDetail() {
   // В шапке — только «Написать» и «⋯». «Продлить» / «Выдать» живут у самой подписки во
   // вкладке «Подписка»: в мультитарифе кнопка в шапке не говорила, какую подписку продлит.
   // На телефоне «Написать» — иконкой рядом с «⋯», в строке имени.
-  const headerActions = can.message && (
+  // Письмо на почту — через email-рассылку одному человеку; нужна подтверждённая почта.
+  const canEmail = hasPermission('broadcasts:send') && Boolean(user.email && user.email_verified);
+  const emailAction = canEmail && (
+    <button
+      type="button"
+      onClick={() =>
+        navigate(`/admin/broadcasts/create?email_user=${user.id}`, {
+          state: { emailUserLabel: user.email },
+        })
+      }
+      aria-label={t('admin.users.detail.header.writeEmail')}
+      title={t('admin.users.detail.header.writeEmail')}
+      className="btn-secondary h-11 w-11 shrink-0 p-0 sm:h-10 sm:w-auto sm:px-4"
+    >
+      <EmailIcon className="h-4 w-4" />
+      <span className="hidden sm:inline">{t('admin.users.detail.header.writeEmail')}</span>
+    </button>
+  );
+  const messageAction = can.message && (
     <button
       type="button"
       onClick={() => setSendMessageOpen(true)}
@@ -160,6 +186,12 @@ export default function AdminUserDetail() {
       <TelegramSmallIcon className="h-4 w-4" />
       <span className="hidden sm:inline">{t('admin.users.detail.header.write')}</span>
     </button>
+  );
+  const headerActions = (
+    <>
+      {messageAction}
+      {emailAction}
+    </>
   );
 
   const menu = (
@@ -253,6 +285,7 @@ export default function AdminUserDetail() {
           busy={actions.busy}
           actions={actions}
           reachabilityLink={reachabilityLink}
+          dpicheckerLink={dpicheckerLink}
         />
       )}
 

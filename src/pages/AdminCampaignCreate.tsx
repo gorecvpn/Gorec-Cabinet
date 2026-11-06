@@ -13,7 +13,7 @@ import {
 import { partnerApi } from '../api/partners';
 import { AdminBackButton } from '../components/admin';
 import { createNumberInputHandler, toNumber } from '../utils/inputHelpers';
-import Twemoji from 'react-twemoji';
+import Twemoji from '@/lib/twemoji';
 import { CampaignIcon, CheckIcon, LinkIcon, RefreshIcon } from '@/components/icons';
 
 // Bonus type config
@@ -128,7 +128,7 @@ function TariffSelector({
         <option value="">{t('admin.campaigns.form.notSelected')}</option>
         {tariffs.map((tariff) => (
           <option key={tariff.id} value={tariff.id}>
-            {tariff.name} ({tariff.traffic_limit_gb} GB, {tariff.device_limit}{' '}
+            {tariff.name} ({tariff.traffic_limit_gb} {t('common.units.gb')}, {tariff.device_limit}{' '}
             {t('admin.campaigns.form.devices')})
           </option>
         ))}

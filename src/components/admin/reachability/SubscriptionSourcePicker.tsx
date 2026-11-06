@@ -1,3 +1,4 @@
+import { localizeReachabilityText } from './reachabilityDisplay';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,10 @@ interface SubscriptionSourcePickerProps {
   shortUuid: string | null;
   onSource: (next: { userId: number | null; shortUuid: string | null }) => void;
   /** Подписка по умолчанию из настроек бота; null — статус ещё не пришёл. */
-  reference: ReferenceStatus | null;
+  /** `configs` null — число ещё не известно (DPI//CHECKER узнаёт его, только загрузив ключи). */
+  reference: (Pick<ReferenceStatus, 'short_uuid' | 'error'> & { configs: number | null }) | null;
+  /** Куда вести «Открыть настройки», если подписки по умолчанию нет (у DPI//CHECKER — свой раздел). */
+  settingsPath?: string;
 }
 
 const SEARCH_LIMIT = 8;
@@ -37,6 +41,7 @@ export function SubscriptionSourcePicker({
   shortUuid,
   onSource,
   reference,
+  settingsPath = REACHABILITY_SETTINGS_PATH,
 }: SubscriptionSourcePickerProps) {
   const { t } = useTranslation();
   const base = 'admin.reachability.subscription';
@@ -74,10 +79,12 @@ export function SubscriptionSourcePicker({
             <span className="flex min-w-0 flex-1 flex-col gap-x-2 sm:flex-row sm:items-center">
               <span className="whitespace-nowrap">
                 {t(`${base}.reference`)}
-                <span className="text-xs font-normal text-dark-400">
-                  {' '}
-                  · {t(`${base}.configs`, { count: reference.configs })}
-                </span>
+                {reference.configs !== null && (
+                  <span className="text-xs font-normal text-dark-400">
+                    {' '}
+                    · {t(`${base}.configs`, { count: reference.configs })}
+                  </span>
+                )}
               </span>
               <span className="truncate font-mono text-xs font-normal text-dark-400">
                 {reference.short_uuid}
@@ -132,14 +139,18 @@ export function SubscriptionSourcePicker({
           <p className="font-medium">{t(`${base}.noReference`)}</p>
           <p className="mt-1 text-xs text-dark-300">{t(`${base}.noReferenceHint`)}</p>
           <Link
-            to={REACHABILITY_SETTINGS_PATH}
+            to={settingsPath}
             className="mt-2 inline-block text-xs text-accent-400 hover:underline"
           >
             {t('admin.reachability.status.openSettings')}
           </Link>
         </div>
       )}
-      {referenceBroken && <p className="text-xs text-warning-400">{reference?.error}</p>}
+      {referenceBroken && (
+        <p className="text-xs text-warning-400">
+          {localizeReachabilityText(reference?.error ?? '', t)}
+        </p>
+      )}
     </div>
   );
 }
