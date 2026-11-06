@@ -8093,12 +8093,10 @@
       "starts": "Старт",
       "ends": "Конец",
       "winnersCount_one": "{{count}} победитель",
-      "winnersCount_few": "{{count}} победителя",
-      "winnersCount_many": "{{count}} победителей",
+      "winnersCount_other": "{{count}} winners",
       "winnersCount": "{{count}} победителей",
       "prizeDays_one": "{{count}} день подписки",
-      "prizeDays_few": "{{count}} дня подписки",
-      "prizeDays_many": "{{count}} дней подписки",
+      "prizeDays_other": "{{count}} subscription days",
       "prizeDays": "{{count}} дней подписки",
       "prizeBalance": "{{amount}} ₽",
       "prizeCustom": "Особый приз",
@@ -8253,8 +8251,10 @@
         "userRequired": "Укажите либо user id, либо Telegram id",
         "countInvalid": "Число билетов: от 1 до 50"
       },
-      "expand": "Развернуть",
-      "collapse": "Свернуть"
+      "winnersCount_few": "{{count}} победителя",
+      "winnersCount_many": "{{count}} победителей",
+      "prizeDays_few": "{{count}} дня подписки",
+      "prizeDays_many": "{{count}} дней подписки"
     }
   },
   "adminUpdates": {
@@ -10357,13 +10357,11 @@
     "howToEarnPerMonth": "За каждый месяц оплаченной подписки — {{n}} билет(ов): 1 мес. → {{n}}, 3 мес. → {{n3}}, 6 мес. → {{n6}}, 12 мес. → {{n12}}.",
     "myTickets": "Мои билеты",
     "ticketCount_one": "{{count}} билет",
-    "ticketCount_few": "{{count}} билета",
-    "ticketCount_many": "{{count}} билетов",
+    "ticketCount_other": "{{count}} tickets",
     "ticketCount": "{{count}} билетов",
     "noTickets": "У вас пока нет билетов",
     "prizeDays_one": "{{count}} день подписки",
-    "prizeDays_few": "{{count}} дня подписки",
-    "prizeDays_many": "{{count}} дней подписки",
+    "prizeDays_other": "{{count}} days of subscription",
     "prizeDays": "{{count}} дней подписки",
     "prizeBalance": "{{amount}} ₽ на баланс",
     "prizeCustom": "Специальный приз",
@@ -10377,6 +10375,10 @@
     "progressTickets": "Билетов: {{count}}",
     "progressTimeLeft": "До окончания",
     "progressDaysLeft": "{{days}} дн. {{hours}} ч.",
-    "progressEndsAt": "Дата окончания: {{date}}"
+    "progressEndsAt": "Дата окончания: {{date}}",
+    "ticketCount_few": "{{count}} билета",
+    "ticketCount_many": "{{count}} билетов",
+    "prizeDays_few": "{{count}} дня подписки",
+    "prizeDays_many": "{{count}} дней подписки"
   }
 }

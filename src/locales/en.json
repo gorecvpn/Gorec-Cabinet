@@ -8143,8 +8143,10 @@
         "userRequired": "Enter either user id or Telegram id",
         "countInvalid": "Ticket count must be 1–50"
       },
-      "expand": "Expand",
-      "collapse": "Collapse"
+      "winnersCount_few": "{{count}} победителя",
+      "winnersCount_many": "{{count}} победителей",
+      "prizeDays_few": "{{count}} дня подписки",
+      "prizeDays_many": "{{count}} дней подписки"
     }
   },
   "adminUpdates": {
@@ -10248,6 +10250,10 @@
     "progressTickets": "Tickets: {{count}}",
     "progressTimeLeft": "Time left",
     "progressDaysLeft": "{{days}}d {{hours}}h",
-    "progressEndsAt": "Ends at: {{date}}"
+    "progressEndsAt": "Ends at: {{date}}",
+    "ticketCount_few": "{{count}} билета",
+    "ticketCount_many": "{{count}} билетов",
+    "prizeDays_few": "{{count}} дня подписки",
+    "prizeDays_many": "{{count}} дней подписки"
   }
 }
