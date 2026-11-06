@@ -5528,7 +5528,16 @@
         },
         "messages_one": "{{count}} پیام",
         "messages_other": "{{count}} پیام",
-        "ticketLoadError": "باز کردن تیکت ممکن نشد"
+        "ticketLoadError": "باز کردن تیکت ممکن نشد",
+        "freeze": {
+          "title": "Subscription pause",
+          "notPaused": "Not paused. A forced pause ignores the user's pause limit.",
+          "pausedUntil_one": "Paused until {{date}}, saved remaining {{count}} day",
+          "pausedUntil_other": "Paused until {{date}}, saved remaining {{count}} days",
+          "days": "days",
+          "pause": "Pause",
+          "resume": "Resume"
+        }
       },
       "notFound": "کاربر یافت نشد",
       "sendMessage": {

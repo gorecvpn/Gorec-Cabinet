@@ -5463,7 +5463,16 @@
           }
         },
         "messages_other": "{{count}} 条消息",
-        "ticketLoadError": "无法打开工单"
+        "ticketLoadError": "无法打开工单",
+        "freeze": {
+          "title": "Subscription pause",
+          "notPaused": "Not paused. A forced pause ignores the user's pause limit.",
+          "pausedUntil_one": "Paused until {{date}}, saved remaining {{count}} day",
+          "pausedUntil_other": "Paused until {{date}}, saved remaining {{count}} days",
+          "days": "days",
+          "pause": "Pause",
+          "resume": "Resume"
+        }
       },
       "notFound": "未找到用户",
       "sendMessage": {
