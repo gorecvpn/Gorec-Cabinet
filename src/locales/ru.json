@@ -397,7 +397,9 @@
       "balance": "Баланс",
       "subscription": "Подписка",
       "referrals": "Рефералы",
-      "earnings": "Заработок"
+      "earnings": "Заработок",
+      "raffle": "Розыгрыш",
+      "help": "Помощь"
     },
     "manageAll": "Управлять всеми",
     "showAll": "Показать все",
@@ -1021,6 +1023,10 @@
         "not_paused": "Подписка не на паузе.",
         "subscription_paused": "Подписка на паузе — сначала выйдите из паузы."
       }
+    },
+    "giftCta": {
+      "title": "🎁 Подарить подписку",
+      "subtitle": "Отправьте VPN в подарок другу"
     }
   },
   "balance": {
@@ -8296,7 +8302,9 @@
       "winnersCount_few": "{{count}} победителя",
       "winnersCount_many": "{{count}} победителей",
       "prizeDays_few": "{{count}} дня подписки",
-      "prizeDays_many": "{{count}} дней подписки"
+      "prizeDays_many": "{{count}} дней подписки",
+      "expand": "Развернуть",
+      "collapse": "Свернуть"
     }
   },
   "adminUpdates": {

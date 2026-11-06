@@ -16,6 +16,7 @@ import { copyToClipboard } from '../utils/clipboard';
 import { useTheme } from '../hooks/useTheme';
 import { useCloseOnSuccessNotification } from '../store/successNotification';
 import PurchaseCTAButton from '../components/subscription/PurchaseCTAButton';
+import GiftCTAButton from '../components/subscription/GiftCTAButton';
 import { planTitle, showsAddonOptions } from '../utils/legacySubscription';
 import {
   CalendarIcon,
@@ -1008,6 +1009,7 @@ export default function Subscription() {
         isMultiTariff={isMultiTariff}
         isTariffsMode={isTariffsMode}
       />
+      <GiftCTAButton />
 
       {/* Delete expired subscription */}
       {isMultiTariff &&

@@ -357,7 +357,9 @@
       "balance": "موجودی",
       "referrals": "معرفی‌شده‌ها",
       "subscription": "اشتراک",
-      "earnings": "درآمد"
+      "earnings": "درآمد",
+      "raffle": "Raffle",
+      "help": "Help"
     },
     "reminders": {
       "dismiss": "بستن"
@@ -983,6 +985,10 @@
         "not_paused": "The subscription is not paused.",
         "subscription_paused": "The subscription is paused — resume it first."
       }
+    },
+    "giftCta": {
+      "title": "🎁 Gift a subscription",
+      "subtitle": "Send VPN to a friend as a gift"
     }
   },
   "balance": {
@@ -8177,7 +8183,9 @@
       "winnersCount_few": "{{count}} победителя",
       "winnersCount_many": "{{count}} победителей",
       "prizeDays_few": "{{count}} дня подписки",
-      "prizeDays_many": "{{count}} дней подписки"
+      "prizeDays_many": "{{count}} дней подписки",
+      "expand": "باز کردن",
+      "collapse": "بستن"
     }
   },
   "adminUpdates": {
