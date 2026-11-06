@@ -16,6 +16,7 @@ import { formatShortDate } from '@/utils/format';
 import type { SalesMode } from '@/pages/adminUserDetail/salesMode';
 import { CreateSubscriptionForm } from './CreateSubscriptionForm';
 import { DangerZone } from './DangerZone';
+import { FreezeCard } from './FreezeCard';
 import { type DeviceRow, DevicesCard } from './DevicesCard';
 import { NodeUsageCard } from './NodeUsageCard';
 import { PanelSyncCard } from './PanelSyncCard';
@@ -163,6 +164,12 @@ export function SubscriptionTab(props: SubscriptionTabProps) {
             onOpenPanel={setOpenPanel}
             actions={actions}
             classic={mode === 'classic'}
+          />
+
+          <FreezeCard
+            userId={props.userId}
+            subscriptionId={selectedSub.id}
+            canManage={can.manage}
           />
 
           <div className="grid gap-4 lg:grid-cols-2">
